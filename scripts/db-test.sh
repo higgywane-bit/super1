@@ -23,5 +23,15 @@ for f in "$ROOT"/supabase/migrations/*.sql; do "${SEED_PSQL[@]}" -f "$f"; done
 "${SEED_PSQL[@]}" -f "$ROOT/supabase/seed.sql"
 "${SEED_PSQL[@]}" -f "$ROOT/supabase/seed.sql"
 echo "seed: $(psql -h /tmp -p "$PORT" -U postgres -d seedcheck -tAc "select (select count(*) from plans) || ' plans, ' || (select count(*) from menu_items) || ' menu items, ' || (select count(*) from exercises) || ' exercises, ' || (select count(*) from coaches) || ' coaches'")"
-# ...and the scenarios run on their own database.
-"${PSQL[@]}" -f "$ROOT/supabase/tests/01_scenarios.sql"
+# ...and each scenario file runs on its own fresh database (01_scenarios.sql, then one file per phase).
+n=0
+for t in "$ROOT"/supabase/tests/[0-9][0-9]_*.sql; do
+  case "$(basename "$t")" in 00_*) continue ;; esac
+  n=$((n + 1))
+  db="scenario$n"
+  "${PSQL[@]}" -c "create database $db"
+  T_PSQL=(psql -h /tmp -p "$PORT" -U postgres -d "$db" -v ON_ERROR_STOP=1 -q -t -o /dev/null)
+  "${T_PSQL[@]}" -f "$ROOT/supabase/tests/00_supabase_shim.sql"
+  for f in "$ROOT"/supabase/migrations/*.sql; do "${T_PSQL[@]}" -f "$f"; done
+  "${T_PSQL[@]}" -f "$t"
+done

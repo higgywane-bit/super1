@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install
+        run: npm ci
+      - name: Unit tests (rules, Qashier parser, routing, dictionaries)
+        run: npm test
+      - name: Database tests (migrations, seed, scenarios on plain Postgres)
+        run: |
+          export PGBIN="$(ls -d /usr/lib/postgresql/*/bin | sort -V | tail -1)"
+          npm run db:test
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Build
+        run: npm run build

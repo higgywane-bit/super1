@@ -60,6 +60,21 @@ See `docs/11-OPEN-QUESTIONS.md`. The first ones:
 - PT and 10 Visits validity
 - Waiver wording, which needs a Thai lawyer
 
+## Run it locally
+
+Needs Node 22 and Docker.
+
+```
+npm install
+npm run db:start                 # local Supabase: database, auth, storage, realtime, Mailpit (emails)
+cp .env.example .dev.vars        # fill in the URL and keys db:start printed
+npm run invite -- higgywane@gmail.com admin Pete
+npm run invite -- desk@superfitphuket.com desk "Front desk" --passcode 246810
+npm run dev                      # http://world.localhost:3000 (staff) · http://app.localhost:3000 (members)
+```
+
+Sign-in codes land in Mailpit at http://127.0.0.1:54324. `npm run e2e` runs the phase demos in a browser.
+
 ## Commands
 
 ```

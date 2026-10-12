@@ -1,0 +1,25 @@
+<!-- SUPER1 sign-in code. GoTrue template: {{ .Token }} is the 6-digit code, .Data is the login's user_metadata (lang). -->
+<!doctype html>
+<html lang="{{ if .Data.lang }}{{ .Data.lang }}{{ else }}en{{ end }}">
+<body style="margin:0;padding:0;background:#000000;color:#ffffff;font-family:Inter,'Noto Sans Thai',-apple-system,BlinkMacSystemFont,sans-serif;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#000000;">
+    <tr><td align="center" style="padding:40px 16px;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:440px;">
+        <tr><td style="font:italic 800 28px/1 Inter,sans-serif;letter-spacing:-0.02em;padding-bottom:28px;">SUPER<span style="color:#00b4ff;">1</span></td></tr>
+        {{ if eq .Data.lang "th" }}
+        <tr><td style="font:700 22px/28px Inter,'Noto Sans Thai',sans-serif;padding-bottom:12px;">รหัสเข้าสู่ระบบของคุณ</td></tr>
+        <tr><td style="font:400 15px/24px Inter,'Noto Sans Thai',sans-serif;color:#9ca3af;padding-bottom:24px;">พิมพ์รหัสนี้ใน SUPER1 รหัสใช้ได้ 10 นาที</td></tr>
+        {{ else if eq .Data.lang "ru" }}
+        <tr><td style="font:700 22px/28px Inter,sans-serif;padding-bottom:12px;">Ваш код входа</td></tr>
+        <tr><td style="font:400 15px/22px Inter,sans-serif;color:#9ca3af;padding-bottom:24px;">Введите этот код в SUPER1. Код действует 10 минут.</td></tr>
+        {{ else }}
+        <tr><td style="font:700 22px/28px Inter,sans-serif;padding-bottom:12px;">Your sign-in code</td></tr>
+        <tr><td style="font:400 15px/22px Inter,sans-serif;color:#9ca3af;padding-bottom:24px;">Type this code into SUPER1. It works for 10 minutes.</td></tr>
+        {{ end }}
+        <tr><td style="background:#1e2228;border-radius:20px;padding:24px;text-align:center;font:700 40px/1 Inter,sans-serif;letter-spacing:0.18em;font-variant-numeric:tabular-nums;">{{ .Token }}</td></tr>
+        <tr><td style="font:400 13px/18px Inter,sans-serif;color:#7c838f;padding-top:24px;">Superfit · Chalong, Phuket</td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>
