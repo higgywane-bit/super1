@@ -1,0 +1,602 @@
+{
+ "v": 3,
+ "createdOnFiles": {
+  "v": 1,
+  "at": "2026-10-12T14:15:00Z"
+ },
+ "title": "Superfit ecosystem mock-up",
+ "launch": {
+  "view": "canvas",
+  "page": "map"
+ },
+ "pages": [
+  {
+   "id": "map",
+   "name": "1 · Map & connections"
+  },
+  {
+   "id": "motion",
+   "name": "2 · Motion"
+  },
+  {
+   "id": "customers",
+   "name": "3 · Customer sign-up"
+  },
+  {
+   "id": "app",
+   "name": "4 · Member app"
+  },
+  {
+   "id": "desk",
+   "name": "5 · Front desk"
+  },
+  {
+   "id": "coach",
+   "name": "6 · Coach portal"
+  },
+  {
+   "id": "owner",
+   "name": "7 · Andy (owner)"
+  },
+  {
+   "id": "admin",
+   "name": "8 · Pete (admin)"
+  }
+ ],
+ "boards": {
+  "Main.dc.html": {
+   "x": 0,
+   "y": 0,
+   "w": 1440,
+   "h": 1240,
+   "title": "Ecosystem map — who logs in where",
+   "page": "map"
+  },
+  "Connections.dc.html": {
+   "x": 1520,
+   "y": 0,
+   "w": 1440,
+   "h": 1780,
+   "title": "Connections — how data moves",
+   "page": "map"
+  },
+  "Motion.dc.html": {
+   "x": 0,
+   "y": 0,
+   "w": 1440,
+   "h": 1360,
+   "title": "Motion library — press Replay",
+   "page": "motion",
+   "is_interactive": true
+  },
+  "QRStand.dc.html": {
+   "x": 0,
+   "y": 0,
+   "w": 560,
+   "h": 780,
+   "title": "Counter QR stand",
+   "page": "customers"
+  },
+  "Join.dc.html": {
+   "x": 640,
+   "y": 0,
+   "w": 390,
+   "h": 844,
+   "title": "super1.app/join — customer phone",
+   "page": "customers",
+   "is_interactive": true
+  },
+  "Invite.dc.html": {
+   "x": 1110,
+   "y": 0,
+   "w": 600,
+   "h": 860,
+   "title": "App invite email",
+   "page": "customers",
+   "is_interactive": true
+  },
+  "App.dc.html": {
+   "x": 0,
+   "y": 0,
+   "w": 390,
+   "h": 844,
+   "title": "Member app — interactive, start here",
+   "page": "app",
+   "is_interactive": true
+  },
+  "M01-Signin.dc.html": {
+   "x": 470,
+   "y": 0,
+   "w": 390,
+   "h": 844,
+   "title": "M01 · Splash and sign in",
+   "page": "app",
+   "is_interactive": true
+  },
+  "M02-Code.dc.html": {
+   "x": 940,
+   "y": 0,
+   "w": 390,
+   "h": 844,
+   "title": "M02 · Email code",
+   "page": "app",
+   "is_interactive": true
+  },
+  "M03-Home.dc.html": {
+   "x": 1410,
+   "y": 0,
+   "w": 390,
+   "h": 844,
+   "title": "M03 · Home",
+   "page": "app",
+   "is_interactive": true
+  },
+  "M04-Train.dc.html": {
+   "x": 1880,
+   "y": 0,
+   "w": 390,
+   "h": 844,
+   "title": "M04 · Train",
+   "page": "app",
+   "is_interactive": true
+  },
+  "M05-Live.dc.html": {
+   "x": 2350,
+   "y": 0,
+   "w": 390,
+   "h": 844,
+   "title": "M05 · Live workout",
+   "page": "app",
+   "is_interactive": true
+  },
+  "M06-Done.dc.html": {
+   "x": 2820,
+   "y": 0,
+   "w": 390,
+   "h": 844,
+   "title": "M06 · Workout done",
+   "page": "app",
+   "is_interactive": true
+  },
+  "M07-Progress.dc.html": {
+   "x": 0,
+   "y": 964,
+   "w": 390,
+   "h": 844,
+   "title": "M07 · Progress",
+   "page": "app",
+   "is_interactive": true
+  },
+  "M08-Fuel.dc.html": {
+   "x": 470,
+   "y": 964,
+   "w": 390,
+   "h": 844,
+   "title": "M08 · Fuel and café menu",
+   "page": "app",
+   "is_interactive": true
+  },
+  "M09-Item.dc.html": {
+   "x": 940,
+   "y": 964,
+   "w": 390,
+   "h": 844,
+   "title": "M09 · Menu item",
+   "page": "app",
+   "is_interactive": true
+  },
+  "M10-Counter.dc.html": {
+   "x": 1410,
+   "y": 964,
+   "w": 390,
+   "h": 844,
+   "title": "M10 · Show at the counter",
+   "page": "app",
+   "is_interactive": true
+  },
+  "M11-Checkin.dc.html": {
+   "x": 1880,
+   "y": 964,
+   "w": 390,
+   "h": 844,
+   "title": "M11 · Daily check-in",
+   "page": "app",
+   "is_interactive": true
+  },
+  "M12-Me.dc.html": {
+   "x": 2350,
+   "y": 964,
+   "w": 390,
+   "h": 844,
+   "title": "M12 · Me and membership",
+   "page": "app",
+   "is_interactive": true
+  },
+  "M13-Settings.dc.html": {
+   "x": 2820,
+   "y": 964,
+   "w": 390,
+   "h": 844,
+   "title": "M13 · Settings and language",
+   "page": "app",
+   "is_interactive": true
+  },
+  "Desk.dc.html": {
+   "x": 0,
+   "y": 0,
+   "w": 1440,
+   "h": 940,
+   "title": "Front desk — interactive, start here",
+   "page": "desk",
+   "is_interactive": true,
+   "expand": "fill"
+  },
+  "D01-Login.dc.html": {
+   "x": 1520,
+   "y": 0,
+   "w": 1440,
+   "h": 940,
+   "title": "D01 · Desk sign in",
+   "page": "desk",
+   "is_interactive": true,
+   "expand": "fill"
+  },
+  "D02-Checkin.dc.html": {
+   "x": 3040,
+   "y": 0,
+   "w": 1440,
+   "h": 940,
+   "title": "D02 · Check-in and counter queue",
+   "page": "desk",
+   "is_interactive": true,
+   "expand": "fill"
+  },
+  "D03-ScanOK.dc.html": {
+   "x": 0,
+   "y": 1060,
+   "w": 1440,
+   "h": 940,
+   "title": "D03 · Scan allowed",
+   "page": "desk",
+   "is_interactive": true,
+   "expand": "fill"
+  },
+  "D04-ScanNo.dc.html": {
+   "x": 1520,
+   "y": 1060,
+   "w": 1440,
+   "h": 940,
+   "title": "D04 · Scan declined",
+   "page": "desk",
+   "is_interactive": true,
+   "expand": "fill"
+  },
+  "D05-Members.dc.html": {
+   "x": 3040,
+   "y": 1060,
+   "w": 1440,
+   "h": 940,
+   "title": "D05 · Members",
+   "page": "desk",
+   "is_interactive": true,
+   "expand": "fill"
+  },
+  "D06-Profile.dc.html": {
+   "x": 0,
+   "y": 2120,
+   "w": 1440,
+   "h": 940,
+   "title": "D06 · Member profile",
+   "page": "desk",
+   "is_interactive": true,
+   "expand": "fill"
+  },
+  "D07-NewMember.dc.html": {
+   "x": 1520,
+   "y": 2120,
+   "w": 1440,
+   "h": 940,
+   "title": "D07 · Finish a counter sign-up",
+   "page": "desk",
+   "is_interactive": true,
+   "expand": "fill"
+  },
+  "D08-Sell.dc.html": {
+   "x": 3040,
+   "y": 2120,
+   "w": 1440,
+   "h": 940,
+   "title": "D08 · Sell or renew",
+   "page": "desk",
+   "is_interactive": true,
+   "expand": "fill"
+  },
+  "D09-PT.dc.html": {
+   "x": 0,
+   "y": 3180,
+   "w": 1440,
+   "h": 940,
+   "title": "D09 · Log a PT session",
+   "page": "desk",
+   "is_interactive": true,
+   "expand": "fill"
+  },
+  "D10-Archive.dc.html": {
+   "x": 1520,
+   "y": 3180,
+   "w": 1440,
+   "h": 940,
+   "title": "D10 · Archive or merge",
+   "page": "desk",
+   "is_interactive": true,
+   "expand": "fill"
+  },
+  "Coach.dc.html": {
+   "x": 0,
+   "y": 0,
+   "w": 1440,
+   "h": 940,
+   "title": "Coach portal — interactive, start here",
+   "page": "coach",
+   "is_interactive": true,
+   "expand": "fill"
+  },
+  "C01-Login.dc.html": {
+   "x": 1520,
+   "y": 0,
+   "w": 1440,
+   "h": 940,
+   "title": "C01 · Coach sign in",
+   "page": "coach",
+   "is_interactive": true,
+   "expand": "fill"
+  },
+  "C02-Leads.dc.html": {
+   "x": 3040,
+   "y": 0,
+   "w": 1440,
+   "h": 940,
+   "title": "C02 · Leads",
+   "page": "coach",
+   "is_interactive": true,
+   "expand": "fill"
+  },
+  "C03-Workout.dc.html": {
+   "x": 0,
+   "y": 1060,
+   "w": 1440,
+   "h": 940,
+   "title": "C03 · Client workout builder",
+   "page": "coach",
+   "is_interactive": true,
+   "expand": "fill"
+  },
+  "C04-Nutrition.dc.html": {
+   "x": 1520,
+   "y": 1060,
+   "w": 1440,
+   "h": 940,
+   "title": "C04 · Client nutrition",
+   "page": "coach",
+   "is_interactive": true,
+   "expand": "fill"
+  },
+  "C05-Checkins.dc.html": {
+   "x": 3040,
+   "y": 1060,
+   "w": 1440,
+   "h": 940,
+   "title": "C05 · Client daily check-ins",
+   "page": "coach",
+   "is_interactive": true,
+   "expand": "fill"
+  },
+  "C06-Library.dc.html": {
+   "x": 0,
+   "y": 2120,
+   "w": 1440,
+   "h": 940,
+   "title": "C06 · Exercise library",
+   "page": "coach",
+   "is_interactive": true,
+   "expand": "fill"
+  },
+  "C07-Counter.dc.html": {
+   "x": 1520,
+   "y": 2120,
+   "w": 390,
+   "h": 844,
+   "title": "C07 · Counter mode on the coach's phone",
+   "page": "coach",
+   "is_interactive": true
+  },
+  "Owner.dc.html": {
+   "x": 0,
+   "y": 0,
+   "w": 390,
+   "h": 844,
+   "title": "Andy — interactive, start here",
+   "page": "owner",
+   "is_interactive": true
+  },
+  "O01-Login.dc.html": {
+   "x": 470,
+   "y": 0,
+   "w": 390,
+   "h": 844,
+   "title": "O01 · Owner sign in",
+   "page": "owner",
+   "is_interactive": true
+  },
+  "O02-Today.dc.html": {
+   "x": 940,
+   "y": 0,
+   "w": 390,
+   "h": 844,
+   "title": "O02 · Today (real Qashier day)",
+   "page": "owner",
+   "is_interactive": true
+  },
+  "O03-Week.dc.html": {
+   "x": 1410,
+   "y": 0,
+   "w": 390,
+   "h": 844,
+   "title": "O03 · Week",
+   "page": "owner",
+   "is_interactive": true
+  },
+  "O04-Members.dc.html": {
+   "x": 1880,
+   "y": 0,
+   "w": 390,
+   "h": 844,
+   "title": "O04 · Members",
+   "page": "owner",
+   "is_interactive": true
+  },
+  "O05-Cafe.dc.html": {
+   "x": 2350,
+   "y": 0,
+   "w": 390,
+   "h": 844,
+   "title": "O05 · Café",
+   "page": "owner",
+   "is_interactive": true
+  },
+  "Admin.dc.html": {
+   "x": 0,
+   "y": 0,
+   "w": 1280,
+   "h": 900,
+   "title": "Pete — interactive, start here",
+   "page": "admin",
+   "is_interactive": true,
+   "expand": "fill"
+  },
+  "A01-Import.dc.html": {
+   "x": 1360,
+   "y": 0,
+   "w": 1280,
+   "h": 900,
+   "title": "A01 · Qashier import",
+   "page": "admin",
+   "is_interactive": true,
+   "expand": "fill"
+  },
+  "A02-Plans.dc.html": {
+   "x": 2720,
+   "y": 0,
+   "w": 1280,
+   "h": 900,
+   "title": "A02 · Plans and prices",
+   "page": "admin",
+   "is_interactive": true,
+   "expand": "fill"
+  },
+  "A03-Menu.dc.html": {
+   "x": 0,
+   "y": 1020,
+   "w": 1280,
+   "h": 900,
+   "title": "A03 · Café menu manager",
+   "page": "admin",
+   "is_interactive": true,
+   "expand": "fill"
+  },
+  "A04-People.dc.html": {
+   "x": 1360,
+   "y": 1020,
+   "w": 1280,
+   "h": 900,
+   "title": "A04 · Staff and coaches",
+   "page": "admin",
+   "is_interactive": true,
+   "expand": "fill"
+  },
+  "A05-Logins.dc.html": {
+   "x": 2720,
+   "y": 1020,
+   "w": 1280,
+   "h": 900,
+   "title": "A05 · Logins and roles",
+   "page": "admin",
+   "is_interactive": true,
+   "expand": "fill"
+  },
+  "A06-Settings.dc.html": {
+   "x": 0,
+   "y": 2040,
+   "w": 1280,
+   "h": 900,
+   "title": "A06 · Settings and waiver",
+   "page": "admin",
+   "is_interactive": true,
+   "expand": "fill"
+  }
+ },
+ "order": [
+  "Main.dc.html",
+  "Connections.dc.html",
+  "Motion.dc.html",
+  "QRStand.dc.html",
+  "Join.dc.html",
+  "Invite.dc.html",
+  "App.dc.html",
+  "M01-Signin.dc.html",
+  "M02-Code.dc.html",
+  "M03-Home.dc.html",
+  "M04-Train.dc.html",
+  "M05-Live.dc.html",
+  "M06-Done.dc.html",
+  "M07-Progress.dc.html",
+  "M08-Fuel.dc.html",
+  "M09-Item.dc.html",
+  "M10-Counter.dc.html",
+  "M11-Checkin.dc.html",
+  "M12-Me.dc.html",
+  "M13-Settings.dc.html",
+  "Desk.dc.html",
+  "D01-Login.dc.html",
+  "D02-Checkin.dc.html",
+  "D03-ScanOK.dc.html",
+  "D04-ScanNo.dc.html",
+  "D05-Members.dc.html",
+  "D06-Profile.dc.html",
+  "D07-NewMember.dc.html",
+  "D08-Sell.dc.html",
+  "D09-PT.dc.html",
+  "D10-Archive.dc.html",
+  "Coach.dc.html",
+  "C01-Login.dc.html",
+  "C02-Leads.dc.html",
+  "C03-Workout.dc.html",
+  "C04-Nutrition.dc.html",
+  "C05-Checkins.dc.html",
+  "C06-Library.dc.html",
+  "C07-Counter.dc.html",
+  "Owner.dc.html",
+  "O01-Login.dc.html",
+  "O02-Today.dc.html",
+  "O03-Week.dc.html",
+  "O04-Members.dc.html",
+  "O05-Cafe.dc.html",
+  "Admin.dc.html",
+  "A01-Import.dc.html",
+  "A02-Plans.dc.html",
+  "A03-Menu.dc.html",
+  "A04-People.dc.html",
+  "A05-Logins.dc.html",
+  "A06-Settings.dc.html"
+ ],
+ "notes": {},
+ "designSystems": [
+  {
+   "title": "super1.world",
+   "namespace": "super1",
+   "artifact": "https://claude.ai/artifact/5hzJgC4LXT7sHEmy2zP9DR",
+   "version": "1791236415-5a89",
+   "copiedAt": "2026-10-12T14:15:00Z"
+  }
+ ]
+}

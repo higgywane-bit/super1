@@ -1,0 +1,1503 @@
+{
+ "_note": "Generated from the Qashier catalog export (old repo src/content/menu/catalog.json): non-legacy café and shop products. Prices incl. VAT. Macros are empty on purpose: Pete fills and verifies them in the admin before they show in the app. photo_key = file name of the old Lovable asset (src/assets/menu/*.asset.json).",
+ "categories": [
+  {
+   "id": "shakes",
+   "name_en": "Protein shakes",
+   "name_th": "เชคโปรตีน",
+   "name_ru": "Протеиновые коктейли",
+   "sort": 10,
+   "andy_group": "cafe",
+   "qashier_categories": [
+    "Protein (โปรตีน)"
+   ]
+  },
+  {
+   "id": "coffee",
+   "name_en": "Coffee",
+   "name_th": "กาแฟ",
+   "name_ru": "Кофе",
+   "sort": 20,
+   "andy_group": "cafe",
+   "qashier_categories": [
+    "Coffee (กาแฟ)"
+   ]
+  },
+  {
+   "id": "juices",
+   "name_en": "Juices",
+   "name_th": "น้ำผลไม้",
+   "name_ru": "Соки",
+   "sort": 30,
+   "andy_group": "cafe",
+   "qashier_categories": [
+    "Juices (น้ำผลไม้)"
+   ]
+  },
+  {
+   "id": "fuel",
+   "name_en": "Fuel-ups",
+   "name_th": "เติมพลัง",
+   "name_ru": "Добавки",
+   "sort": 40,
+   "andy_group": "cafe",
+   "qashier_categories": [
+    "Water (น้ำ)"
+   ]
+  },
+  {
+   "id": "drinks",
+   "name_en": "Cold drinks",
+   "name_th": "เครื่องดื่มเย็น",
+   "name_ru": "Напитки",
+   "sort": 50,
+   "andy_group": "cafe",
+   "qashier_categories": [
+    "Drink (เครื่องดื่ม)"
+   ]
+  },
+  {
+   "id": "food",
+   "name_en": "Waffles and snacks",
+   "name_th": "วาฟเฟิลและของว่าง",
+   "name_ru": "Вафли и перекусы",
+   "sort": 60,
+   "andy_group": "cafe",
+   "qashier_categories": [
+    "Waffles (วาฟเฟิล)",
+    "Snacks & Fruit (ของว่างและผลไม้)"
+   ]
+  },
+  {
+   "id": "shop",
+   "name_en": "Shop",
+   "name_th": "ร้านค้า",
+   "name_ru": "Магазин",
+   "sort": 70,
+   "andy_group": "shop",
+   "qashier_categories": [
+    "Superfit Clothes",
+    "Superfit T-shirt",
+    "Towel"
+   ]
+  }
+ ],
+ "items": [
+  {
+   "id": "1-waffle",
+   "category_id": "food",
+   "name_en": "1 Waffle",
+   "name_th": "1 วาฟเฟิล",
+   "price_thb": 169,
+   "desc_en": "Add banana, mango, peanut butter, berries",
+   "qashier_products": [
+    "1 Waffle (1 วาฟเฟิล)"
+   ],
+   "photo_key": null,
+   "in_app": true,
+   "sort": 10
+  },
+  {
+   "id": "2-waffles",
+   "category_id": "food",
+   "name_en": "2 Waffles",
+   "name_th": "2 วาฟเฟิล",
+   "price_thb": 269,
+   "desc_en": "Add banana, mango, peanut butter, berries",
+   "qashier_products": [
+    "2 Waffles (2 วาฟเฟิล)"
+   ],
+   "photo_key": null,
+   "in_app": true,
+   "sort": 20
+  },
+  {
+   "id": "snack-3-pack",
+   "category_id": "food",
+   "name_en": "3 Pack",
+   "name_th": null,
+   "price_thb": 79,
+   "desc_en": null,
+   "qashier_products": [
+    "3 PACK"
+   ],
+   "photo_key": null,
+   "in_app": false,
+   "sort": 30,
+   "note": "Unclear what this is in Qashier. Hidden until Pete names it."
+  },
+  {
+   "id": "ak-energy",
+   "category_id": "juices",
+   "name_en": "AK Energy",
+   "name_th": null,
+   "price_thb": 139,
+   "desc_en": "Apple, kiwi",
+   "qashier_products": [
+    "AK Energy"
+   ],
+   "photo_key": "juice-ak-energy.png",
+   "in_app": true,
+   "sort": 40
+  },
+  {
+   "id": "alg",
+   "category_id": "juices",
+   "name_en": "ALG",
+   "name_th": null,
+   "price_thb": 169,
+   "desc_en": "Apple, lemon, ginger",
+   "qashier_products": [
+    "ALG"
+   ],
+   "photo_key": "juice-alg.png",
+   "in_app": true,
+   "sort": 50
+  },
+  {
+   "id": "active-set",
+   "category_id": "shop",
+   "name_en": "Active Set (Shorts & Bra)",
+   "name_th": null,
+   "price_thb": 1200,
+   "desc_en": "Black or grey",
+   "qashier_products": [
+    "Active Set Black (Shorts & Bra)",
+    "Active Set Grey (Shorts & Bra)"
+   ],
+   "photo_key": null,
+   "in_app": true,
+   "sort": 60
+  },
+  {
+   "id": "active-shorts",
+   "category_id": "shop",
+   "name_en": "Active Shorts",
+   "name_th": null,
+   "price_thb": 690,
+   "desc_en": "Black, blue, pink or white",
+   "qashier_products": [
+    "Active Shorts (Black)",
+    "Active Shorts (Blue)",
+    "Active Shorts (Pink)",
+    "Active Shorts (White)"
+   ],
+   "photo_key": null,
+   "in_app": true,
+   "sort": 80
+  },
+  {
+   "id": "americano",
+   "category_id": "coffee",
+   "name_en": "Americano",
+   "name_th": null,
+   "price_thb": 50,
+   "desc_en": null,
+   "qashier_products": [
+    "Americano"
+   ],
+   "photo_key": "americano.png",
+   "in_app": true,
+   "sort": 120
+  },
+  {
+   "id": "apple",
+   "category_id": "food",
+   "name_en": "Apple",
+   "name_th": "แอปเปิล",
+   "price_thb": 20,
+   "desc_en": null,
+   "qashier_products": [
+    "Apple (แอปเปิล)"
+   ],
+   "photo_key": null,
+   "in_app": true,
+   "sort": 130
+  },
+  {
+   "id": "banana",
+   "category_id": "food",
+   "name_en": "Banana",
+   "name_th": "กล้วย",
+   "price_thb": 20,
+   "desc_en": null,
+   "qashier_products": [
+    "Banana (กล้วย)"
+   ],
+   "photo_key": null,
+   "in_app": true,
+   "sort": 140
+  },
+  {
+   "id": "banana-bam-bam",
+   "category_id": "shakes",
+   "name_en": "Banana Bam Bam",
+   "name_th": "บานาน่า แบม แบม",
+   "price_thb": 149,
+   "desc_en": "Banana, honey, cinnamon, coconut water, coconut milk, vanilla whey protein",
+   "qashier_products": [
+    "Banana Bam Bam  บานาน่า แบม แบม"
+   ],
+   "photo_key": "banana-bam-bam.png",
+   "in_app": true,
+   "sort": 150
+  },
+  {
+   "id": "banana-shake",
+   "category_id": "juices",
+   "name_en": "Banana shake",
+   "name_th": null,
+   "price_thb": 69,
+   "desc_en": null,
+   "qashier_products": [
+    "Banana shake"
+   ],
+   "photo_key": "banana-shake.png",
+   "in_app": true,
+   "sort": 160
+  },
+  {
+   "id": "bangkok-beat",
+   "category_id": "juices",
+   "name_en": "Bangkok Beat",
+   "name_th": null,
+   "price_thb": 169,
+   "desc_en": "Orange, unripened banana, ginger",
+   "qashier_products": [
+    "Bangkok Beat"
+   ],
+   "photo_key": "juice-bangkok-beat.png",
+   "in_app": true,
+   "sort": 170
+  },
+  {
+   "id": "berry-hype",
+   "category_id": "shakes",
+   "name_en": "Berry Hype",
+   "name_th": "เบอร์รี่ไฮป์",
+   "price_thb": 149,
+   "desc_en": "Blueberry, raspberry, strawberry, açaí, coconut water, vanilla whey protein",
+   "qashier_products": [
+    "Berry Hype เบอร์รี่ไฮป์"
+   ],
+   "photo_key": "berry-hype.png",
+   "in_app": true,
+   "sort": 180
+  },
+  {
+   "id": "big-water-1500ml",
+   "category_id": "fuel",
+   "name_en": "Big Water 1500ml",
+   "name_th": null,
+   "price_thb": 40,
+   "desc_en": null,
+   "qashier_products": [
+    "Big Water 1500ml"
+   ],
+   "photo_key": "water.png",
+   "in_app": true,
+   "sort": 190
+  },
+  {
+   "id": "blow-my-head-off",
+   "category_id": "juices",
+   "name_en": "Blow My Head Off",
+   "name_th": null,
+   "price_thb": 169,
+   "desc_en": "Orange, carrot, ginger, turmeric, cayenne pepper",
+   "qashier_products": [
+    "Blow My Head Off"
+   ],
+   "photo_key": "juice-blow-my-head-off.png",
+   "in_app": true,
+   "sort": 200
+  },
+  {
+   "id": "bodysuit",
+   "category_id": "shop",
+   "name_en": "Bodysuit",
+   "name_th": null,
+   "price_thb": 1400,
+   "desc_en": null,
+   "qashier_products": [
+    "Bodysuit"
+   ],
+   "photo_key": null,
+   "in_app": true,
+   "sort": 210
+  },
+  {
+   "id": "c4-pre-workout-scoop",
+   "category_id": "fuel",
+   "name_en": "C4 Pre Workout Scoop",
+   "name_th": null,
+   "price_thb": 99,
+   "desc_en": "Pre-workout",
+   "qashier_products": [
+    "C4 Pre Workout Scoop"
+   ],
+   "photo_key": "c4-original.png",
+   "in_app": true,
+   "sort": 220
+  },
+  {
+   "id": "cappuccino",
+   "category_id": "coffee",
+   "name_en": "Cappuccino",
+   "name_th": null,
+   "price_thb": 80,
+   "desc_en": null,
+   "qashier_products": [
+    "Cappuccino"
+   ],
+   "photo_key": "cappuccino.jpg",
+   "in_app": true,
+   "sort": 230
+  },
+  {
+   "id": "coconut-water",
+   "category_id": "drinks",
+   "name_en": "Coconut Water",
+   "name_th": "น้ำมะพร้าว",
+   "price_thb": 40,
+   "desc_en": null,
+   "qashier_products": [
+    "Coconut Water (น้ำมะพร้าว)"
+   ],
+   "photo_key": null,
+   "in_app": true,
+   "sort": 240
+  },
+  {
+   "id": "coke-zero",
+   "category_id": "drinks",
+   "name_en": "Coke Zero",
+   "name_th": "โค้กซีโร่",
+   "price_thb": 30,
+   "desc_en": null,
+   "qashier_products": [
+    "Coke Zero (โค้กซีโร่)"
+   ],
+   "photo_key": null,
+   "in_app": true,
+   "sort": 250
+  },
+  {
+   "id": "cyo-vegan",
+   "category_id": "shakes",
+   "name_en": "Create your own: Vegan",
+   "name_th": null,
+   "price_thb": 120,
+   "desc_en": "Plant protein, your way",
+   "qashier_products": [
+    "Create your own: Vegan Protein"
+   ],
+   "photo_key": null,
+   "in_app": true,
+   "sort": 260
+  },
+  {
+   "id": "cyo-whey",
+   "category_id": "shakes",
+   "name_en": "Create your own: Whey",
+   "name_th": null,
+   "price_thb": 90,
+   "desc_en": "Pick your fruit, milk and add-ons",
+   "qashier_products": [
+    "Create your own: Whey Protein"
+   ],
+   "photo_key": null,
+   "in_app": true,
+   "sort": 270
+  },
+  {
+   "id": "creatine-5g",
+   "category_id": "fuel",
+   "name_en": "Creatine 5g",
+   "name_th": null,
+   "price_thb": 50,
+   "desc_en": "Add to any shake",
+   "qashier_products": [
+    "Creatine 5g"
+   ],
+   "photo_key": "creatine-tile-square.png",
+   "in_app": true,
+   "sort": 280
+  },
+  {
+   "id": "espresso",
+   "category_id": "coffee",
+   "name_en": "Espresso",
+   "name_th": null,
+   "price_thb": 50,
+   "desc_en": null,
+   "qashier_products": [
+    "Espresso"
+   ],
+   "photo_key": "espresso-hot.png",
+   "in_app": true,
+   "sort": 290
+  },
+  {
+   "id": "espresso-max",
+   "category_id": "shakes",
+   "name_en": "Espresso Max",
+   "name_th": "เอสเพรสโซ่ แม็กซ์",
+   "price_thb": 149,
+   "desc_en": null,
+   "qashier_products": [
+    "Espresso Max เอสเพรสโซ่ แม็กซ์"
+   ],
+   "photo_key": "espresso-hot.png",
+   "in_app": true,
+   "sort": 300
+  },
+  {
+   "id": "flare-leggings",
+   "category_id": "shop",
+   "name_en": "Flare Leggings",
+   "name_th": null,
+   "price_thb": 1100,
+   "desc_en": "Black",
+   "qashier_products": [
+    "Flare Leggings (Black)"
+   ],
+   "photo_key": null,
+   "in_app": true,
+   "sort": 310
+  },
+  {
+   "id": "flat-white",
+   "category_id": "coffee",
+   "name_en": "Flat White",
+   "name_th": null,
+   "price_thb": 80,
+   "desc_en": null,
+   "qashier_products": [
+    "Flat White"
+   ],
+   "photo_key": "flat-white.jpg",
+   "in_app": true,
+   "sort": 320
+  },
+  {
+   "id": "gatorade",
+   "category_id": "drinks",
+   "name_en": "Gatorade Blue",
+   "name_th": "เกเตอเรด น้ำเงิน",
+   "price_thb": 50,
+   "desc_en": null,
+   "qashier_products": [
+    "Gatorade (เกเตอเรด น้ำเงิน)"
+   ],
+   "photo_key": null,
+   "in_app": true,
+   "sort": 330
+  },
+  {
+   "id": "gatorade-yellow",
+   "category_id": "drinks",
+   "name_en": "Gatorade Yellow",
+   "name_th": "เกเตอเรด เหลือง",
+   "price_thb": 50,
+   "desc_en": null,
+   "qashier_products": [
+    "Gatorade Yellow (เกเตอเรด น้ำเงิน)"
+   ],
+   "photo_key": null,
+   "in_app": true,
+   "sort": 340
+  },
+  {
+   "id": "ginger-shot",
+   "category_id": "juices",
+   "name_en": "Ginger Shot",
+   "name_th": null,
+   "price_thb": 69,
+   "desc_en": "One sharp shot",
+   "qashier_products": [
+    "Ginger Shot"
+   ],
+   "photo_key": null,
+   "in_app": true,
+   "sort": 350
+  },
+  {
+   "id": "kiwi",
+   "category_id": "food",
+   "name_en": "Kiwi",
+   "name_th": "กีวี",
+   "price_thb": 30,
+   "desc_en": null,
+   "qashier_products": [
+    "Kiwi (กีวี)"
+   ],
+   "photo_key": null,
+   "in_app": true,
+   "sort": 360
+  },
+  {
+   "id": "latte",
+   "category_id": "coffee",
+   "name_en": "Latte",
+   "name_th": null,
+   "price_thb": 80,
+   "desc_en": null,
+   "qashier_products": [
+    "Latte"
+   ],
+   "photo_key": "latte.png",
+   "in_app": true,
+   "sort": 370
+  },
+  {
+   "id": "leggings",
+   "category_id": "shop",
+   "name_en": "Leggings",
+   "name_th": null,
+   "price_thb": 990,
+   "desc_en": "Black, blue, pink or white",
+   "qashier_products": [
+    "Leggings (Black)",
+    "Leggings (Blue)",
+    "Leggings (Pink)",
+    "Leggings (White)"
+   ],
+   "photo_key": null,
+   "in_app": true,
+   "sort": 380
+  },
+  {
+   "id": "lime-juice",
+   "category_id": "juices",
+   "name_en": "Lime Juice",
+   "name_th": null,
+   "price_thb": 139,
+   "desc_en": null,
+   "qashier_products": [
+    "Lime Juice"
+   ],
+   "photo_key": null,
+   "in_app": true,
+   "sort": 420
+  },
+  {
+   "id": "m-150",
+   "category_id": "drinks",
+   "name_en": "M-150",
+   "name_th": null,
+   "price_thb": 30,
+   "desc_en": null,
+   "qashier_products": [
+    "M-150"
+   ],
+   "photo_key": null,
+   "in_app": true,
+   "sort": 430
+  },
+  {
+   "id": "matcha",
+   "category_id": "coffee",
+   "name_en": "Matcha",
+   "name_th": null,
+   "price_thb": 90,
+   "desc_en": null,
+   "qashier_products": [
+    "Matcha"
+   ],
+   "photo_key": "matcha.png",
+   "in_app": true,
+   "sort": 440
+  },
+  {
+   "id": "mocha",
+   "category_id": "coffee",
+   "name_en": "Mocha",
+   "name_th": null,
+   "price_thb": 85,
+   "desc_en": null,
+   "qashier_products": [
+    "Mocha"
+   ],
+   "photo_key": "mocha.png",
+   "in_app": true,
+   "sort": 450
+  },
+  {
+   "id": "mocha-monster",
+   "category_id": "shakes",
+   "name_en": "Mocha Monster",
+   "name_th": "สัตว์ประหลาดมอคค่า",
+   "price_thb": 149,
+   "desc_en": null,
+   "qashier_products": [
+    "Mocha Monster สัตว์ประหลาดมอคค่า"
+   ],
+   "photo_key": "mocha.png",
+   "in_app": true,
+   "sort": 460
+  },
+  {
+   "id": "nba-top",
+   "category_id": "shop",
+   "name_en": "NBA Top",
+   "name_th": null,
+   "price_thb": 599,
+   "desc_en": "Blue or pink, S to 2XL",
+   "qashier_products": [
+    "NBA Top BLUE (2XL)",
+    "NBA Top BLUE (L)",
+    "NBA Top BLUE (M)",
+    "NBA Top BLUE (S)",
+    "NBA Top BLUE (XL)",
+    "NBA Top PINK (2XL)",
+    "NBA Top PINK (L)",
+    "NBA Top PINK (M)",
+    "NBA Top PINK (S)",
+    "NBA Top PINK (XL)"
+   ],
+   "photo_key": null,
+   "in_app": true,
+   "sort": 470
+  },
+  {
+   "id": "oj-classic",
+   "category_id": "juices",
+   "name_en": "OJ Classic",
+   "name_th": null,
+   "price_thb": 139,
+   "desc_en": "Oranges",
+   "qashier_products": [
+    "OJ Classic"
+   ],
+   "photo_key": "juice-oj-classic.png",
+   "in_app": true,
+   "sort": 570
+  },
+  {
+   "id": "orange",
+   "category_id": "food",
+   "name_en": "Orange",
+   "name_th": "ส้ม",
+   "price_thb": 30,
+   "desc_en": null,
+   "qashier_products": [
+    "Orange  (ส้ม)"
+   ],
+   "photo_key": null,
+   "in_app": true,
+   "sort": 580
+  },
+  {
+   "id": "piccolo",
+   "category_id": "coffee",
+   "name_en": "Piccolo",
+   "name_th": null,
+   "price_thb": 80,
+   "desc_en": null,
+   "qashier_products": [
+    "Piccolo"
+   ],
+   "photo_key": "espresso-hot.png",
+   "in_app": true,
+   "sort": 590
+  },
+  {
+   "id": "pineapple-juice",
+   "category_id": "juices",
+   "name_en": "Pineapple Juice",
+   "name_th": null,
+   "price_thb": 139,
+   "desc_en": null,
+   "qashier_products": [
+    "Pineapple Juice"
+   ],
+   "photo_key": null,
+   "in_app": true,
+   "sort": 600
+  },
+  {
+   "id": "pocari-sweat",
+   "category_id": "drinks",
+   "name_en": "Pocari Sweat 500ml",
+   "name_th": "โพคาริ สเวท",
+   "price_thb": 50,
+   "desc_en": null,
+   "qashier_products": [
+    "Pocari (โพคาริ )Sweat 500ml"
+   ],
+   "photo_key": null,
+   "in_app": true,
+   "sort": 610
+  },
+  {
+   "id": "protein-ball-m",
+   "category_id": "food",
+   "name_en": "Protein Ball (M)",
+   "name_th": "โปรตีนบอล (M)",
+   "price_thb": 30,
+   "desc_en": null,
+   "qashier_products": [
+    "Protein Ball (M) โปนตีนบอล"
+   ],
+   "photo_key": null,
+   "in_app": true,
+   "sort": 620
+  },
+  {
+   "id": "protein-ball-s",
+   "category_id": "food",
+   "name_en": "Protein Ball (S)",
+   "name_th": "โปรตีนบอล (S)",
+   "price_thb": 20,
+   "desc_en": null,
+   "qashier_products": [
+    "Protein Ball (S) โปรตีนบอล"
+   ],
+   "photo_key": null,
+   "in_app": true,
+   "sort": 630
+  },
+  {
+   "id": "pure-passion",
+   "category_id": "juices",
+   "name_en": "Pure Passion",
+   "name_th": null,
+   "price_thb": 139,
+   "desc_en": "Passionfruit",
+   "qashier_products": [
+    "Pure Passion"
+   ],
+   "photo_key": "juice-pure-passion.png",
+   "in_app": true,
+   "sort": 640
+  },
+  {
+   "id": "red-bull-zero",
+   "category_id": "drinks",
+   "name_en": "Red Bull Zero",
+   "name_th": "เรดบูล ซีโร่",
+   "price_thb": 99,
+   "desc_en": null,
+   "qashier_products": [
+    "Red Bull Zero (เรดบลู)"
+   ],
+   "photo_key": null,
+   "in_app": true,
+   "sort": 650
+  },
+  {
+   "id": "redbull-250ml-can",
+   "category_id": "drinks",
+   "name_en": "Red Bull 250ml can",
+   "name_th": "เรดบูล",
+   "price_thb": 120,
+   "desc_en": null,
+   "qashier_products": [
+    "Redbull 250ml Can"
+   ],
+   "photo_key": null,
+   "in_app": true,
+   "sort": 660
+  },
+  {
+   "id": "skinny-rich",
+   "category_id": "shakes",
+   "name_en": "Skinny & Rich",
+   "name_th": "ผอม & รวย",
+   "price_thb": 149,
+   "desc_en": "Raspberry, cacao powder, almond butter, oat milk, chocolate whey protein",
+   "qashier_products": [
+    "Skinny & Rich ผอม & รวย"
+   ],
+   "photo_key": "smoothie-skinny-rich.png",
+   "in_app": true,
+   "sort": 670
+  },
+  {
+   "id": "small-water-600ml",
+   "category_id": "fuel",
+   "name_en": "Small Water 600ml",
+   "name_th": null,
+   "price_thb": 20,
+   "desc_en": null,
+   "qashier_products": [
+    "Small Water 600ml"
+   ],
+   "photo_key": "water.png",
+   "in_app": true,
+   "sort": 680
+  },
+  {
+   "id": "soda",
+   "category_id": "drinks",
+   "name_en": "Soda",
+   "name_th": "โซดา",
+   "price_thb": 30,
+   "desc_en": null,
+   "qashier_products": [
+    "Soda (โซดา)"
+   ],
+   "photo_key": null,
+   "in_app": true,
+   "sort": 690
+  },
+  {
+   "id": "sports-bra",
+   "category_id": "shop",
+   "name_en": "Sports Bra",
+   "name_th": null,
+   "price_thb": 690,
+   "desc_en": "Black, blue, pink or white",
+   "qashier_products": [
+    "Sports Bra (Black)",
+    "Sports Bra (Blue)",
+    "Sports Bra (Pink)",
+    "Sports Bra (White)"
+   ],
+   "photo_key": null,
+   "in_app": true,
+   "sort": 700
+  },
+  {
+   "id": "strong-vibes",
+   "category_id": "shakes",
+   "name_en": "Strong Vibes",
+   "name_th": "สตรองไวบ์",
+   "price_thb": 149,
+   "desc_en": "Banana, blueberry, Greek yogurt, peanut butter, coconut water, açaí, vanilla whey protein",
+   "qashier_products": [
+    "Strong Vibes สตรองไวบ์"
+   ],
+   "photo_key": "smoothie-strong-vibes.png",
+   "in_app": true,
+   "sort": 740
+  },
+  {
+   "id": "superfit-towel",
+   "category_id": "shop",
+   "name_en": "Superfit Towel",
+   "name_th": null,
+   "price_thb": 299,
+   "desc_en": null,
+   "qashier_products": [
+    "Superfit Towel"
+   ],
+   "photo_key": null,
+   "in_app": true,
+   "sort": 750
+  },
+  {
+   "id": "superfit-tshirt",
+   "category_id": "shop",
+   "name_en": "Superfit T-shirt",
+   "name_th": null,
+   "price_thb": 599,
+   "desc_en": "Sizes XS to 3XL",
+   "qashier_products": [
+    "T-Shirt (3XL)",
+    "T-Shirt (S)",
+    "T-shirt XS",
+    "T-shirt(2XL)",
+    "T-shirt(M)",
+    "T-shirt(XL)",
+    "T-shirth(L)"
+   ],
+   "photo_key": null,
+   "in_app": true,
+   "sort": 760
+  },
+  {
+   "id": "tea",
+   "category_id": "coffee",
+   "name_en": "Tea",
+   "name_th": null,
+   "price_thb": 50,
+   "desc_en": null,
+   "qashier_products": [
+    "Tea"
+   ],
+   "photo_key": "tea.png",
+   "in_app": true,
+   "sort": 830
+  },
+  {
+   "id": "thick",
+   "category_id": "shakes",
+   "name_en": "Thick",
+   "name_th": "ติก",
+   "price_thb": 149,
+   "desc_en": "Banana, peanut butter, cacao powder, oat milk, chocolate whey protein",
+   "qashier_products": [
+    "Thick ติก"
+   ],
+   "photo_key": "chocolate-shake.png",
+   "in_app": true,
+   "sort": 840
+  },
+  {
+   "id": "tight-top",
+   "category_id": "shop",
+   "name_en": "Tight Top",
+   "name_th": null,
+   "price_thb": 690,
+   "desc_en": "Black",
+   "qashier_products": [
+    "Tight Top (Black)"
+   ],
+   "photo_key": null,
+   "in_app": true,
+   "sort": 850
+  },
+  {
+   "id": "towel",
+   "category_id": "shop",
+   "name_en": "Towel",
+   "name_th": null,
+   "price_thb": 149,
+   "desc_en": null,
+   "qashier_products": [
+    "Towel (no brand)"
+   ],
+   "photo_key": null,
+   "in_app": true,
+   "sort": 860
+  },
+  {
+   "id": "wilder-electrolyte-sachet",
+   "category_id": "fuel",
+   "name_en": "Wilder Electrolyte Sachet",
+   "name_th": null,
+   "price_thb": 60,
+   "desc_en": "Electrolytes",
+   "qashier_products": [
+    "Wilder Electrolyte Sachet"
+   ],
+   "photo_key": "wilder-box.png",
+   "in_app": true,
+   "sort": 870
+  },
+  {
+   "id": "bulletproof-bruce",
+   "category_id": "coffee",
+   "name_en": "Bulletproof Bruce",
+   "name_th": null,
+   "price_thb": 70,
+   "desc_en": "Add Bruce MCT oil to any coffee",
+   "qashier_products": [],
+   "photo_key": "bulletproof-bruce.jpg",
+   "in_app": true,
+   "sort": 999,
+   "note": "Sold in Qashier as the 'Bulletproof Bruce' add-on, not a product."
+  }
+ ],
+ "option_groups": [
+  {
+   "id": "coffee-shots",
+   "label_en": "Coffee",
+   "label_th": "กาแฟ",
+   "category_ids": [
+    "shakes",
+    "coffee"
+   ],
+   "qashier_group": "Add Coffee เพิ่มกาแฟ",
+   "sort": 0
+  },
+  {
+   "id": "coconut",
+   "label_en": "Coconut water",
+   "label_th": "น้ำมะพร้าว",
+   "category_ids": [
+    "juices"
+   ],
+   "qashier_group": "Add Coconut Water (เติมน้ำมะพร้าว)",
+   "sort": 10
+  },
+  {
+   "id": "supplements",
+   "label_en": "Supplements",
+   "label_th": "อาหารเสริม",
+   "category_ids": [
+    "shakes",
+    "juices",
+    "fuel"
+   ],
+   "qashier_group": "Add Supplement เพิ่มอาหารเสริม",
+   "sort": 20
+  },
+  {
+   "id": "extras",
+   "label_en": "Extras",
+   "label_th": "ท็อปปิ้ง",
+   "category_ids": [
+    "shakes",
+    "coffee",
+    "juices"
+   ],
+   "qashier_group": "Add Extras เพิ่มท็อปปิ้ง",
+   "sort": 30
+  },
+  {
+   "id": "iced",
+   "label_en": "Iced",
+   "label_th": "เย็น",
+   "category_ids": [
+    "coffee"
+   ],
+   "qashier_group": "Change to Iced เปลี่ยนเป็นเย็น",
+   "sort": 40
+  },
+  {
+   "id": "size",
+   "label_en": "Size",
+   "label_th": "ขนาด",
+   "category_ids": [
+    "shakes"
+   ],
+   "qashier_group": "Upsize to XL",
+   "sort": 50
+  },
+  {
+   "id": "protein",
+   "label_en": "Protein",
+   "label_th": "โปรตีน",
+   "category_ids": [
+    "shakes"
+   ],
+   "qashier_group": "Add / Swap Protein เพิ่ม / เปลี่ยนโปรตีน",
+   "sort": 60
+  },
+  {
+   "id": "fruit",
+   "label_en": "Fruit",
+   "label_th": "ผลไม้",
+   "category_ids": [
+    "shakes",
+    "juices"
+   ],
+   "qashier_group": "Add Fruit เพิ่มผลไม้",
+   "sort": 70
+  },
+  {
+   "id": "milk",
+   "label_en": "Milk",
+   "label_th": "นม",
+   "category_ids": [
+    "shakes",
+    "coffee"
+   ],
+   "qashier_group": "Change Milk เปลี่ยนนม",
+   "sort": 80
+  },
+  {
+   "id": "waffle-toppings",
+   "label_en": "Toppings",
+   "label_th": "ท็อปปิ้ง",
+   "category_ids": [
+    "food"
+   ],
+   "qashier_group": "Waffle 1 Add Ons (วาฟเฟิล 1 ชิ้น + ท็อปปิ้งเพิ่ม)",
+   "sort": 90
+  },
+  {
+   "id": "scoop",
+   "label_en": "Extra protein",
+   "label_th": "เพิ่มโปรตีน",
+   "category_ids": [
+    "shakes"
+   ],
+   "qashier_group": "Upgrade Scoop Size (เพิ่มขนาดสกู๊ป)",
+   "sort": 100
+  },
+  {
+   "id": "big-coconut",
+   "label_en": "Big bottle",
+   "label_th": "ขวดใหญ่",
+   "category_ids": [
+    "drinks"
+   ],
+   "qashier_group": "Upgrade to Big Coconut Water",
+   "sort": 110
+  }
+ ],
+ "options": [
+  {
+   "id": "coffee-shots-1-shot-coffee",
+   "group_id": "coffee-shots",
+   "label_en": "1 Shot Coffee",
+   "label_th": null,
+   "price_thb": 50,
+   "qashier_modifier": "1 Shot Coffee",
+   "sort": 0
+  },
+  {
+   "id": "coconut-coconut-water",
+   "group_id": "coconut",
+   "label_en": "Coconut Water",
+   "label_th": null,
+   "price_thb": 20,
+   "qashier_modifier": "Coconut Water",
+   "sort": 0
+  },
+  {
+   "id": "supplements-c4-pre-workout",
+   "group_id": "supplements",
+   "label_en": "C4 Pre Workout",
+   "label_th": null,
+   "price_thb": 99,
+   "qashier_modifier": "C4 Pre Workout",
+   "sort": 0
+  },
+  {
+   "id": "coffee-shots-extra-shot",
+   "group_id": "coffee-shots",
+   "label_en": "Extra Shot",
+   "label_th": null,
+   "price_thb": 20,
+   "qashier_modifier": "Extra Shot",
+   "sort": 10
+  },
+  {
+   "id": "extras-dates",
+   "group_id": "extras",
+   "label_en": "Dates",
+   "label_th": null,
+   "price_thb": 10,
+   "qashier_modifier": "Dates (2 pieces)",
+   "sort": 0
+  },
+  {
+   "id": "iced-change-to-iced",
+   "group_id": "iced",
+   "label_en": "Change to Iced",
+   "label_th": "เปลี่ยนเป็นเย็น",
+   "price_thb": 30,
+   "qashier_modifier": "Change to Iced เปลี่ยนเป็นเย็น",
+   "sort": 0
+  },
+  {
+   "id": "size-xl-size",
+   "group_id": "size",
+   "label_en": "XL Size",
+   "label_th": null,
+   "price_thb": 50,
+   "qashier_modifier": "XL Size",
+   "sort": 0
+  },
+  {
+   "id": "protein-swap-to-vegan-protein",
+   "group_id": "protein",
+   "label_en": "Swap to Vegan Protein",
+   "label_th": null,
+   "price_thb": 30,
+   "qashier_modifier": "Swap to Vegan Protein",
+   "sort": 0
+  },
+  {
+   "id": "fruit-banana-100g",
+   "group_id": "fruit",
+   "label_en": "Banana 100g",
+   "label_th": null,
+   "price_thb": 15,
+   "qashier_modifier": "Banana 100g",
+   "sort": 0
+  },
+  {
+   "id": "milk-swap-to-almond-milk",
+   "group_id": "milk",
+   "label_en": "Swap to Almond Milk",
+   "label_th": null,
+   "price_thb": 20,
+   "qashier_modifier": "Swap to Almond Milk",
+   "sort": 0
+  },
+  {
+   "id": "waffle-toppings-banana",
+   "group_id": "waffle-toppings",
+   "label_en": "Banana",
+   "label_th": null,
+   "price_thb": 20,
+   "qashier_modifier": "Banana",
+   "sort": 0
+  },
+  {
+   "id": "scoop-extra-scoop",
+   "group_id": "scoop",
+   "label_en": "Extra Scoop",
+   "label_th": "ตักเพิ่ม",
+   "price_thb": 60,
+   "qashier_modifier": "Extra Scoop (ตักเพิ่ม)",
+   "sort": 0
+  },
+  {
+   "id": "big-coconut-upgrade-big-bottle",
+   "group_id": "big-coconut",
+   "label_en": "Upgrade Big Bottle",
+   "label_th": "เปลี่ยนเป็นขวดใหญ่",
+   "price_thb": 80,
+   "qashier_modifier": "Upgrade Big Bottle (เปลี่ยนเป็นขวดใหญ่)",
+   "sort": 0
+  },
+  {
+   "id": "fruit-blueberry-25g",
+   "group_id": "fruit",
+   "label_en": "Blueberry 25g",
+   "label_th": null,
+   "price_thb": 20,
+   "qashier_modifier": "Blueberry 25g",
+   "sort": 10
+  },
+  {
+   "id": "milk-swap-to-oat-milk",
+   "group_id": "milk",
+   "label_en": "Swap to Oat Milk",
+   "label_th": null,
+   "price_thb": 20,
+   "qashier_modifier": "Swap to Oat Milk",
+   "sort": 10
+  },
+  {
+   "id": "protein-1-scoop-protein",
+   "group_id": "protein",
+   "label_en": "1 Scoop Protein",
+   "label_th": null,
+   "price_thb": 60,
+   "qashier_modifier": "1 Scoop Protein",
+   "sort": 10
+  },
+  {
+   "id": "scoop-extra-scoop-vegan",
+   "group_id": "scoop",
+   "label_en": "Extra Scoop Vegan",
+   "label_th": null,
+   "price_thb": 80,
+   "qashier_modifier": "Extra Scoop Vegan",
+   "sort": 10
+  },
+  {
+   "id": "coffee-shots-2-shot-coffee",
+   "group_id": "coffee-shots",
+   "label_en": "2 Shot Coffee",
+   "label_th": null,
+   "price_thb": 70,
+   "qashier_modifier": "2 Shot Coffee",
+   "sort": 20
+  },
+  {
+   "id": "waffle-toppings-mango",
+   "group_id": "waffle-toppings",
+   "label_en": "Mango",
+   "label_th": null,
+   "price_thb": 20,
+   "qashier_modifier": "Mango",
+   "sort": 10
+  },
+  {
+   "id": "supplements-wilder-electrolyte",
+   "group_id": "supplements",
+   "label_en": "Wilder Electrolyte",
+   "label_th": null,
+   "price_thb": 60,
+   "qashier_modifier": "Wilder Electrolyte",
+   "sort": 10
+  },
+  {
+   "id": "extras-peanut-butter-20g",
+   "group_id": "extras",
+   "label_en": "Peanut Butter 20g",
+   "label_th": null,
+   "price_thb": 20,
+   "qashier_modifier": "Peanut Butter 20g",
+   "sort": 10
+  },
+  {
+   "id": "waffle-toppings-peanut-butter",
+   "group_id": "waffle-toppings",
+   "label_en": "Peanut Butter",
+   "label_th": null,
+   "price_thb": 20,
+   "qashier_modifier": "Peanut Butter",
+   "sort": 20
+  },
+  {
+   "id": "milk-swap-to-0-milk",
+   "group_id": "milk",
+   "label_en": "Swap to 0% Milk",
+   "label_th": null,
+   "price_thb": 10,
+   "qashier_modifier": "Swap to 0% Milk",
+   "sort": 20
+  },
+  {
+   "id": "fruit-strawberry-25g",
+   "group_id": "fruit",
+   "label_en": "Strawberry 25g",
+   "label_th": null,
+   "price_thb": 20,
+   "qashier_modifier": "Strawberry 25g",
+   "sort": 20
+  },
+  {
+   "id": "extras-almond-butter-20g",
+   "group_id": "extras",
+   "label_en": "Almond Butter 20g",
+   "label_th": null,
+   "price_thb": 30,
+   "qashier_modifier": "Almond Butter 20g",
+   "sort": 20
+  },
+  {
+   "id": "supplements-creatine-5g",
+   "group_id": "supplements",
+   "label_en": "Creatine 5g",
+   "label_th": null,
+   "price_thb": 50,
+   "qashier_modifier": "Creatine 5g",
+   "sort": 20
+  },
+  {
+   "id": "extras-honey-10g",
+   "group_id": "extras",
+   "label_en": "Honey 10g",
+   "label_th": null,
+   "price_thb": 10,
+   "qashier_modifier": "Honey 10g",
+   "sort": 30
+  },
+  {
+   "id": "supplements-mct-oil-5ml",
+   "group_id": "supplements",
+   "label_en": "MCT Oil 5ml",
+   "label_th": null,
+   "price_thb": 30,
+   "qashier_modifier": "MCT Oil 5ml",
+   "sort": 30
+  },
+  {
+   "id": "fruit-raspberry-25g",
+   "group_id": "fruit",
+   "label_en": "Raspberry 25g",
+   "label_th": null,
+   "price_thb": 20,
+   "qashier_modifier": "Raspberry 25g",
+   "sort": 30
+  },
+  {
+   "id": "waffle-toppings-almond-butter",
+   "group_id": "waffle-toppings",
+   "label_en": "Almond Butter",
+   "label_th": null,
+   "price_thb": 30,
+   "qashier_modifier": "Almond Butter",
+   "sort": 30
+  },
+  {
+   "id": "supplements-mct-oil-10g",
+   "group_id": "supplements",
+   "label_en": "MCT Oil 10g",
+   "label_th": null,
+   "price_thb": 50,
+   "qashier_modifier": "MCT Oil 10g",
+   "sort": 40
+  },
+  {
+   "id": "extras-cacao-10g",
+   "group_id": "extras",
+   "label_en": "Cacao 10g",
+   "label_th": null,
+   "price_thb": 20,
+   "qashier_modifier": "Cacao 10g",
+   "sort": 40
+  },
+  {
+   "id": "fruit-mango-25g",
+   "group_id": "fruit",
+   "label_en": "Mango 25g",
+   "label_th": null,
+   "price_thb": 20,
+   "qashier_modifier": "Mango 25g",
+   "sort": 40
+  },
+  {
+   "id": "waffle-toppings-honey",
+   "group_id": "waffle-toppings",
+   "label_en": "Honey",
+   "label_th": null,
+   "price_thb": 15,
+   "qashier_modifier": "Honey",
+   "sort": 40
+  },
+  {
+   "id": "fruit-mixed-berry-25g",
+   "group_id": "fruit",
+   "label_en": "Mixed Berry 25g",
+   "label_th": null,
+   "price_thb": 20,
+   "qashier_modifier": "Mixed Berry 25g",
+   "sort": 50
+  },
+  {
+   "id": "extras-oats-20g",
+   "group_id": "extras",
+   "label_en": "Oats 20g",
+   "label_th": null,
+   "price_thb": 10,
+   "qashier_modifier": "Oats 20g",
+   "sort": 50
+  },
+  {
+   "id": "waffle-toppings-maple-syrup",
+   "group_id": "waffle-toppings",
+   "label_en": "Maple Syrup",
+   "label_th": null,
+   "price_thb": 15,
+   "qashier_modifier": "Maple Syrup",
+   "sort": 50
+  },
+  {
+   "id": "waffle-toppings-blueberries",
+   "group_id": "waffle-toppings",
+   "label_en": "Blueberries",
+   "label_th": null,
+   "price_thb": 30,
+   "qashier_modifier": "Blueberries",
+   "sort": 60
+  },
+  {
+   "id": "extras-spirulina-20g",
+   "group_id": "extras",
+   "label_en": "Spirulina 20g",
+   "label_th": null,
+   "price_thb": 30,
+   "qashier_modifier": "Spirulina 20g",
+   "sort": 60
+  },
+  {
+   "id": "waffle-toppings-strawberries",
+   "group_id": "waffle-toppings",
+   "label_en": "Strawberries",
+   "label_th": null,
+   "price_thb": 20,
+   "qashier_modifier": "Strawberries",
+   "sort": 70
+  },
+  {
+   "id": "extras-orange-juice",
+   "group_id": "extras",
+   "label_en": "Orange Juice",
+   "label_th": null,
+   "price_thb": 70,
+   "qashier_modifier": "Orange Juice",
+   "sort": 70
+  },
+  {
+   "id": "extras-bulletproof-bruce",
+   "group_id": "extras",
+   "label_en": "Bulletproof Bruce",
+   "label_th": null,
+   "price_thb": 70,
+   "qashier_modifier": "Bulletproof Bruce",
+   "sort": 80
+  }
+ ]
+}

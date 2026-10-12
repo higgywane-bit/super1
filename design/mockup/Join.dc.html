@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Join Superfit</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="s1.css">
+<link rel="stylesheet" href="ds/super1/components/bundle.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Noto+Sans+Thai:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#000}
+a{color:#00b4ff}a:hover{color:#5fd0ff}
+</style>
+</helmet>
+<div class="s1 s1-screen" lang="{{lang}}">
+  <div class="s1-scrollbox" style="padding: 56px 24px 32px; box-sizing: border-box; display: flex; flex-direction: column;">
+
+    <sc-if value="{{showTop}}" hint-placeholder-val="{{ false }}">
+      <div style="display: flex; align-items: center; justify-content: space-between; height: 44px; margin-bottom: 20px;">
+        <button class="s1-btn s1-btn--secondary s1-btn--icon" type="button" aria-label="{{t.back}}" onClick="{{goBack}}">
+          <svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+        <img src="/_blob/a5349b72deb21a57ef6abca065d25c68" alt="SUPER1" style="height: 26px; width: auto;">
+        <span style="width: 44px; font: 600 13px/1 var(--font-sans); color: var(--text-secondary); text-align: right;" class="s1-num">{{stepLabel}}</span>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{isLang}}" hint-placeholder-val="{{ true }}">
+      <div style="display: flex; flex-direction: column; gap: 28px; flex: 1;">
+        <div class="s1-rise" style="display: flex; flex-direction: column; gap: 20px; padding-top: 40px;">
+          <img class="s1-wipe" src="/_blob/398b8f14610abf876aef8dbb1e7417d2" alt="SUPER1" style="height: 30px; width: auto; align-self: flex-start;">
+          <h1 class="s1-largetitle" style="font-size: 38px; line-height: 44px;">Welcome to Superfit</h1>
+          <p style="margin: 0; font: 500 16px/24px var(--font-sans); color: var(--text-secondary);">ยินดีต้อนรับ · Добро пожаловать</p>
+        </div>
+        <div class="s1-rise-2" style="display: flex; flex-direction: column; gap: 10px; margin-top: auto;">
+          <p class="s1-section">Choose your language</p>
+          <sc-for list="{{langs}}" as="l" hint-placeholder-count="3">
+            <button class="s1-tile" type="button" aria-pressed="{{l.pressed}}" onClick="{{l.pick}}" style="min-height: 64px; flex-direction: row; align-items: center;">
+              <span class="s1-tile__name" lang="{{l.code}}">{{l.label}}</span>
+              <svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--text-secondary);"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{isChoice}}" hint-placeholder-val="{{ false }}">
+      <div class="s1-rise" style="display: flex; flex-direction: column; gap: 14px;">
+        <h1 class="s1-largetitle">{{t.welcome}}</h1>
+        <p style="margin: 0 0 12px; font: 500 16px/24px var(--font-sans); color: var(--text-secondary);">{{t.choose}}</p>
+        <button class="s1-card" type="button" onClick="{{toForm}}" style="border: 0; text-align: left; padding: 20px; display: flex; align-items: center; gap: 16px; color: var(--foreground); cursor: pointer; box-shadow: inset 0 0 0 2px var(--s1-blue);">
+          <span class="s1-disc s1-disc--money"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg></span>
+          <span style="flex: 1; display: flex; flex-direction: column; gap: 4px;"><span class="s1-headline">{{t.newTitle}}</span><span style="font: 400 14px/19px var(--font-sans); color: var(--text-secondary);">{{t.newSub}}</span></span>
+          <svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--text-secondary);"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+        <button class="s1-card" type="button" onClick="{{toLink}}" style="border: 0; text-align: left; padding: 20px; display: flex; align-items: center; gap: 16px; color: var(--foreground); cursor: pointer;">
+          <span class="s1-disc s1-disc--neutral"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5"/></svg></span>
+          <span style="flex: 1; display: flex; flex-direction: column; gap: 4px;"><span class="s1-headline">{{t.memberTitle}}</span><span style="font: 400 14px/19px var(--font-sans); color: var(--text-secondary);">{{t.memberSub}}</span></span>
+          <svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--text-secondary);"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{isForm}}" hint-placeholder-val="{{ false }}">
+      <form class="s1-rise" onSubmit="{{submitForm}}" style="display: flex; flex-direction: column; gap: 16px;">
+        <h1 class="s1-largetitle">{{t.details}}</h1>
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px;">
+          <div><label class="s1-label" for="j-first">{{t.first}}</label><input class="s1-input" id="j-first" autocomplete="given-name" value="{{f.first}}" onChange="{{onFirst}}"></div>
+          <div><label class="s1-label" for="j-last">{{t.last}}</label><input class="s1-input" id="j-last" autocomplete="family-name" value="{{f.last}}" onChange="{{onLast}}"></div>
+        </div>
+        <div><label class="s1-label" for="j-phone">{{t.phone}}</label><input class="s1-input s1-num" id="j-phone" type="tel" inputmode="tel" autocomplete="tel" value="{{f.phone}}" onChange="{{onPhone}}"></div>
+        <div><label class="s1-label" for="j-email">{{t.email}}</label><input class="s1-input" id="j-email" type="email" inputmode="email" autocomplete="email" value="{{f.email}}" onChange="{{onEmail}}"></div>
+        <div>
+          <p class="s1-label">{{t.coachQ}}</p>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+            <sc-for list="{{coaches}}" as="c" hint-placeholder-count="6">
+              <button type="button" class="{{c.cls}}" aria-pressed="{{c.pressed}}" onClick="{{c.pick}}" style="height: 40px; padding: 0 14px; border: 0; border-radius: 999px; font: 600 14px/1 var(--font-sans); cursor: pointer;">{{c.label}}</button>
+            </sc-for>
+          </div>
+        </div>
+        <button class="s1-btn s1-btn--primary s1-btn--lg s1-btn--block {{formOff}}" type="submit" style="margin-top: 8px;">{{t.next}}</button>
+      </form>
+    </sc-if>
+
+    <sc-if value="{{isWaiver}}" hint-placeholder-val="{{ false }}">
+      <div class="s1-rise" style="display: flex; flex-direction: column; gap: 16px;">
+        <h1 class="s1-largetitle">{{t.waiverTitle}}</h1>
+        <div class="s1-group">
+          <sc-for list="{{t.rules}}" as="r" hint-placeholder-count="3">
+            <div class="s1-row" style="min-height: 0; align-items: flex-start; padding: 14px 16px;">
+              <svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--s1-green); margin-top: 1px;"><path d="M20 6 9 17l-5-5"/></svg>
+              <span style="font: 400 15px/21px var(--font-sans);">{{r}}</span>
+            </div>
+          </sc-for>
+        </div>
+        <a href="#terms" style="font: 600 14px/19px var(--font-sans); align-self: flex-start;">{{t.fullTerms}}</a>
+        <button type="button" role="checkbox" aria-checked="{{agree}}" onClick="{{toggleAgree}}" style="appearance: none; border: 0; background: transparent; padding: 4px 0; display: flex; align-items: center; gap: 12px; color: var(--foreground); font: 500 15px/20px var(--font-sans); cursor: pointer; text-align: left;">
+          <span class="s1-check" aria-checked="{{agree}}"><sc-if value="{{agree}}" hint-placeholder-val="{{ false }}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px; stroke-width: 3;"><path d="M20 6 9 17l-5-5"/></svg></sc-if></span>
+          {{t.agree}}
+        </button>
+        <div>
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+            <span class="s1-label" style="margin-bottom: 0;">{{t.sign}}</span>
+            <button class="s1-link" type="button" onClick="{{clearSig}}" style="font-size: 14px;">{{t.clear}}</button>
+          </div>
+          <div onPointerDown="{{sigDown}}" onPointerMove="{{sigMove}}" onPointerUp="{{sigUp}}" onPointerLeave="{{sigUp}}" style="height: 150px; border-radius: 16px; background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--hairline); touch-action: none; cursor: crosshair; position: relative;">
+            <svg viewBox="0 0 342 150" width="100%" height="100%" aria-label="{{t.sign}}" role="img" style="display: block;">
+              <line x1="20" y1="118" x2="322" y2="118" stroke="rgba(255,255,255,0.12)" stroke-width="1" stroke-dasharray="4 6"/>
+              <sc-for list="{{strokes}}" as="s" hint-placeholder-count="0">
+                <path d="{{s}}" fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </sc-for>
+            </svg>
+          </div>
+        </div>
+        <button class="s1-btn s1-btn--primary s1-btn--lg s1-btn--block {{joinOff}}" type="button" onClick="{{join}}">{{t.join}}</button>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{isWelcome}}" hint-placeholder-val="{{ false }}">
+      <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px; text-align: center; min-height: 700px;">
+        <div class="s1-pop" style="position: relative; width: 168px; height: 168px; display: grid; place-items: center;">
+          <span class="s1-breathe" style="position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(circle, rgba(0,180,255,0.55) 0%, rgba(0,180,255,0) 70%);"></span>
+          <img src="/_blob/a5349b72deb21a57ef6abca065d25c68" alt="" style="position: relative; height: 92px; width: auto;">
+        </div>
+        <div class="s1-rise-2" style="display: flex; flex-direction: column; gap: 10px;">
+          <h1 class="s1-largetitle" style="font-size: 36px; line-height: 42px;">{{welcomeName}}</h1>
+          <p style="margin: 0; font: 500 16px/24px var(--font-sans); color: var(--text-secondary);">Superfit · Chalong, Phuket</p>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{isDone}}" hint-placeholder-val="{{ false }}">
+      <div class="s1-rise" style="display: flex; flex-direction: column; gap: 18px; padding-top: 24px;">
+        <span class="s1-disc s1-disc--go" style="width: 64px; height: 64px;"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true" style="width: 30px; height: 30px; stroke-width: 2.6;"><path class="s1-draw" d="M20 6 9 17l-5-5"/></svg></span>
+        <h1 class="s1-largetitle">{{doneTitle}}</h1>
+        <div class="s1-card" style="padding: 20px; display: flex; flex-direction: column; gap: 6px; box-shadow: inset 0 0 0 2px var(--s1-blue);">
+          <span style="font: 600 13px/18px var(--font-sans); color: var(--s1-blue);">{{t.showDesk}}</span>
+          <span style="font: 700 28px/34px var(--font-sans); letter-spacing: -0.02em;">{{fullName}}</span>
+          <span class="s1-num" style="font: 500 15px/20px var(--font-sans); color: var(--text-secondary);">{{f.phone}} · {{f.email}}</span>
+        </div>
+        <sc-if value="{{hasCoach}}" hint-placeholder-val="{{ false }}">
+          <div class="s1-card" style="padding: 16px; display: flex; align-items: center; gap: 14px;">
+            <span class="s1-disc s1-disc--pt"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+            <span style="font: 500 15px/20px var(--font-sans);">{{coachLine}}</span>
+          </div>
+        </sc-if>
+        <div class="s1-card" style="padding: 16px; display: flex; align-items: center; gap: 14px;">
+          <span class="s1-disc s1-disc--neutral"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg></span>
+          <span style="font: 500 15px/20px var(--font-sans); color: var(--text-secondary);">{{t.appSoon}}</span>
+        </div>
+        <button class="s1-btn s1-btn--secondary s1-btn--block" type="button" onClick="{{restart}}" style="margin-top: 8px;">{{t.restart}}</button>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{isLink}}" hint-placeholder-val="{{ false }}">
+      <form class="s1-rise" onSubmit="{{submitLink}}" style="display: flex; flex-direction: column; gap: 16px;">
+        <h1 class="s1-largetitle">{{t.linkTitle}}</h1>
+        <p style="margin: 0; font: 500 15px/22px var(--font-sans); color: var(--text-secondary);">{{t.linkSub}}</p>
+        <div><label class="s1-label" for="j-tag">{{t.tag}}</label><input class="s1-input s1-num" id="j-tag" inputmode="numeric" value="{{tag}}" onChange="{{onTag}}" style="font-size: 22px; letter-spacing: 0.12em; height: 56px;"></div>
+        <div><label class="s1-label" for="j-lemail">{{t.email}}</label><input class="s1-input" id="j-lemail" type="email" inputmode="email" autocomplete="email" value="{{f.email}}" onChange="{{onEmail}}"></div>
+        <button class="s1-btn s1-btn--primary s1-btn--lg s1-btn--block {{linkOff}}" type="submit" style="margin-top: 8px;">{{t.linkBtn}}</button>
+      </form>
+    </sc-if>
+
+    <sc-if value="{{isLinked}}" hint-placeholder-val="{{ false }}">
+      <div class="s1-rise" style="display: flex; flex-direction: column; gap: 18px; padding-top: 24px;">
+        <span class="s1-disc s1-disc--go" style="width: 64px; height: 64px;"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true" style="width: 30px; height: 30px; stroke-width: 2.6;"><path class="s1-draw" d="M20 6 9 17l-5-5"/></svg></span>
+        <h1 class="s1-largetitle">{{t.linkedTitle}}</h1>
+        <div class="s1-card" style="padding: 20px; display: flex; flex-direction: column; gap: 10px;">
+          <div style="display: flex; align-items: center; justify-content: space-between;"><span class="s1-headline">Mark Hughes</span><span class="s1-pill s1-pill--active">{{t.active}}</span></div>
+          <span class="s1-num" style="font: 500 15px/20px var(--font-sans); color: var(--text-secondary);">1 Month · {{t.daysLeft}} · {{t.tagWord}} {{tag}}</span>
+        </div>
+        <div class="s1-card" style="padding: 16px; display: flex; align-items: center; gap: 14px;">
+          <span class="s1-disc s1-disc--money"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg></span>
+          <span style="font: 500 15px/20px var(--font-sans);">{{t.appSoon}}</span>
+        </div>
+        <button class="s1-btn s1-btn--secondary s1-btn--block" type="button" onClick="{{restart}}">{{t.restart}}</button>
+      </div>
+    </sc-if>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+var T = {
+  en: {
+    welcome: "Welcome to Superfit", choose: "Is this your first time with us?",
+    newTitle: "New to Superfit", newSub: "Join in under a minute",
+    memberTitle: "Already a member", memberSub: "Link your tag and get the app",
+    details: "Your details", first: "First name", last: "Last name", phone: "Phone", email: "Email",
+    coachQ: "Training with a coach?", noCoach: "Not now", next: "Next", back: "Back",
+    waiverTitle: "Before you train",
+    rules: ["I train at my own risk and will use the equipment safely.", "I have no medical condition that stops me exercising, or my doctor says it's OK.", "I'll follow the gym rules and the staff's directions."],
+    fullTerms: "Read the full terms", agree: "I agree to the Superfit terms", sign: "Sign here", clear: "Clear",
+    join: "Join Superfit", youre: "You're in, {name}", welcomeName: "Welcome, {name}",
+    showDesk: "Show this at the desk", coachLine: "{coach} will be in touch about training.",
+    appSoon: "Your Super1 Fitness app link is on its way to your email.", restart: "Done",
+    linkTitle: "Link your account", linkSub: "Type the number on your Superfit key and the email you want for the app.",
+    tag: "Tag number", linkBtn: "Link and get the app", linkedTitle: "Found you, Mark", active: "Active", daysLeft: "18 days left", tagWord: "tag"
+  },
+  th: {
+    welcome: "ยินดีต้อนรับสู่ Superfit", choose: "มาที่นี่ครั้งแรกหรือเปล่า?",
+    newTitle: "มาครั้งแรก", newSub: "สมัครได้ในไม่ถึงหนึ่งนาที",
+    memberTitle: "เป็นสมาชิกอยู่แล้ว", memberSub: "ผูกแท็กของคุณและรับแอป",
+    details: "ข้อมูลของคุณ", first: "ชื่อ", last: "นามสกุล", phone: "เบอร์โทรศัพท์", email: "อีเมล",
+    coachQ: "เทรนกับโค้ชไหม?", noCoach: "ไม่ใช่ตอนนี้", next: "ถัดไป", back: "ย้อนกลับ",
+    waiverTitle: "ก่อนเริ่มออกกำลังกาย",
+    rules: ["ฉันออกกำลังกายโดยยอมรับความเสี่ยงเอง และจะใช้อุปกรณ์อย่างปลอดภัย", "ฉันไม่มีโรคประจำตัวที่ห้ามออกกำลังกาย หรือแพทย์อนุญาตแล้ว", "ฉันจะปฏิบัติตามกฎของยิมและคำแนะนำของพนักงาน"],
+    fullTerms: "อ่านข้อกำหนดทั้งหมด", agree: "ฉันยอมรับข้อกำหนดของ Superfit", sign: "เซ็นชื่อที่นี่", clear: "ล้าง",
+    join: "สมัครสมาชิก", youre: "เรียบร้อยแล้ว {name}", welcomeName: "ยินดีต้อนรับ {name}",
+    showDesk: "แสดงหน้าจอนี้ที่เคาน์เตอร์", coachLine: "{coach} จะติดต่อคุณเรื่องการเทรน",
+    appSoon: "ลิงก์แอป Super1 Fitness จะส่งไปที่อีเมลของคุณ", restart: "เสร็จสิ้น",
+    linkTitle: "เชื่อมบัญชีของคุณ", linkSub: "ใส่หมายเลขบนพวงกุญแจ Superfit และอีเมลที่ใช้กับแอป",
+    tag: "หมายเลขแท็ก", linkBtn: "เชื่อมและรับแอป", linkedTitle: "พบบัญชีแล้ว Mark", active: "ใช้งานอยู่", daysLeft: "เหลือ 18 วัน", tagWord: "แท็ก"
+  },
+  ru: {
+    welcome: "Добро пожаловать в Superfit", choose: "Вы у нас впервые?",
+    newTitle: "Я здесь впервые", newSub: "Регистрация меньше минуты",
+    memberTitle: "У меня уже есть абонемент", memberSub: "Привяжите ключ и получите приложение",
+    details: "Ваши данные", first: "Имя", last: "Фамилия", phone: "Телефон", email: "Эл. почта",
+    coachQ: "Тренируетесь с тренером?", noCoach: "Пока нет", next: "Далее", back: "Назад",
+    waiverTitle: "Перед тренировкой",
+    rules: ["Я тренируюсь на свой риск и безопасно пользуюсь оборудованием.", "У меня нет противопоказаний к нагрузкам, или врач разрешил тренировки.", "Я соблюдаю правила зала и указания персонала."],
+    fullTerms: "Полные условия", agree: "Я принимаю условия Superfit", sign: "Подпишите здесь", clear: "Очистить",
+    join: "Зарегистрироваться", youre: "Готово, {name}", welcomeName: "Добро пожаловать, {name}",
+    showDesk: "Покажите этот экран на ресепшене", coachLine: "{coach} свяжется с вами насчёт тренировок.",
+    appSoon: "Ссылка на приложение Super1 Fitness придёт на почту.", restart: "Готово",
+    linkTitle: "Привязка аккаунта", linkSub: "Введите номер на ключе Superfit и почту для приложения.",
+    tag: "Номер ключа", linkBtn: "Привязать и получить приложение", linkedTitle: "Нашли вас, Mark", active: "Активен", daysLeft: "осталось 18 дней", tagWord: "ключ"
+  }
+};
+var LANGS = [{ code: "en", label: "English" }, { code: "th", label: "ภาษาไทย" }, { code: "ru", label: "Русский" }];
+var COACHES = ["none", "Sunman", "Aun", "Bella", "Bonnie", "Nicha", "Poom", "Orn"];
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { screen: "lang", lang: "en", f: { first: "", last: "", phone: "", email: "" }, coach: "none", agree: false, strokes: [], drawing: false, tag: "" };
+    this.timer = null;
+  }
+  componentWillUnmount() { if (this.timer) clearTimeout(this.timer); }
+  setF(key, value) { var f = Object.assign({}, this.state.f); f[key] = value; this.setState({ f: f }); }
+  point(e) {
+    var r = e.currentTarget.getBoundingClientRect();
+    var x = Math.round(((e.clientX - r.left) / r.width) * 342);
+    var y = Math.round(((e.clientY - r.top) / r.height) * 150);
+    return x + " " + y;
+  }
+  renderVals() {
+    var s = this.state, self = this, t = T[s.lang];
+    var f = s.f;
+    var formOk = f.first.trim() && f.phone.trim().length >= 6 && /.+@.+\..+/.test(f.email);
+    var joinOk = s.agree && s.strokes.length > 0;
+    var linkOk = s.tag.trim().length >= 3 && /.+@.+\..+/.test(f.email);
+    var screens = ["lang", "choice", "form", "waiver", "welcome", "done", "link", "linked"];
+    var flags = {};
+    screens.forEach(function (n) { flags["is" + n.charAt(0).toUpperCase() + n.slice(1)] = s.screen === n; });
+    var name = f.first.trim() || "Ivan";
+    return Object.assign(flags, {
+      lang: s.lang, t: t, f: f, tag: s.tag, agree: s.agree, strokes: s.strokes,
+      showTop: ["choice", "form", "waiver", "link"].indexOf(s.screen) >= 0,
+      stepLabel: s.screen === "form" ? "1 / 2" : s.screen === "waiver" ? "2 / 2" : "",
+      langs: LANGS.map(function (l) { return { code: l.code, label: l.label, pressed: s.lang === l.code, pick: function () { self.setState({ lang: l.code, screen: "choice" }); } }; }),
+      coaches: COACHES.map(function (c) {
+        var on = s.coach === c;
+        return { label: c === "none" ? t.noCoach : c, pressed: on, cls: on ? (c === "none" ? "s1-btn--secondary" : "") : "", pick: function () { self.setState({ coach: c }); } };
+      }).map(function (c, i) {
+        var on = c.pressed, isNone = COACHES[i] === "none";
+        c.cls = on ? (isNone ? "s1-chip-on" : "s1-chip-pt") : "s1-chip-off";
+        return c;
+      }),
+      formOff: formOk ? "" : "s1-off",
+      joinOff: joinOk ? "" : "s1-off",
+      linkOff: linkOk ? "" : "s1-off",
+      welcomeName: t.welcomeName.replace("{name}", name),
+      doneTitle: t.youre.replace("{name}", name),
+      fullName: (f.first + " " + f.last).trim() || "Ivan Petrov",
+      hasCoach: s.coach !== "none",
+      coachLine: t.coachLine.replace("{coach}", s.coach),
+      goBack: function () {
+        var back = { choice: "lang", form: "choice", waiver: "form", link: "choice" };
+        self.setState({ screen: back[s.screen] || "lang" });
+      },
+      toForm: function () { self.setState({ screen: "form" }); },
+      toLink: function () { self.setState({ screen: "link" }); },
+      onFirst: function (e) { self.setF("first", e.target.value); },
+      onLast: function (e) { self.setF("last", e.target.value); },
+      onPhone: function (e) { self.setF("phone", e.target.value); },
+      onEmail: function (e) { self.setF("email", e.target.value); },
+      onTag: function (e) { self.setState({ tag: e.target.value.replace(/[^0-9A-Za-z]/g, "").slice(0, 12) }); },
+      submitForm: function (e) { e.preventDefault(); if (formOk) self.setState({ screen: "waiver" }); },
+      submitLink: function (e) { e.preventDefault(); if (linkOk) self.setState({ screen: "linked" }); },
+      toggleAgree: function () { self.setState({ agree: !s.agree }); },
+      clearSig: function () { self.setState({ strokes: [] }); },
+      sigDown: function (e) { var p = self.point(e); self.setState({ drawing: true, strokes: s.strokes.concat(["M" + p + " L" + p]) }); },
+      sigMove: function (e) {
+        if (!self.state.drawing) return;
+        var list = self.state.strokes.slice();
+        list[list.length - 1] = list[list.length - 1] + " L" + self.point(e);
+        self.setState({ strokes: list });
+      },
+      sigUp: function () { if (self.state.drawing) self.setState({ drawing: false }); },
+      join: function () {
+        if (!joinOk) return;
+        self.setState({ screen: "welcome" });
+        self.timer = setTimeout(function () { self.setState({ screen: "done" }); }, 2200);
+      },
+      restart: function () { self.setState({ screen: "lang", f: { first: "", last: "", phone: "", email: "" }, coach: "none", agree: false, strokes: [], tag: "" }); }
+    });
+  }
+}
+</script>
+</body>
+</html>

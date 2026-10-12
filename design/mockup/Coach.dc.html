@@ -1,0 +1,976 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SUPER1 coach portal</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="s1.css">
+<link rel="stylesheet" href="ds/super1/components/bundle.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Noto+Sans+Thai:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#000}
+</style>
+</helmet>
+<div class="s1" lang="{{lang}}" style="position: relative; min-height: {{rootH}}; width: 100%; background: #000000; color: #ffffff; font-family: var(--font-sans);">
+
+  <!-- ===================== SIGN IN ===================== -->
+  <sc-if value="{{is.login}}" hint-placeholder-val="{{ false }}">
+    <div style="min-height: 940px; display: flex; flex-wrap: wrap;">
+      <div style="flex: 1 1 560px; position: relative; min-height: 420px; overflow: hidden;">
+        <img class="s1-photo" src="/_blob/3e77909c5ae981a342fafecea333754a" alt="Superfit coaches on the gym floor" style="position: absolute; inset: 0;">
+        <span style="position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.55) 62%, #000000 100%);"></span>
+        <div class="s1-rise-2" style="position: absolute; left: 48px; right: 48px; bottom: 56px; display: flex; flex-direction: column; gap: 14px;">
+          <span class="s1-pill s1-pill--pt" style="align-self: flex-start;">super1.app/coach</span>
+          <span style="max-width: 520px; font: 700 40px/46px var(--font-sans); letter-spacing: -0.02em; text-shadow: 0 2px 24px rgba(0,0,0,0.6);">{{t.loginHero}}</span>
+        </div>
+      </div>
+      <div style="flex: 1 1 440px; display: grid; place-items: center; padding: 48px 24px; box-sizing: border-box;">
+        <div style="width: min(400px, 100%); display: flex; flex-direction: column; gap: 24px;">
+          <div style="display: flex; align-items: center; gap: 12px;"><img class="s1-wipe" src="/_blob/398b8f14610abf876aef8dbb1e7417d2" alt="SUPER1" style="height: 34px; width: auto;"><span class="s1-pill s1-pill--pt">{{t.coach}}</span></div>
+          <sc-if value="{{loginStep1}}" hint-placeholder-val="{{ true }}">
+            <form class="s1-rise" onSubmit="{{sendCode}}" style="display: flex; flex-direction: column; gap: 14px;">
+              <h1 class="s1-title2" style="font-size: 28px; line-height: 34px;">{{t.signInTitle}}</h1>
+              <p style="margin: 0; font: 400 15px/22px var(--font-sans); color: var(--text-secondary);">{{t.signInNote}}</p>
+              <div><label class="s1-label" for="c-email">{{t.email}}</label><input class="s1-input" id="c-email" type="email" value="sunman@superfitphuket.com" readonly></div>
+              <button class="s1-btn s1-btn--primary s1-btn--lg s1-btn--block" type="submit">{{t.emailCode}}</button>
+            </form>
+          </sc-if>
+          <sc-if value="{{loginStep2}}" hint-placeholder-val="{{ false }}">
+            <form class="s1-rise" onSubmit="{{signIn}}" style="display: flex; flex-direction: column; gap: 14px;">
+              <h1 class="s1-title2" style="font-size: 28px; line-height: 34px;">{{t.checkEmail}}</h1>
+              <p style="margin: 0; font: 400 15px/22px var(--font-sans); color: var(--text-secondary);">{{t.codeSent}}</p>
+              <div style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px;">
+                <sc-for list="{{codeDigits}}" as="d" hint-placeholder-count="6"><span class="s1-num s1-pop" style="height: 60px; border-radius: 14px; background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--hairline); display: grid; place-items: center; font: 700 26px/1 var(--font-sans); animation-delay: {{d.delay}};">{{d.n}}</span></sc-for>
+              </div>
+              <button class="s1-btn s1-btn--primary s1-btn--lg s1-btn--block" type="submit">{{t.signIn}}</button>
+              <button class="s1-btn s1-btn--plain" type="button" onClick="{{backToEmail}}" style="align-self: center;">{{t.otherEmail}}</button>
+            </form>
+          </sc-if>
+          <div class="s1-seg" style="display: flex; align-self: flex-start;"><sc-for list="{{langs}}" as="l" hint-placeholder-count="2"><button type="button" aria-pressed="{{l.pressed}}" onClick="{{l.pick}}" lang="{{l.code}}">{{l.label}}</button></sc-for></div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ===================== COUNTER MODE (phone) ===================== -->
+  <sc-if value="{{is.counter}}" hint-placeholder-val="{{ false }}">
+    <div style="min-height: 844px; display: flex; justify-content: center; background: #000000;">
+      <div class="s1-tab-in" style="width: 100%; max-width: 390px; min-height: 844px; padding: 56px 20px 32px; box-sizing: border-box; display: flex; flex-direction: column; gap: 18px;">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+          <button class="s1-btn s1-btn--secondary s1-btn--icon" type="button" aria-label="{{t.back}}" onClick="{{goLeads}}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+          <img src="/_blob/a5349b72deb21a57ef6abca065d25c68" alt="SUPER1" style="height: 30px; width: auto;">
+          <span class="s1-avatar" style="background: var(--s1-pink-tint); color: var(--s1-pink);">SF</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <h1 class="s1-largetitle">{{t.counterMode}}</h1>
+          <p style="margin: 0; font: 400 15px/21px var(--font-sans); color: var(--text-secondary);">{{t.counterSub}}</p>
+        </div>
+        <div style="position: relative;"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true" style="position: absolute; left: 16px; top: 16px; color: var(--text-secondary);"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg><label for="c-cq" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0);">{{t.searchClient}}</label><input class="s1-input" id="c-cq" placeholder="{{t.searchClient}}" value="{{counterQ}}" onChange="{{onCounterQ}}" style="height: 52px; padding-left: 48px; font-size: 17px;"></div>
+        <div class="s1-stagger" style="display: flex; flex-direction: column; gap: 12px;">
+          <sc-for list="{{counterList}}" as="cc" hint-placeholder-count="2">
+            <div class="s1-card" style="padding: 16px; display: flex; align-items: center; gap: 14px;">
+              <span class="s1-avatar" style="width: 48px; height: 48px; font-size: 16px;">{{cc.initials}}</span>
+              <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px;"><span class="s1-row__title">{{cc.name}}</span><span style="font: 500 13px/18px var(--font-sans); color: var(--text-secondary);">{{cc.packLine}}</span></div>
+              <div style="display: flex; flex-direction: column; align-items: center;"><span class="s1-num" style="font: 700 28px/30px var(--font-sans); color: var(--s1-pink);">{{cc.left}}</span><span style="font: 500 11px/14px var(--font-sans); color: var(--text-secondary);">{{t.left}}</span></div>
+              <button class="s1-btn s1-tap" type="button" aria-label="{{cc.useLabel}}" onClick="{{cc.use}}" style="width: 64px; height: 56px; padding: 0; border-radius: 16px; background: var(--s1-pink); color: #000000; font: 800 20px/1 var(--font-sans);">−1</button>
+            </div>
+          </sc-for>
+        </div>
+        <sc-if value="{{counterEmpty}}" hint-placeholder-val="{{ false }}"><p style="margin: 0; text-align: center; font: 500 15px/20px var(--font-sans); color: var(--text-secondary);">{{t.noResults}}</p></sc-if>
+        <section style="display: flex; flex-direction: column; gap: 8px; margin-top: 6px;">
+          <h2 class="s1-section" style="margin: 0 0 0 4px;">{{t.loggedToday}}</h2>
+          <div class="s1-group">
+            <sc-for list="{{todayLog}}" as="lg" hint-placeholder-count="2">
+              <div class="s1-row" style="min-height: 60px;">
+                <span class="s1-disc s1-disc--pt" style="width: 34px; height: 34px;"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true" style="width: 17px; height: 17px;"><path d="M20 6 9 17l-5-5"/></svg></span>
+                <div class="s1-row__main"><div class="s1-row__title" style="font-size: 15px;">{{lg.name}}</div><div class="s1-row__sub">{{lg.sub}}</div></div>
+                <span class="s1-row__meta">{{lg.time}}</span>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ===================== DESKTOP PORTAL ===================== -->
+  <sc-if value="{{inPortal}}" hint-placeholder-val="{{ true }}">
+    <div style="display: flex; flex-wrap: wrap; min-height: 940px;">
+      <aside style="flex: 1 0 248px; max-width: 100%; box-sizing: border-box; background: var(--surface-1); box-shadow: inset -1px 0 0 var(--hairline); padding: 28px 16px; display: flex; flex-direction: column; gap: 22px;">
+        <div style="display: flex; align-items: center; gap: 10px; margin-left: 12px;"><img src="/_blob/398b8f14610abf876aef8dbb1e7417d2" alt="SUPER1" style="height: 24px; width: auto;"><span class="s1-pill s1-pill--pt" style="height: 22px; font-size: 11px;">{{t.coach}}</span></div>
+        <div class="s1-card" style="padding: 12px 14px; display: flex; align-items: center; gap: 12px;">
+          <span class="s1-avatar" style="width: 40px; height: 40px; background: var(--s1-pink-tint); color: var(--s1-pink);">SF</span>
+          <span style="flex: 1; display: flex; flex-direction: column; gap: 2px;"><span style="font: 600 15px/20px var(--font-sans);">Sunman Fitness</span><span style="font: 500 12px/16px var(--font-sans); color: var(--text-secondary);">sunman@superfitphuket.com</span></span>
+        </div>
+        <nav style="display: flex; flex-direction: column; gap: 4px;">
+          <button class="s1-navitem" type="button" aria-pressed="{{navClients}}" onClick="{{goLeads}}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span style="flex: 1;">{{t.clientsLeads}}</span><sc-if value="{{hasNew}}" hint-placeholder-val="{{ true }}"><span class="s1-pill" style="height: 22px; color: var(--on-blue); background: var(--s1-blue);">{{newCount}}</span></sc-if></button>
+          <button class="s1-navitem" type="button" aria-pressed="{{navLibrary}}" onClick="{{goLibrary}}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m16 6 4 14"/><path d="M12 6v14"/><path d="M8 8v12"/><path d="M4 4v16"/></svg><span style="flex: 1;">{{t.library}}</span></button>
+          <button class="s1-navitem" type="button" aria-pressed="false" onClick="{{goCounter}}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg><span style="flex: 1;">{{t.counterMode}}</span></button>
+        </nav>
+        <div style="margin-top: auto; display: flex; flex-direction: column; gap: 10px;">
+          <div class="s1-seg" style="display: flex;"><sc-for list="{{langs}}" as="l" hint-placeholder-count="2"><button type="button" aria-pressed="{{l.pressed}}" onClick="{{l.pick}}" lang="{{l.code}}" style="flex: 1;">{{l.label}}</button></sc-for></div>
+          <button class="s1-btn s1-btn--plain" type="button" onClick="{{logOut}}" style="align-self: flex-start; color: var(--text-secondary);">{{t.logOut}}</button>
+        </div>
+      </aside>
+
+      <main style="flex: 999 1 560px; min-width: 0; box-sizing: border-box; padding: 36px 44px 56px; display: flex; flex-direction: column; gap: 26px; max-width: 1160px;">
+
+        <!-- ===== CLIENTS AND LEADS ===== -->
+        <sc-if value="{{is.leads}}" hint-placeholder-val="{{ true }}">
+          <div class="s1-tab-in" style="display: flex; flex-direction: column; gap: 26px;">
+            <header style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px;">
+              <div style="display: flex; flex-direction: column; gap: 6px;"><h1 class="s1-largetitle">{{t.clientsLeads}}</h1><span style="font: 500 15px/20px var(--font-sans); color: var(--text-secondary);">{{t.homeSub}}</span></div>
+              <button class="s1-btn s1-btn--secondary" type="button" onClick="{{goCounter}}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>{{t.counterMode}}</button>
+            </header>
+            <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px;">
+              <sc-for list="{{kpis}}" as="k" hint-placeholder-count="3">
+                <div class="s1-card" style="padding: 18px 20px; display: flex; flex-direction: column; gap: 4px;">
+                  <span style="font: 600 13px/18px var(--font-sans); color: var(--text-secondary);">{{k.label}}</span>
+                  <span class="s1-kpi s1-pop" style="color: {{k.color}};">{{k.value}}</span>
+                  <span style="font: 500 13px/18px var(--font-sans); color: var(--text-tertiary);">{{k.sub}}</span>
+                </div>
+              </sc-for>
+            </div>
+
+            <section style="display: flex; flex-direction: column; gap: 12px;">
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+                <div style="display: flex; align-items: center; gap: 10px;"><h2 class="s1-section" style="margin: 0 0 0 4px;">{{t.leads}}</h2><sc-if value="{{hasNew}}" hint-placeholder-val="{{ true }}"><span class="s1-pill" style="height: 22px; color: var(--on-blue); background: var(--s1-blue);">{{newCount}} {{t.newWord}}</span></sc-if></div>
+                <button class="s1-link" type="button" onClick="{{toggleArchived}}" style="font-size: 14px;">{{archivedLabel}}</button>
+              </div>
+              <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 12px;">
+                <sc-for list="{{leadCards}}" as="ld" hint-placeholder-count="2">
+                  <div class="s1-card s1-slide-down" style="padding: 18px; display: flex; flex-direction: column; gap: 12px; box-shadow: {{ld.ring}};">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                      <span class="s1-avatar">{{ld.initials}}</span>
+                      <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px;"><span class="s1-row__title">{{ld.name}}</span><span style="font: 500 13px/18px var(--font-sans); color: var(--text-secondary);">{{ld.lang}} · {{ld.source}} · {{ld.when}}</span></div>
+                      <span class="{{ld.pill}}">{{ld.stageLabel}}</span>
+                    </div>
+                    <span style="font: 500 14px/20px var(--font-sans);">{{ld.detail}}</span>
+                    <span class="s1-num" style="font: 500 13px/18px var(--font-sans); color: var(--text-secondary);">{{ld.phone}} · {{ld.email}}</span>
+                    <sc-if value="{{ld.active}}" hint-placeholder-val="{{ true }}">
+                      <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <div class="s1-seg" style="display: flex;"><sc-for list="{{ld.stages}}" as="sg" hint-placeholder-count="3"><button type="button" aria-pressed="{{sg.pressed}}" onClick="{{sg.pick}}" style="flex: 1;">{{sg.label}}</button></sc-for></div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                          <button class="s1-btn s1-btn--sm" type="button" onClick="{{ld.message}}" style="background: var(--s1-green-tint); color: var(--s1-green);"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true" style="width: 17px; height: 17px;"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>WhatsApp</button>
+                          <button class="s1-btn s1-btn--sm s1-btn--secondary" type="button" onClick="{{ld.call}}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true" style="width: 17px; height: 17px;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>{{t.call}}</button>
+                          <button class="s1-btn s1-btn--sm s1-btn--plain" type="button" onClick="{{ld.archive}}" style="margin-left: auto; color: var(--text-secondary);">{{t.notNow}}</button>
+                        </div>
+                      </div>
+                    </sc-if>
+                    <sc-if value="{{ld.archived}}" hint-placeholder-val="{{ false }}">
+                      <button class="s1-btn s1-btn--sm s1-btn--secondary" type="button" onClick="{{ld.restore}}" style="align-self: flex-start;">{{t.restore}}</button>
+                    </sc-if>
+                  </div>
+                </sc-for>
+              </div>
+              <p style="margin: 0 0 0 4px; font: 500 13px/18px var(--font-sans); color: var(--text-tertiary);">{{t.leadRule}}</p>
+            </section>
+
+            <section style="display: flex; flex-direction: column; gap: 12px;">
+              <h2 class="s1-section" style="margin: 0 0 0 4px;">{{t.clients}}</h2>
+              <div class="s1-stagger" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 12px;">
+                <sc-for list="{{clientCards}}" as="cl" hint-placeholder-count="2">
+                  <div class="s1-card" style="padding: 18px; display: flex; flex-direction: column; gap: 14px;">
+                    <button type="button" onClick="{{cl.open}}" style="border: 0; background: transparent; padding: 0; color: #ffffff; text-align: left; cursor: pointer; display: flex; align-items: center; gap: 12px;">
+                      <span class="s1-avatar" style="width: 48px; height: 48px; font-size: 16px;">{{cl.initials}}</span>
+                      <span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px;"><span class="s1-row__title">{{cl.name}}</span><span style="font: 500 13px/18px var(--font-sans); color: var(--text-secondary);">{{cl.plan}}</span></span>
+                      <span style="display: flex; flex-direction: column; align-items: flex-end;"><span class="s1-num" style="font: 700 30px/32px var(--font-sans); letter-spacing: -0.02em; color: var(--s1-pink);">{{cl.left}}</span><span style="font: 500 12px/16px var(--font-sans); color: var(--text-secondary);">{{cl.ofTotal}}</span></span>
+                    </button>
+                    <div style="display: flex; flex-direction: column; gap: 6px; font: 500 14px/19px var(--font-sans);">
+                      <span style="display: flex; justify-content: space-between; gap: 12px;"><span style="color: var(--text-secondary);">{{t.lastWorkout}}</span><span>{{cl.lastWorkout}}</span></span>
+                      <span style="display: flex; justify-content: space-between; gap: 12px;"><span style="color: var(--text-secondary);">{{t.lastCheckin}}</span><span style="color: {{cl.checkColor}};">{{cl.lastCheck}}</span></span>
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                      <button class="s1-btn s1-btn--sm s1-btn--secondary" type="button" onClick="{{cl.open}}" style="flex: 1;">{{t.openClient}}</button>
+                      <button class="s1-btn s1-btn--sm" type="button" onClick="{{cl.use}}" style="flex: 1; background: var(--s1-pink); color: #000000;">{{t.useSession}}</button>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </section>
+          </div>
+        </sc-if>
+
+        <!-- ===== CLIENT WORKSPACE ===== -->
+        <sc-if value="{{base.client}}" hint-placeholder-val="{{ false }}">
+          <div class="s1-tab-in" style="display: flex; flex-direction: column; gap: 18px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+              <button class="s1-btn s1-btn--plain" type="button" onClick="{{goLeads}}" style="padding: 0; color: var(--text-secondary);"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>{{t.clientsLeads}}</button>
+              <div style="display: flex; gap: 8px;"><sc-for list="{{clientSwitch}}" as="cs" hint-placeholder-count="2"><button type="button" class="{{cs.cls}}" onClick="{{cs.pick}}" style="height: 34px; padding: 0 14px; border: 0; border-radius: 999px; font: 600 13px/1 var(--font-sans); cursor: pointer;">{{cs.name}}</button></sc-for></div>
+            </div>
+            <section class="s1-card" style="padding: 20px 22px; display: flex; flex-wrap: wrap; align-items: center; gap: 18px;">
+              <span class="s1-avatar" style="width: 56px; height: 56px; font-size: 18px;">{{cur.initials}}</span>
+              <div style="flex: 1 1 300px; display: flex; flex-direction: column; gap: 6px;">
+                <h1 class="s1-title2" style="font-size: 26px; line-height: 32px;">{{cur.name}}</h1>
+                <span style="font: 500 14px/19px var(--font-sans); color: var(--text-secondary);">{{cur.meta}}</span>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 2px;"><span class="s1-pill s1-pill--pt">{{cur.ptLine}}</span><span class="s1-pill s1-pill--active">{{cur.plan}}</span></div>
+              </div>
+              <div style="display: flex; gap: 10px;">
+                <button class="s1-btn s1-btn--secondary" type="button" onClick="{{messageClient}}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>WhatsApp</button>
+                <button class="s1-btn" type="button" onClick="{{useCur}}" style="background: var(--s1-pink); color: #000000;">{{t.useSession}}</button>
+              </div>
+            </section>
+            <div class="s1-seg" style="display: flex; align-self: flex-start;"><sc-for list="{{clientTabs}}" as="ct" hint-placeholder-count="3"><button type="button" aria-pressed="{{ct.pressed}}" onClick="{{ct.pick}}">{{ct.label}}</button></sc-for></div>
+
+            <!-- PROGRAM -->
+            <sc-if value="{{is.workout}}" hint-placeholder-val="{{ true }}">
+              <div class="s1-tab-in" style="display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 20px; align-items: start;">
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                  <div class="s1-group">
+                    <sc-for list="{{days}}" as="dy" hint-placeholder-count="3">
+                      <button type="button" onClick="{{dy.pick}}" class="s1-row" style="width: 100%; min-height: 62px; border: 0; background: {{dy.bg}}; text-align: left; cursor: pointer; color: #ffffff;">
+                        <span class="s1-row__main"><span class="s1-row__title" style="display: block; font-size: 15px;">{{dy.name}}</span><span class="s1-row__sub" style="display: block;">{{dy.sub}}</span></span>
+                        <svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true" style="color: {{dy.arrow}};"><path d="m9 18 6-6-6-6"/></svg>
+                      </button>
+                    </sc-for>
+                  </div>
+                  <button class="s1-btn s1-btn--secondary s1-btn--block" type="button" onClick="{{addDay}}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>{{t.addDay}}</button>
+                  <div class="s1-card" style="padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+                    <span style="font: 600 13px/18px var(--font-sans); color: var(--text-secondary);">{{t.recentWorkouts}}</span>
+                    <sc-for list="{{cur.workouts}}" as="w" hint-placeholder-count="3"><div style="display: flex; flex-direction: column; gap: 2px;"><span style="font: 600 14px/19px var(--font-sans);">{{w.day}} · {{w.name}}</span><span style="font: 500 13px/18px var(--font-sans); color: var(--text-secondary);">{{w.sub}}</span></div></sc-for>
+                  </div>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 14px; min-width: 0;">
+                  <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;">
+                    <div style="display: flex; flex-direction: column; gap: 4px;"><h2 class="s1-title2">{{day.name}}</h2><span style="font: 500 14px/19px var(--font-sans); color: var(--text-secondary);">{{day.sub}}</span></div>
+                    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px;">
+                      <span class="{{psync.pill}}">{{psync.label}}</span>
+                      <button class="s1-btn s1-btn--secondary" type="button" onClick="{{openPicker}}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>{{t.addExercise}}</button>
+                      <button class="s1-btn s1-btn--primary {{psync.off}}" type="button" onClick="{{sendProgram}}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>{{sendLabel}}</button>
+                    </div>
+                  </div>
+                  <div class="s1-group">
+                    <sc-for list="{{day.items}}" as="x" hint-placeholder-count="5">
+                      <div class="s1-row" style="min-height: 76px; gap: 16px;">
+                        <span class="s1-num" style="width: 28px; height: 28px; border-radius: 9px; background: var(--surface-3); display: grid; place-items: center; font: 600 13px/1 var(--font-sans); color: var(--text-secondary); flex: none;">{{x.n}}</span>
+                        <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px;">
+                          <span class="s1-row__title">{{x.name}}</span>
+                          <span class="s1-row__sub">{{x.meta}}</span>
+                          <sc-if value="{{x.hasCue}}" hint-placeholder-val="{{ false }}"><span style="font: 500 13px/18px var(--font-sans); color: var(--s1-pink);">{{x.cue}}</span></sc-if>
+                        </div>
+                        <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
+                          <span style="font: 600 11px/14px var(--font-sans); color: var(--text-tertiary);">{{t.sets}}</span>
+                          <div style="display: flex; align-items: center; gap: 4px;">
+                            <button type="button" aria-label="{{t.less}}" onClick="{{x.setsDown}}" class="s1-tap" style="width: 30px; height: 30px; border: 0; border-radius: 9px; background: var(--surface-3); color: #ffffff; font: 600 18px/1 var(--font-sans); cursor: pointer;">−</button>
+                            <span class="s1-num" style="width: 30px; text-align: center; font: 700 17px/1 var(--font-sans);">{{x.sets}}</span>
+                            <button type="button" aria-label="{{t.more}}" onClick="{{x.setsUp}}" class="s1-tap" style="width: 30px; height: 30px; border: 0; border-radius: 9px; background: var(--surface-3); color: #ffffff; font: 600 18px/1 var(--font-sans); cursor: pointer;">+</button>
+                          </div>
+                        </div>
+                        <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
+                          <span style="font: 600 11px/14px var(--font-sans); color: var(--text-tertiary);">{{x.unitLabel}}</span>
+                          <div style="display: flex; align-items: center; gap: 4px;">
+                            <button type="button" aria-label="{{t.less}}" onClick="{{x.repsDown}}" class="s1-tap" style="width: 30px; height: 30px; border: 0; border-radius: 9px; background: var(--surface-3); color: #ffffff; font: 600 18px/1 var(--font-sans); cursor: pointer;">−</button>
+                            <span class="s1-num" style="width: 34px; text-align: center; font: 700 17px/1 var(--font-sans);">{{x.reps}}</span>
+                            <button type="button" aria-label="{{t.more}}" onClick="{{x.repsUp}}" class="s1-tap" style="width: 30px; height: 30px; border: 0; border-radius: 9px; background: var(--surface-3); color: #ffffff; font: 600 18px/1 var(--font-sans); cursor: pointer;">+</button>
+                          </div>
+                        </div>
+                        <div style="width: 116px; display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
+                          <span style="font: 600 11px/14px var(--font-sans); color: var(--text-tertiary);">{{t.lastTime}}</span>
+                          <span class="s1-num" style="font: 600 15px/20px var(--font-sans); color: {{x.lastColor}};">{{x.last}}</span>
+                        </div>
+                        <button class="s1-btn s1-btn--icon" type="button" aria-label="{{t.remove}}" onClick="{{x.remove}}" style="width: 36px; height: 36px; background: transparent; color: var(--text-tertiary);"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+                      </div>
+                    </sc-for>
+                  </div>
+                  <sc-if value="{{day.empty}}" hint-placeholder-val="{{ false }}"><div class="s1-card" style="padding: 28px; text-align: center; font: 500 15px/21px var(--font-sans); color: var(--text-secondary);">{{t.emptyDay}}</div></sc-if>
+                  <p style="margin: 0; font: 500 13px/18px var(--font-sans); color: var(--text-tertiary);">{{t.programNote}}</p>
+                </div>
+              </div>
+            </sc-if>
+
+            <!-- NUTRITION -->
+            <sc-if value="{{is.nutrition}}" hint-placeholder-val="{{ false }}">
+              <div class="s1-tab-in" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr)); gap: 20px; align-items: start;">
+                <section class="s1-card" style="padding: 22px; display: flex; flex-direction: column; gap: 16px;">
+                  <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;"><span class="s1-headline">{{t.dailyTargets}}</span><span class="{{nsync.pill}}">{{nsync.label}}</span></div>
+                  <div class="s1-seg" style="display: flex;"><sc-for list="{{goals}}" as="g" hint-placeholder-count="3"><button type="button" aria-pressed="{{g.pressed}}" onClick="{{g.pick}}" style="flex: 1;">{{g.label}}</button></sc-for></div>
+                  <div style="display: flex; align-items: baseline; gap: 10px;"><span class="s1-num" style="font: 700 56px/60px var(--font-sans); letter-spacing: -0.03em;">{{kcal}}</span><span style="font: 600 17px/22px var(--font-sans); color: var(--text-secondary);">kcal {{t.perDay}}</span></div>
+                  <div style="display: flex; height: 10px; border-radius: 999px; overflow: hidden; gap: 2px;"><span class="s1-width-grow" style="width: {{bar.p}}%; background: #00b4ff;"></span><span class="s1-width-grow" style="width: {{bar.c}}%; background: #8fdcff;"></span><span class="s1-width-grow" style="width: {{bar.f}}%; background: #3a404a;"></span></div>
+                  <sc-for list="{{macroRows}}" as="m" hint-placeholder-count="5">
+                    <div style="display: flex; align-items: center; gap: 14px; min-height: 40px;">
+                      <span style="width: 10px; height: 10px; border-radius: 50%; background: {{m.color}}; flex: none;"></span>
+                      <span style="flex: 1; font: 600 16px/21px var(--font-sans);">{{m.label}}</span>
+                      <span class="s1-num" style="font: 500 13px/18px var(--font-sans); color: var(--text-secondary);">{{m.hint}}</span>
+                      <div style="display: flex; align-items: center; gap: 4px;">
+                        <button type="button" aria-label="{{t.less}}" onClick="{{m.down}}" class="s1-tap" style="width: 34px; height: 34px; border: 0; border-radius: 10px; background: var(--surface-3); color: #ffffff; font: 600 18px/1 var(--font-sans); cursor: pointer;">−</button>
+                        <span class="s1-num" style="width: 76px; text-align: center; font: 700 17px/1 var(--font-sans);">{{m.value}}</span>
+                        <button type="button" aria-label="{{t.more}}" onClick="{{m.up}}" class="s1-tap" style="width: 34px; height: 34px; border: 0; border-radius: 10px; background: var(--surface-3); color: #ffffff; font: 600 18px/1 var(--font-sans); cursor: pointer;">+</button>
+                      </div>
+                    </div>
+                  </sc-for>
+                  <button class="s1-btn s1-btn--primary s1-btn--block {{nsync.off}}" type="button" onClick="{{sendTargets}}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>{{sendTargetsLabel}}</button>
+                </section>
+                <section class="s1-card" style="padding: 22px; display: flex; flex-direction: column; gap: 12px;">
+                  <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;"><span class="s1-headline">{{t.cafePicks}}</span><span class="s1-pill s1-pill--pt">{{pinCount}}</span></div>
+                  <p style="margin: 0; font: 400 14px/20px var(--font-sans); color: var(--text-secondary);">{{cafePicksNote}}</p>
+                  <div class="s1-group" style="background: var(--surface-1); max-height: 452px; overflow-y: auto;">
+                    <sc-for list="{{pickables}}" as="pk" hint-placeholder-count="8">
+                      <div class="s1-row" style="min-height: 56px; padding: 8px 14px;">
+                        <span class="s1-row__main"><span class="s1-row__title" style="display: block; font-size: 15px;">{{pk.name}}</span><span class="s1-row__sub" style="display: block; font-size: 13px;">{{pk.sub}}</span></span>
+                        <span class="s1-num" style="font: 500 14px/19px var(--font-sans); color: var(--text-secondary);">{{pk.price}}</span>
+                        <button type="button" onClick="{{pk.toggle}}" class="{{pk.cls}}" style="height: 34px; min-width: 92px; padding: 0 12px; border: 0; border-radius: 999px; font: 600 13px/1 var(--font-sans); cursor: pointer;">{{pk.label}}</button>
+                      </div>
+                    </sc-for>
+                  </div>
+                  <span style="font: 500 13px/18px var(--font-sans); color: var(--text-tertiary);">{{t.macrosVerify}}</span>
+                </section>
+              </div>
+            </sc-if>
+
+            <!-- CHECK-INS -->
+            <sc-if value="{{is.checkins}}" hint-placeholder-val="{{ false }}">
+              <div class="s1-tab-in" style="display: flex; flex-direction: column; gap: 14px;">
+                <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px;">
+                  <sc-for list="{{ciStats}}" as="st" hint-placeholder-count="4">
+                    <div class="s1-card" style="padding: 16px 18px; display: flex; flex-direction: column; gap: 4px;">
+                      <span style="display: inline-flex; align-items: center; gap: 8px; font: 600 13px/18px var(--font-sans); color: var(--text-secondary);"><span style="width: 8px; height: 8px; border-radius: 50%; background: {{st.color}};"></span>{{st.label}}</span>
+                      <span class="s1-num" style="font: 700 28px/34px var(--font-sans); letter-spacing: -0.02em;">{{st.value}}</span>
+                      <span style="font: 500 13px/18px var(--font-sans); color: var(--text-tertiary);">{{st.sub}}</span>
+                    </div>
+                  </sc-for>
+                </div>
+                <sc-if value="{{cur.checkFlag}}" hint-placeholder-val="{{ false }}">
+                  <div class="s1-card s1-slide-down" style="padding: 14px 18px; display: flex; align-items: center; gap: 14px; background: var(--s1-yellow-tint);">
+                    <span class="s1-disc s1-disc--warn" style="width: 34px; height: 34px;"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true" style="width: 17px; height: 17px;"><path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="10"/></svg></span>
+                    <span style="flex: 1; font: 600 15px/20px var(--font-sans); color: var(--s1-yellow);">{{cur.flagText}}</span>
+                    <button class="s1-btn s1-btn--sm" type="button" onClick="{{nudge}}" style="background: var(--s1-yellow); color: #000000;">{{t.nudge}}</button>
+                  </div>
+                </sc-if>
+                <div class="s1-group">
+                  <div style="display: grid; grid-template-columns: 112px repeat(6, minmax(0, 1fr)) minmax(0, 1.7fr); gap: 12px; padding: 12px 18px; font: 600 12px/16px var(--font-sans); color: var(--text-secondary);">
+                    <span>{{t.day}}</span><span>{{t.sleep}}</span><span>{{t.energy}}</span><span>{{t.digestion}}</span><span>{{t.water}}</span><span>{{t.steps}}</span><span>{{t.weight}}</span><span>{{t.note}}</span>
+                  </div>
+                  <div style="max-height: 304px; overflow-y: auto;">
+                  <sc-for list="{{ciRows}}" as="r" hint-placeholder-count="10">
+                    <div style="display: grid; grid-template-columns: 112px repeat(6, minmax(0, 1fr)) minmax(0, 1.7fr); gap: 12px; align-items: center; padding: 9px 18px; box-shadow: inset 0 1px 0 var(--hairline); font: 500 14px/19px var(--font-sans);">
+                      <span style="font-weight: 600; color: {{r.dayColor}};">{{r.day}}</span>
+                      <span class="s1-num" style="color: {{r.sleepColor}};">{{r.sleep}}</span>
+                      <span class="s1-num" style="color: {{r.energyColor}};">{{r.energy}}</span>
+                      <span class="s1-num" style="color: {{r.digColor}};">{{r.dig}}</span>
+                      <span class="s1-num" style="color: {{r.waterColor}};">{{r.water}}</span>
+                      <span class="s1-num">{{r.steps}}</span>
+                      <span class="s1-num">{{r.weight}}</span>
+                      <span style="color: {{r.noteColor}}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{r.note}}</span>
+                    </div>
+                  </sc-for>
+                  </div>
+                </div>
+                <sc-for list="{{replies}}" as="rp" hint-placeholder-count="1">
+                  <div class="s1-card s1-slide-down" style="padding: 12px 16px; display: flex; align-items: center; gap: 12px; box-shadow: inset 0 0 0 1px rgba(255,78,219,0.3);"><span class="s1-avatar" style="width: 30px; height: 30px; font-size: 11px; background: var(--s1-pink-tint); color: var(--s1-pink);">SF</span><span style="flex: 1; font: 500 14px/20px var(--font-sans);">{{rp.text}}</span><span style="font: 500 13px/18px var(--font-sans); color: var(--text-tertiary);">{{rp.when}}</span></div>
+                </sc-for>
+                <form onSubmit="{{sendReply}}" style="display: flex; gap: 10px;">
+                  <label for="c-reply" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0);">{{replyPh}}</label>
+                  <input class="s1-input" id="c-reply" placeholder="{{replyPh}}" value="{{reply}}" onChange="{{onReply}}">
+                  <button class="s1-btn s1-btn--primary {{replyOff}}" type="submit">{{t.send}}</button>
+                </form>
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <!-- ===== EXERCISE LIBRARY ===== -->
+        <sc-if value="{{is.library}}" hint-placeholder-val="{{ false }}">
+          <div class="s1-tab-in" style="display: flex; flex-direction: column; gap: 18px;">
+            <header style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px;">
+              <div style="display: flex; flex-direction: column; gap: 6px;"><h1 class="s1-largetitle">{{t.library}}</h1><span style="font: 500 15px/20px var(--font-sans); color: var(--text-secondary);">{{libSub}}</span></div>
+              <button class="s1-btn s1-btn--primary" type="button" onClick="{{openAdd}}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>{{t.addYourOwn}}</button>
+            </header>
+            <div style="position: relative;"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true" style="position: absolute; left: 16px; top: 14px; color: var(--text-secondary);"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg><label for="c-lq" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0);">{{t.searchEx}}</label><input class="s1-input" id="c-lq" placeholder="{{t.searchEx}}" value="{{libQ}}" onChange="{{onLibQ}}" style="padding-left: 48px;"></div>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;"><sc-for list="{{libGroups}}" as="g" hint-placeholder-count="10"><button type="button" class="{{g.cls}}" onClick="{{g.pick}}" style="height: 36px; padding: 0 14px; border: 0; border-radius: 999px; font: 600 14px/1 var(--font-sans); cursor: pointer; white-space: nowrap;">{{g.label}}<span style="margin-left: 6px; opacity: 0.6;">{{g.count}}</span></button></sc-for></div>
+            <div style="max-height: 600px; overflow-y: auto; border-radius: 20px;">
+              <div class="s1-stagger" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 10px;">
+                <sc-for list="{{libItems}}" as="e" hint-placeholder-count="12">
+                  <div class="s1-card" style="padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; box-shadow: {{e.ring}};">
+                    <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 10px;"><span style="font: 600 15px/20px var(--font-sans);">{{e.name}}</span><sc-if value="{{e.mine}}" hint-placeholder-val="{{ false }}"><span class="s1-pill s1-pill--pt" style="height: 22px; font-size: 11px;">{{t.yours}}</span></sc-if></div>
+                    <span style="font: 500 13px/18px var(--font-sans); color: var(--text-secondary);">{{e.muscle}} · {{e.equipment}}</span>
+                    <div style="display: flex; align-items: center; gap: 8px;"><span class="s1-num" style="font: 600 13px/18px var(--font-sans);">{{e.dflt}}</span><span style="height: 22px; padding: 0 8px; border-radius: 999px; background: var(--surface-3); color: var(--text-secondary); font: 600 11px/22px var(--font-sans);">{{e.logLabel}}</span></div>
+                    <sc-if value="{{e.hasCue}}" hint-placeholder-val="{{ false }}"><span style="font: 500 13px/18px var(--font-sans); color: var(--s1-pink);">{{e.cue}}</span></sc-if>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+      </main>
+    </div>
+
+    <!-- ===== SHEETS ===== -->
+    <sc-if value="{{sheetOpen}}" hint-placeholder-val="{{ false }}">
+      <div style="position: fixed; inset: 0; z-index: 20; display: flex; justify-content: flex-end;">
+        <button type="button" aria-label="{{t.close}}" onClick="{{closeSheet}}" class="s1-glass" style="position: absolute; inset: 0; border: 0; cursor: default;"></button>
+        <div class="s1-sheet" style="position: relative; width: min(560px, 100%); height: 100%; border-radius: 28px 0 0 28px; padding: 28px; box-sizing: border-box; overflow-y: auto; display: flex; flex-direction: column; gap: 18px; animation: s1-rise 360ms var(--ease-ios) both;">
+
+          <sc-if value="{{picker}}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;"><h2 class="s1-title2">{{pickerTitle}}</h2><button class="s1-btn s1-btn--secondary s1-btn--icon" type="button" aria-label="{{t.close}}" onClick="{{closeSheet}}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></div>
+              <div style="position: relative;"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true" style="position: absolute; left: 16px; top: 14px; color: var(--text-secondary);"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg><label for="c-pq" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0);">{{t.searchEx}}</label><input class="s1-input" id="c-pq" placeholder="{{t.searchEx}}" value="{{pickQ}}" onChange="{{onPickQ}}" style="padding-left: 48px;"></div>
+              <div class="s1-hscroll" style="gap: 8px;"><sc-for list="{{pickGroups}}" as="g" hint-placeholder-count="10"><button type="button" class="{{g.cls}}" onClick="{{g.pick}}" style="height: 34px; padding: 0 12px; border: 0; border-radius: 999px; font: 600 13px/1 var(--font-sans); cursor: pointer; white-space: nowrap;">{{g.label}}</button></sc-for></div>
+              <div class="s1-group">
+                <sc-for list="{{pickItems}}" as="e" hint-placeholder-count="8">
+                  <div class="s1-row" style="min-height: 60px;">
+                    <span class="s1-row__main"><span class="s1-row__title" style="display: block; font-size: 15px;">{{e.name}}</span><span class="s1-row__sub" style="display: block; font-size: 13px;">{{e.muscle}} · {{e.equipment}} · {{e.dflt}}</span></span>
+                    <button class="s1-btn s1-btn--sm s1-btn--tinted" type="button" onClick="{{e.add}}">{{t.add}}</button>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{addOpen}}" hint-placeholder-val="{{ false }}">
+            <form onSubmit="{{saveCustom}}" style="display: flex; flex-direction: column; gap: 18px;">
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;"><h2 class="s1-title2">{{t.addYourOwn}}</h2><button class="s1-btn s1-btn--secondary s1-btn--icon" type="button" aria-label="{{t.close}}" onClick="{{closeSheet}}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></div>
+              <div><label class="s1-label" for="c-fn">{{t.name}}</label><input class="s1-input" id="c-fn" placeholder="Landmine row" value="{{form.name}}" onChange="{{onFormName}}"></div>
+              <div><p class="s1-label">{{t.group}}</p><div style="display: flex; flex-wrap: wrap; gap: 8px;"><sc-for list="{{formGroups}}" as="g" hint-placeholder-count="8"><button type="button" class="{{g.cls}}" onClick="{{g.pick}}" style="height: 34px; padding: 0 12px; border: 0; border-radius: 999px; font: 600 13px/1 var(--font-sans); cursor: pointer;">{{g.label}}</button></sc-for></div></div>
+              <div><p class="s1-label">{{t.equipment}}</p><div style="display: flex; flex-wrap: wrap; gap: 8px;"><sc-for list="{{formEquip}}" as="g" hint-placeholder-count="8"><button type="button" class="{{g.cls}}" onClick="{{g.pick}}" style="height: 34px; padding: 0 12px; border: 0; border-radius: 999px; font: 600 13px/1 var(--font-sans); cursor: pointer;">{{g.label}}</button></sc-for></div></div>
+              <div><p class="s1-label">{{t.logType}}</p><div class="s1-seg" style="display: flex;"><sc-for list="{{formLogs}}" as="g" hint-placeholder-count="3"><button type="button" aria-pressed="{{g.pressed}}" onClick="{{g.pick}}" style="flex: 1;">{{g.label}}</button></sc-for></div></div>
+              <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px;">
+                <sc-for list="{{formSteppers}}" as="m" hint-placeholder-count="2">
+                  <div class="s1-card" style="padding: 12px 14px; background: var(--surface-2); display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+                    <span style="font: 600 14px/19px var(--font-sans); color: var(--text-secondary);">{{m.label}}</span>
+                    <div style="display: flex; align-items: center; gap: 4px;">
+                      <button type="button" aria-label="{{t.less}}" onClick="{{m.down}}" class="s1-tap" style="width: 32px; height: 32px; border: 0; border-radius: 9px; background: var(--surface-3); color: #ffffff; font: 600 18px/1 var(--font-sans); cursor: pointer;">−</button>
+                      <span class="s1-num" style="width: 34px; text-align: center; font: 700 17px/1 var(--font-sans);">{{m.value}}</span>
+                      <button type="button" aria-label="{{t.more}}" onClick="{{m.up}}" class="s1-tap" style="width: 32px; height: 32px; border: 0; border-radius: 9px; background: var(--surface-3); color: #ffffff; font: 600 18px/1 var(--font-sans); cursor: pointer;">+</button>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+              <div><label class="s1-label" for="c-fc">{{t.cue}}</label><input class="s1-input" id="c-fc" placeholder="{{t.cuePh}}" value="{{form.cue}}" onChange="{{onFormCue}}"></div>
+              <button class="s1-btn s1-btn--primary s1-btn--lg s1-btn--block {{saveOff}}" type="submit">{{t.save}}</button>
+              <span style="font: 500 13px/18px var(--font-sans); color: var(--text-tertiary); text-align: center;">{{t.customNote}}</span>
+            </form>
+          </sc-if>
+        </div>
+      </div>
+    </sc-if>
+  </sc-if>
+
+  <!-- ===================== USE A SESSION (desktop and phone) ===================== -->
+  <sc-if value="{{ovOpen}}" hint-placeholder-val="{{ false }}">
+    <div style="position: fixed; inset: 0; z-index: 30; display: flex; justify-content: center; align-items: {{ovAlign}}; padding: {{ovPad}};">
+      <button type="button" aria-label="{{t.close}}" onClick="{{closeOv}}" class="s1-glass" style="position: absolute; inset: 0; border: 0; cursor: default;"></button>
+      <div class="s1-sheet {{ovAnim}}" role="dialog" aria-modal="true" aria-label="{{t.useQ}}" style="position: relative; width: min(420px, 100%); border-radius: {{ovRadius}}; padding: 28px 24px 24px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center;">
+        <sc-if value="{{ovConfirm}}" hint-placeholder-val="{{ true }}">
+          <div style="width: 100%; display: flex; flex-direction: column; align-items: center; gap: 10px;">
+            <span class="s1-avatar" style="width: 56px; height: 56px; font-size: 18px;">{{ov.initials}}</span>
+            <span style="font: 700 24px/30px var(--font-sans); letter-spacing: -0.02em;">{{t.useQ}}</span>
+            <span style="font: 500 15px/20px var(--font-sans); color: var(--text-secondary);">{{ov.name}} · {{ov.packLine}}</span>
+            <div style="display: flex; align-items: center; gap: 18px; margin: 12px 0 18px;">
+              <span class="s1-num" style="font: 700 64px/64px var(--font-sans); letter-spacing: -0.04em; color: var(--text-tertiary);">{{ov.from}}</span>
+              <svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true" style="width: 28px; height: 28px; color: var(--text-secondary);"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              <span class="s1-num" style="font: 700 64px/64px var(--font-sans); letter-spacing: -0.04em; color: var(--s1-pink);">{{ov.to}}</span>
+            </div>
+            <div style="width: 100%; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px;">
+              <button class="s1-btn s1-btn--secondary s1-btn--lg" type="button" onClick="{{closeOv}}">{{t.cancel}}</button>
+              <button class="s1-btn s1-btn--lg" type="button" onClick="{{confirmUse}}" style="background: var(--s1-pink); color: #000000;">{{t.useSession}}</button>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ovDone}}" hint-placeholder-val="{{ false }}">
+          <div style="width: 100%; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+            <span class="s1-disc s1-disc--pt s1-pop" style="width: 72px; height: 72px;"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true" style="width: 34px; height: 34px; stroke-width: 2.6;"><path class="s1-draw" d="M20 6 9 17l-5-5"/></svg></span>
+            <span class="s1-num s1-pop" style="margin-top: 6px; font: 700 96px/96px var(--font-sans); letter-spacing: -0.04em; color: var(--s1-pink); animation-delay: 220ms;">{{ov.to}}</span>
+            <span class="s1-rise-2" style="font: 600 17px/22px var(--font-sans);">{{t.sessionsLeft}} · {{ov.name}}</span>
+            <span class="s1-rise-3" style="font: 500 14px/20px var(--font-sans); color: var(--text-secondary);">{{ov.doneLine}}</span>
+            <div class="s1-rise-3" style="width: 100%; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 14px;">
+              <button class="s1-btn s1-btn--secondary s1-btn--lg" type="button" onClick="{{undoUse}}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/></svg>{{t.undo}}</button>
+              <button class="s1-btn s1-btn--primary s1-btn--lg" type="button" onClick="{{closeOv}}">{{t.done}}</button>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{toast}}" hint-placeholder-val="{{ false }}">
+    <div class="s1-slide-down" role="status" style="position: fixed; left: 50%; top: 24px; transform: translateX(-50%); z-index: 40; width: max-content; max-width: calc(100% - 32px); padding: 14px 18px; border-radius: 16px; background: var(--surface-2); box-shadow: var(--shadow-sheet), inset 0 0 0 1px var(--hairline); display: flex; align-items: center; gap: 12px; font: 600 15px/20px var(--font-sans);">
+      <span class="s1-disc s1-disc--go" style="width: 28px; height: 28px;"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true" style="width: 15px; height: 15px; stroke-width: 3;"><path d="M20 6 9 17l-5-5"/></svg></span>{{toast}}
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"start":{"editor":"enum","options":["login","leads","workout","nutrition","checkins","library","counter"],"default":"leads"},"$preview":{"width":1440,"height":940}}'>
+var T = {
+  en: { coach: "Coach", loginHero: "Your clients, programs and sessions in one place.", signInTitle: "Sign in", signInNote: "Pete sets up your login. We email you a code, so there is no password to remember.",
+    email: "Email", emailCode: "Email me a code", checkEmail: "Check your email", codeSent: "We sent a 6-digit code to sunman@superfitphuket.com", signIn: "Sign in", otherEmail: "Use a different email",
+    clientsLeads: "Clients and leads", library: "Exercise library", counterMode: "Counter mode", logOut: "Log out", homeSub: "Mon 12 Oct · Superfit Chalong",
+    kActive: "Active clients", kActiveSub: "with PT sessions left", kSessions: "Sessions in October", kSessionsSub: "logged by you or the desk", kLeads: "New leads", kLeadsSub: "reply within a day",
+    leads: "Leads", newWord: "new", showArchived: "Show not now", hideArchived: "Hide not now", stNew: "New", stContacted: "Contacted", stTrial: "Trial booked", stArchived: "Not now",
+    call: "Call", notNow: "Not now", restore: "Restore", leadRule: "A lead becomes your client when the desk sells them a PT pack with you. Not now keeps their details, nothing is deleted.",
+    clients: "Clients", lastWorkout: "Last workout", lastCheckin: "Last check-in", openClient: "Open", useSession: "Use 1 session",
+    program: "Program", nutrition: "Nutrition", checkins: "Check-ins", addDay: "Add day", recentWorkouts: "Logged in the app", addExercise: "Add exercise",
+    sets: "Sets", reps: "Reps", secs: "Seconds", mins: "Minutes", lastTime: "Last time", remove: "Remove", less: "Less", more: "More",
+    emptyDay: "No exercises yet. Add some from the library.", programNote: "Members see changes after you press Send. Their last-time weights carry over, so they always know what to lift.",
+    inApp: "In the app", unsent: "Unsent changes", sendTo: "Send to", sent: "Sent",
+    dailyTargets: "Daily targets", perDay: "a day", protein: "Protein", carbs: "Carbs", fat: "Fat", water: "Water", steps: "Steps",
+    goalLose: "Lose fat", goalKeep: "Maintain", goalBuild: "Build muscle", cafePicks: "Café picks", cafePicksNote: "Pin up to 3. They sit at the top of {name}'s Fuel tab with your name on them.",
+    pinned: "Pinned", pin: "Pin", macrosVerify: "Menu macros show once Pete verifies each recipe.",
+    day: "Day", sleep: "Sleep", energy: "Energy", digestion: "Digestion", weight: "Weight", note: "Note", noCheckin: "No check-in", send: "Send",
+    replyPh: "Write a note to {name}. It shows on their Home.", nudge: "Send a nudge",
+    counterSub: "Search a client and take one session. It shows in their app straight away.", searchClient: "Search your clients", left: "left", loggedToday: "Logged today",
+    useQ: "Use 1 session?", cancel: "Cancel", sessionsLeft: "sessions left", undo: "Undo", done: "Done", noResults: "No client by that name",
+    yours: "Yours", addYourOwn: "Add your own", searchEx: "Search exercises", add: "Add", addTo: "Add to",
+    name: "Name", group: "Muscle group", equipment: "Equipment", logType: "How it's logged", defSets: "Sets", defReps: "Reps", cue: "Your cue", cuePh: "What you'd say on the floor", save: "Save exercise",
+    customNote: "Only you and your clients see your own exercises.", logW: "kg × reps", logR: "Reps", logT: "Time", all: "All", close: "Close", back: "Back" },
+  th: { coach: "โค้ช", loginHero: "ลูกค้า โปรแกรม และเซสชันของคุณ ในที่เดียว", signInTitle: "เข้าสู่ระบบ", signInNote: "Pete เป็นผู้สร้างบัญชีให้คุณ เราส่งรหัสทางอีเมล ไม่ต้องจำรหัสผ่าน",
+    email: "อีเมล", emailCode: "ส่งรหัสทางอีเมล", checkEmail: "ตรวจสอบอีเมลของคุณ", codeSent: "เราส่งรหัส 6 หลักไปที่ sunman@superfitphuket.com", signIn: "เข้าสู่ระบบ", otherEmail: "ใช้อีเมลอื่น",
+    clientsLeads: "ลูกค้าและผู้สนใจ", library: "คลังท่าออกกำลังกาย", counterMode: "โหมดเคาน์เตอร์", logOut: "ออกจากระบบ", homeSub: "จ. 12 ต.ค. · Superfit ฉลอง",
+    kActive: "ลูกค้าที่ใช้งานอยู่", kActiveSub: "ที่ยังมีเซสชัน PT เหลือ", kSessions: "เซสชันในเดือนตุลาคม", kSessionsSub: "บันทึกโดยคุณหรือฟรอนต์เดสก์", kLeads: "ผู้สนใจใหม่", kLeadsSub: "ตอบกลับภายในหนึ่งวัน",
+    leads: "ผู้สนใจ", newWord: "ใหม่", showArchived: "แสดงรายการไว้ก่อน", hideArchived: "ซ่อนรายการไว้ก่อน", stNew: "ใหม่", stContacted: "ติดต่อแล้ว", stTrial: "นัดทดลองแล้ว", stArchived: "ไว้ก่อน",
+    call: "โทร", notNow: "ไว้ก่อน", restore: "กู้คืน", leadRule: "ผู้สนใจจะเป็นลูกค้าของคุณเมื่อฟรอนต์เดสก์ขายแพ็กเกจ PT กับคุณ รายการไว้ก่อนยังเก็บข้อมูลไว้ ไม่มีการลบ",
+    clients: "ลูกค้า", lastWorkout: "เทรนล่าสุด", lastCheckin: "เช็กอินล่าสุด", openClient: "เปิด", useSession: "ใช้ 1 ครั้ง",
+    program: "โปรแกรม", nutrition: "โภชนาการ", checkins: "เช็กอินรายวัน", addDay: "เพิ่มวัน", recentWorkouts: "บันทึกในแอป", addExercise: "เพิ่มท่า",
+    sets: "เซ็ต", reps: "ครั้ง", secs: "วินาที", mins: "นาที", lastTime: "ครั้งก่อน", remove: "ลบ", less: "ลด", more: "เพิ่ม",
+    emptyDay: "ยังไม่มีท่า เพิ่มจากคลังท่าได้เลย", programNote: "สมาชิกจะเห็นการแก้ไขเมื่อคุณกดส่ง น้ำหนักครั้งก่อนจะติดไปด้วย จึงรู้เสมอว่าต้องยกเท่าไร",
+    inApp: "อยู่ในแอปแล้ว", unsent: "ยังไม่ได้ส่ง", sendTo: "ส่งให้", sent: "ส่งแล้ว",
+    dailyTargets: "เป้าหมายรายวัน", perDay: "ต่อวัน", protein: "โปรตีน", carbs: "คาร์บ", fat: "ไขมัน", water: "น้ำ", steps: "ก้าว",
+    goalLose: "ลดไขมัน", goalKeep: "รักษาน้ำหนัก", goalBuild: "เพิ่มกล้ามเนื้อ", cafePicks: "เมนูแนะนำจากคาเฟ่", cafePicksNote: "ปักหมุดได้ 3 รายการ จะแสดงด้านบนแท็บอาหารของ {name} พร้อมชื่อคุณ",
+    pinned: "ปักหมุดแล้ว", pin: "ปักหมุด", macrosVerify: "ค่าสารอาหารของเมนูจะแสดงเมื่อ Pete ตรวจสอบสูตรแล้ว",
+    day: "วัน", sleep: "การนอน", energy: "พลังงาน", digestion: "การย่อย", weight: "น้ำหนัก", note: "บันทึก", noCheckin: "ไม่ได้เช็กอิน", send: "ส่ง",
+    replyPh: "เขียนข้อความถึง {name} จะแสดงในหน้าหลัก", nudge: "ส่งข้อความเตือน",
+    counterSub: "ค้นหาลูกค้าแล้วหัก 1 เซสชัน จะแสดงในแอปของลูกค้าทันที", searchClient: "ค้นหาลูกค้าของคุณ", left: "เหลือ", loggedToday: "บันทึกวันนี้",
+    useQ: "ใช้ 1 เซสชัน?", cancel: "ยกเลิก", sessionsLeft: "เซสชันที่เหลือ", undo: "เลิกทำ", done: "เสร็จสิ้น", noResults: "ไม่พบลูกค้าชื่อนี้",
+    yours: "ของคุณ", addYourOwn: "เพิ่มท่าของคุณ", searchEx: "ค้นหาท่า", add: "เพิ่ม", addTo: "เพิ่มใน",
+    name: "ชื่อ", group: "กลุ่มกล้ามเนื้อ", equipment: "อุปกรณ์", logType: "วิธีบันทึก", defSets: "เซ็ต", defReps: "ครั้ง", cue: "คำแนะนำของคุณ", cuePh: "สิ่งที่คุณจะพูดตอนสอน", save: "บันทึกท่า",
+    customNote: "ท่าของคุณเห็นได้เฉพาะคุณและลูกค้าของคุณ", logW: "กก. × ครั้ง", logR: "ครั้ง", logT: "เวลา", all: "ทั้งหมด", close: "ปิด", back: "ย้อนกลับ" }
+};
+var LIB = [
+  ["Barbell bench press", "chest", "Chest", "Barbell", "w", 4, 8, "reps"],
+  ["Incline barbell bench press", "chest", "Upper chest", "Barbell", "w", 4, 8, "reps"],
+  ["Dumbbell bench press", "chest", "Chest", "Dumbbell", "w", 4, 10, "reps"],
+  ["Incline dumbbell press", "chest", "Upper chest", "Dumbbell", "w", 3, 10, "reps"],
+  ["Decline bench press", "chest", "Lower chest", "Barbell", "w", 3, 10, "reps"],
+  ["Smith machine incline press", "chest", "Upper chest", "Smith machine", "w", 3, 10, "reps"],
+  ["Machine chest press", "chest", "Chest", "Machine", "w", 3, 10, "reps"],
+  ["Incline machine press", "chest", "Upper chest", "Machine", "w", 3, 10, "reps"],
+  ["Pec deck", "chest", "Chest", "Machine", "w", 3, 12, "reps"],
+  ["Cable fly", "chest", "Chest", "Cable", "w", 3, 12, "reps"],
+  ["Low-to-high cable fly", "chest", "Upper chest", "Cable", "w", 3, 12, "reps"],
+  ["Dumbbell fly", "chest", "Chest", "Dumbbell", "w", 3, 12, "reps"],
+  ["Chest dip", "chest", "Lower chest", "Bodyweight", "w", 3, 10, "reps"],
+  ["Push-up", "chest", "Chest", "Bodyweight", "r", 3, 15, "reps"],
+  ["Deadlift", "back", "Back, hamstrings", "Barbell", "w", 4, 5, "reps"],
+  ["Pull-up", "back", "Lats", "Bodyweight", "r", 4, 8, "reps"],
+  ["Chin-up", "back", "Lats, biceps", "Bodyweight", "r", 3, 8, "reps"],
+  ["Assisted pull-up", "back", "Lats", "Machine", "w", 3, 10, "reps"],
+  ["Lat pulldown", "back", "Lats", "Cable", "w", 4, 10, "reps"],
+  ["Close-grip lat pulldown", "back", "Lats", "Cable", "w", 3, 10, "reps"],
+  ["Barbell row", "back", "Mid back", "Barbell", "w", 4, 8, "reps"],
+  ["Dumbbell row", "back", "Lats", "Dumbbell", "w", 3, 10, "reps"],
+  ["Chest-supported T-bar row", "back", "Mid back", "Machine", "w", 4, 10, "reps"],
+  ["Seated cable row", "back", "Mid back", "Cable", "w", 3, 12, "reps"],
+  ["Machine row", "back", "Mid back", "Machine", "w", 3, 10, "reps"],
+  ["Single-arm cable row", "back", "Lats", "Cable", "w", 3, 12, "reps"],
+  ["Straight-arm pulldown", "back", "Lats", "Cable", "w", 3, 12, "reps"],
+  ["Rack pull", "back", "Upper back", "Barbell", "w", 3, 6, "reps"],
+  ["Back extension", "back", "Lower back", "Bodyweight", "w", 3, 12, "reps"],
+  ["Overhead press", "shoulders", "Front delts", "Barbell", "w", 4, 6, "reps"],
+  ["Seated dumbbell shoulder press", "shoulders", "Front delts", "Dumbbell", "w", 4, 10, "reps"],
+  ["Machine shoulder press", "shoulders", "Front delts", "Machine", "w", 3, 10, "reps"],
+  ["Arnold press", "shoulders", "Front delts", "Dumbbell", "w", 3, 10, "reps"],
+  ["Dumbbell lateral raise", "shoulders", "Side delts", "Dumbbell", "w", 4, 12, "reps"],
+  ["Cable lateral raise", "shoulders", "Side delts", "Cable", "w", 3, 15, "reps"],
+  ["Machine lateral raise", "shoulders", "Side delts", "Machine", "w", 3, 15, "reps"],
+  ["Front raise", "shoulders", "Front delts", "Dumbbell", "w", 3, 12, "reps"],
+  ["Rear delt fly", "shoulders", "Rear delts", "Dumbbell", "w", 3, 15, "reps"],
+  ["Reverse pec deck", "shoulders", "Rear delts", "Machine", "w", 3, 15, "reps"],
+  ["Face pull", "shoulders", "Rear delts", "Cable", "w", 3, 15, "reps"],
+  ["Upright row", "shoulders", "Side delts", "Cable", "w", 3, 12, "reps"],
+  ["Barbell curl", "arms", "Biceps", "Barbell", "w", 3, 10, "reps"],
+  ["EZ-bar curl", "arms", "Biceps", "Barbell", "w", 3, 10, "reps"],
+  ["Dumbbell curl", "arms", "Biceps", "Dumbbell", "w", 3, 12, "reps"],
+  ["Hammer curl", "arms", "Biceps, forearms", "Dumbbell", "w", 3, 12, "reps"],
+  ["Incline dumbbell curl", "arms", "Biceps", "Dumbbell", "w", 3, 12, "reps"],
+  ["Preacher curl", "arms", "Biceps", "Machine", "w", 3, 12, "reps"],
+  ["Cable curl", "arms", "Biceps", "Cable", "w", 3, 12, "reps"],
+  ["Concentration curl", "arms", "Biceps", "Dumbbell", "w", 3, 12, "reps"],
+  ["Close-grip bench press", "arms", "Triceps", "Barbell", "w", 3, 8, "reps"],
+  ["Rope pushdown", "arms", "Triceps", "Cable", "w", 3, 12, "reps"],
+  ["Straight-bar pushdown", "arms", "Triceps", "Cable", "w", 3, 12, "reps"],
+  ["Overhead cable extension", "arms", "Triceps", "Cable", "w", 3, 12, "reps"],
+  ["Skull crusher", "arms", "Triceps", "Barbell", "w", 3, 10, "reps"],
+  ["Dumbbell overhead extension", "arms", "Triceps", "Dumbbell", "w", 3, 12, "reps"],
+  ["Triceps dip", "arms", "Triceps", "Bodyweight", "w", 3, 10, "reps"],
+  ["Machine triceps extension", "arms", "Triceps", "Machine", "w", 3, 12, "reps"],
+  ["Wrist curl", "arms", "Forearms", "Dumbbell", "w", 3, 15, "reps"],
+  ["Reverse curl", "arms", "Forearms", "Barbell", "w", 3, 12, "reps"],
+  ["Back squat", "legs", "Quads", "Barbell", "w", 4, 8, "reps"],
+  ["Front squat", "legs", "Quads", "Barbell", "w", 4, 6, "reps"],
+  ["Hack squat", "legs", "Quads", "Machine", "w", 4, 10, "reps"],
+  ["Leg press", "legs", "Quads", "Machine", "w", 4, 12, "reps"],
+  ["Pendulum squat", "legs", "Quads", "Machine", "w", 3, 10, "reps"],
+  ["Smith machine squat", "legs", "Quads", "Smith machine", "w", 3, 10, "reps"],
+  ["Belt squat", "legs", "Quads", "Machine", "w", 3, 10, "reps"],
+  ["Goblet squat", "legs", "Quads", "Dumbbell", "w", 3, 12, "reps"],
+  ["Bulgarian split squat", "legs", "Quads, glutes", "Dumbbell", "w", 3, 10, "reps"],
+  ["Walking lunge", "legs", "Quads, glutes", "Dumbbell", "w", 3, 12, "reps"],
+  ["Step-up", "legs", "Quads, glutes", "Dumbbell", "w", 3, 10, "reps"],
+  ["Leg extension", "legs", "Quads", "Machine", "w", 3, 15, "reps"],
+  ["Romanian deadlift", "legs", "Hamstrings", "Barbell", "w", 4, 8, "reps"],
+  ["Stiff-leg deadlift", "legs", "Hamstrings", "Barbell", "w", 3, 10, "reps"],
+  ["Single-leg Romanian deadlift", "legs", "Hamstrings", "Dumbbell", "w", 3, 10, "reps"],
+  ["Lying leg curl", "legs", "Hamstrings", "Machine", "w", 3, 12, "reps"],
+  ["Seated leg curl", "legs", "Hamstrings", "Machine", "w", 3, 12, "reps"],
+  ["Nordic curl", "legs", "Hamstrings", "Bodyweight", "r", 3, 6, "reps"],
+  ["Good morning", "legs", "Hamstrings", "Barbell", "w", 3, 10, "reps"],
+  ["Standing calf raise", "legs", "Calves", "Machine", "w", 4, 15, "reps"],
+  ["Seated calf raise", "legs", "Calves", "Machine", "w", 4, 15, "reps"],
+  ["Leg press calf raise", "legs", "Calves", "Machine", "w", 3, 15, "reps"],
+  ["Hip adduction machine", "legs", "Adductors", "Machine", "w", 3, 15, "reps"],
+  ["Barbell hip thrust", "glutes", "Glutes", "Barbell", "w", 4, 10, "reps"],
+  ["Machine hip thrust", "glutes", "Glutes", "Machine", "w", 4, 10, "reps"],
+  ["Glute bridge", "glutes", "Glutes", "Barbell", "w", 3, 12, "reps"],
+  ["Cable kickback", "glutes", "Glutes", "Cable", "w", 3, 15, "reps"],
+  ["Hip abduction machine", "glutes", "Glutes", "Machine", "w", 3, 15, "reps"],
+  ["Sumo deadlift", "glutes", "Glutes, hamstrings", "Barbell", "w", 4, 6, "reps"],
+  ["Reverse lunge", "glutes", "Glutes, quads", "Dumbbell", "w", 3, 10, "reps"],
+  ["Kettlebell swing", "glutes", "Glutes, hamstrings", "Kettlebell", "w", 3, 15, "reps"],
+  ["45-degree back extension", "glutes", "Glutes", "Bodyweight", "w", 3, 15, "reps"],
+  ["Plank", "core", "Core", "Bodyweight", "t", 3, 45, "s"],
+  ["Hanging leg raise", "core", "Abs", "Bodyweight", "r", 3, 12, "reps"],
+  ["Cable crunch", "core", "Abs", "Cable", "w", 3, 15, "reps"],
+  ["Ab wheel rollout", "core", "Abs", "Bodyweight", "r", 3, 10, "reps"],
+  ["Decline sit-up", "core", "Abs", "Bodyweight", "r", 3, 15, "reps"],
+  ["Russian twist", "core", "Obliques", "Bodyweight", "w", 3, 20, "reps"],
+  ["Pallof press", "core", "Obliques", "Cable", "w", 3, 12, "reps"],
+  ["Dead bug", "core", "Core", "Bodyweight", "r", 3, 12, "reps"],
+  ["Incline treadmill walk", "cardio", "Cardio", "Cardio machine", "t", 1, 20, "min"],
+  ["Treadmill run", "cardio", "Cardio", "Cardio machine", "t", 1, 20, "min"],
+  ["Stair climber", "cardio", "Cardio", "Cardio machine", "t", 1, 15, "min"],
+  ["Rowing machine", "cardio", "Cardio", "Cardio machine", "t", 1, 15, "min"],
+  ["Assault bike", "cardio", "Cardio", "Cardio machine", "t", 1, 10, "min"],
+  ["Spin bike", "cardio", "Cardio", "Cardio machine", "t", 1, 20, "min"],
+  ["Elliptical", "cardio", "Cardio", "Cardio machine", "t", 1, 20, "min"],
+  ["Jump rope", "cardio", "Cardio", "Bodyweight", "t", 1, 10, "min"]
+];
+var GROUPS = [{"id": "chest", "en": "Chest", "th": "อก"}, {"id": "back", "en": "Back", "th": "หลัง"}, {"id": "shoulders", "en": "Shoulders", "th": "ไหล่"}, {"id": "arms", "en": "Arms", "th": "แขน"}, {"id": "legs", "en": "Legs", "th": "ขา"}, {"id": "glutes", "en": "Glutes", "th": "ก้น"}, {"id": "core", "en": "Core", "th": "หน้าท้องและแกนกลาง"}, {"id": "cardio", "en": "Cardio", "th": "คาร์ดิโอ"}];
+var EQUIP = ["Barbell", "Dumbbell", "Machine", "Cable", "Smith machine", "Kettlebell", "Bodyweight", "Cardio machine"];
+var CUSTOM0 = [
+  ["Landmine press", "shoulders", "Front delts", "Barbell", "w", 3, 10, "reps", "Kneel on one knee, press up and across."],
+  ["Banded pull-apart", "shoulders", "Rear delts", "Bodyweight", "r", 3, 20, "reps", "Squeeze for one second at the back."],
+  ["Farmer's carry", "core", "Grip, core", "Dumbbell", "t", 3, 40, "s", "Tall, slow steps, no leaning."]
+];
+var CLIENTS = {
+  emma: { name: "Emma Wilson", first: "Emma", initials: "EW", meta: "Member #1043 · English · +44 7700 900456 · client since Thu 1 Oct", pack: 10, valid: "Sun 31 Jan", plan: "1 Month · 19 days left",
+    lastWorkout: "Day A · today 19:40 · bench PR", lastCheck: "Today · 7 days in a row", checkFlag: false, flagText: "", lang: "English",
+    workouts: [{ day: "Mon 12 Oct", name: "Day A · Push", sub: "46 min · 16 sets · bench PR 42.5 × 8" }, { day: "Sat 10 Oct", name: "Day C · Legs", sub: "52 min · 22 sets" }, { day: "Thu 8 Oct", name: "Day B · Pull", sub: "44 min · 16 sets" }] },
+  sarah: { name: "Sarah Kim", first: "Sarah", initials: "SK", meta: "Member #0998 · English · +61 491 570 006 · client since Tue 1 Sep", pack: 20, valid: "Sun 28 Feb", plan: "3 Months · 41 days left",
+    lastWorkout: "Day B · Sat 10 Oct", lastCheck: "None since Fri 9 Oct", checkFlag: true, flagText: "No check-in for 3 days. Last one Fri 9 Oct.", lang: "English",
+    workouts: [{ day: "Sat 10 Oct", name: "Day B · Upper", sub: "55 min · 19 sets" }, { day: "Wed 7 Oct", name: "Day A · Lower", sub: "61 min · 19 sets" }, { day: "Sat 3 Oct", name: "Day B · Upper", sub: "52 min · 19 sets" }] }
+};
+function ex(name, muscle, equipment, sets, reps, unit, rest, last, pr, cue) { return { name: name, muscle: muscle, equipment: equipment, sets: sets, reps: reps, unit: unit, rest: rest, last: last, pr: !!pr, cue: cue || "" }; }
+var PROGRAMS = {
+  emma: { active: 0, version: 4, sent: "Sun 11 Oct", dirty: false, days: [
+    { name: "Day A · Push", items: [ex("Barbell bench press", "Chest", "Barbell", 4, 8, "reps", 120, "42.5 × 8", true, "Shoulder blades back, pause on the chest."), ex("Incline dumbbell press", "Upper chest", "Dumbbell", 3, 10, "reps", 90, "14 × 10"), ex("Cable fly", "Chest", "Cable", 3, 12, "reps", 60, "10 × 12"), ex("Arnold press", "Front delts", "Dumbbell", 3, 10, "reps", 90, "12 × 9"), ex("Rope pushdown", "Triceps", "Cable", 3, 12, "reps", 60, "15 × 12")] },
+    { name: "Day B · Pull", items: [ex("Lat pulldown", "Lats", "Cable", 4, 10, "reps", 90, "40 × 10"), ex("Seated cable row", "Mid back", "Cable", 3, 12, "reps", 90, "35 × 12"), ex("Face pull", "Rear delts", "Cable", 3, 15, "reps", 60, "15 × 15"), ex("Dumbbell row", "Lats", "Dumbbell", 3, 10, "reps", 60, "14 × 10"), ex("Hammer curl", "Biceps, forearms", "Dumbbell", 3, 12, "reps", 60, "8 × 12")] },
+    { name: "Day C · Legs", items: [ex("Back squat", "Quads", "Barbell", 4, 8, "reps", 150, "50 × 8", false, "Brace, sit between the heels."), ex("Romanian deadlift", "Hamstrings", "Barbell", 4, 8, "reps", 120, "45 × 8"), ex("Walking lunge", "Quads, glutes", "Dumbbell", 3, 12, "reps", 90, "10 × 12"), ex("Lying leg curl", "Hamstrings", "Machine", 3, 12, "reps", 60, "25 × 12"), ex("Barbell hip thrust", "Glutes", "Barbell", 4, 10, "reps", 90, "60 × 10"), ex("Plank", "Core", "Bodyweight", 3, 45, "s", 45, "45 s")] }
+  ] },
+  sarah: { active: 0, version: 2, sent: "Mon 28 Sep", dirty: false, days: [
+    { name: "Day A · Lower", items: [ex("Back squat", "Quads", "Barbell", 4, 6, "reps", 150, "70 × 6"), ex("Romanian deadlift", "Hamstrings", "Barbell", 3, 8, "reps", 120, "60 × 8"), ex("Bulgarian split squat", "Quads, glutes", "Dumbbell", 3, 10, "reps", 90, "12 × 10"), ex("Seated leg curl", "Hamstrings", "Machine", 3, 12, "reps", 60, "30 × 12"), ex("Standing calf raise", "Calves", "Machine", 4, 15, "reps", 45, "40 × 15")] },
+    { name: "Day B · Upper", items: [ex("Overhead press", "Front delts", "Barbell", 4, 6, "reps", 120, "35 × 6"), ex("Pull-up", "Lats", "Bodyweight", 4, 8, "reps", 120, "8 reps"), ex("Dumbbell bench press", "Chest", "Dumbbell", 3, 10, "reps", 90, "18 × 10"), ex("Seated cable row", "Mid back", "Cable", 3, 12, "reps", 90, "45 × 12"), ex("Dumbbell lateral raise", "Side delts", "Dumbbell", 3, 12, "reps", 45, "7 × 12")] }
+  ] }
+};
+var MACROS = {
+  emma: { p: 130, c: 180, f: 55, water: 3, steps: 8000, goal: "lose", pins: ["strong-vibes", "cyo-whey", "coconut"], dirty: false, sent: "Sun 11 Oct" },
+  sarah: { p: 125, c: 200, f: 60, water: 2.5, steps: 10000, goal: "build", pins: ["thick", "creatine", "ball-m"], dirty: false, sent: "Mon 28 Sep" }
+};
+var PICKABLE = [
+  { id: "strong-vibes", name: "Strong Vibes", sub: "Shake · banana, berries, peanut butter, whey", price: 149 },
+  { id: "berry-hype", name: "Berry Hype", sub: "Shake · mixed berries, açaí, whey", price: 149 },
+  { id: "thick", name: "Thick", sub: "Shake · banana, peanut butter, cacao, whey", price: 149 },
+  { id: "cyo-whey", name: "Create your own: Whey", sub: "Shake · their fruit, milk and add-ons", price: 90 },
+  { id: "cyo-vegan", name: "Create your own: Vegan", sub: "Shake · plant protein", price: 120 },
+  { id: "creatine", name: "Creatine 5g", sub: "Fuel · add to any shake", price: 50 },
+  { id: "coconut", name: "Coconut Water", sub: "Fuel · fresh, chilled", price: 40 },
+  { id: "ball-m", name: "Protein Ball (M)", sub: "Food · snack", price: 30 },
+  { id: "waffle-1", name: "1 Waffle", sub: "Food · banana, mango, peanut butter, berries", price: 169 }
+];
+function ci(day, sleep, energy, dig, water, steps, weight, note) { return { day: day, sleep: sleep, energy: energy, dig: dig, water: water, steps: steps, weight: weight, note: note || "" }; }
+var CHECKINS = {
+  emma: [ci("Mon 12 Oct", 7.5, 4, 4, 3, 9840, 64.1, "Bench PR today"), ci("Sun 11 Oct", 8, 4, 4, 2.5, 6210, null), ci("Sat 10 Oct", 7, 3, 4, 2.5, 11430, 64.3, "Legs were heavy"), ci("Fri 9 Oct", 6.5, 3, 3, 2, 7950, null, "Late night"), ci("Thu 8 Oct", 7.5, 4, 4, 3, 8600, 64.4),
+    ci("Wed 7 Oct", 7, 4, 4, 2.5, 7120, null), ci("Tue 6 Oct", 7.5, 5, 5, 3, 9010, 64.6, "Felt great"), { day: "Mon 5 Oct", missing: true }, ci("Sun 4 Oct", 8.5, 4, 3, 2, 5400, null), ci("Sat 3 Oct", 7, 3, 4, 2.5, 10200, 64.8)],
+  sarah: [{ day: "Mon 12 Oct", missing: true }, { day: "Sun 11 Oct", missing: true }, { day: "Sat 10 Oct", missing: true }, ci("Fri 9 Oct", 6, 3, 4, 2, 12400, 58.2, "Busy week"), ci("Thu 8 Oct", 6.5, 3, 4, 2.5, 9800, null),
+    ci("Wed 7 Oct", 7, 4, 4, 2.5, 13100, 58.4), ci("Tue 6 Oct", 6.5, 3, 3, 2, 8900, null), ci("Mon 5 Oct", 7, 4, 4, 2.5, 10500, 58.3), ci("Sun 4 Oct", 8, 4, 4, 3, 6700, null), ci("Sat 3 Oct", 7.5, 4, 5, 2.5, 14200, 58.6)]
+};
+var LEADS0 = [
+  { id: "ivan", name: "Ivan Petrov", lang: "Русский", phone: "+7 916 555 0142", email: "ivan.petrov@mail.ru", source: "Counter QR, picked you", when: "today 21:10", detail: "Bought 1 Month at the desk · tag 004417 · wants to lose 8 kg", stage: "new", hello: "Russian" },
+  { id: "kate", name: "Kate Morgan", lang: "English", phone: "+44 7700 900812", email: "kate.morgan@icloud.com", source: "Desk", when: "Fri 9 Oct", detail: "2 Weeks from Sat 17 Oct · free intro Sat 17 Oct 09:00 · glutes and core", stage: "trial", hello: "English" },
+  { id: "tom", name: "Tom Reid", lang: "English", phone: "+44 7700 900377", email: "tom.reid@gmail.com", source: "Counter QR, picked you", when: "Mon 5 Oct", detail: "No plan right now · said to try again in January", stage: "archived", hello: "English" }
+];
+var BASE = { login: "login", leads: "leads", library: "library", counter: "counter", workout: "client", nutrition: "client", checkins: "client" };
+function initials(n) { return n.split(" ").map(function (w) { return w.charAt(0); }).join("").slice(0, 2).toUpperCase(); }
+function clone(o) { return JSON.parse(JSON.stringify(o)); }
+function num(n) { return n.toLocaleString("en-US"); }
+function unitShort(u) { return u === "s" ? " s" : (u === "min" ? " min" : ""); }
+function dflt(e) { return e[5] + " × " + e[6] + unitShort(e[7]); }
+function avg(list, key) { var v = list.filter(function (r) { return !r.missing && r[key] != null; }).map(function (r) { return r[key]; }); return v.length ? v.reduce(function (a, b) { return a + b; }, 0) / v.length : 0; }
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    var start = this.props.start || "leads";
+    this.state = {
+      screen: start, lang: "en", loginStep: 1, who: "emma",
+      leads: clone(LEADS0), showArchived: false,
+      pt: { emma: 6, sarah: 9 }, month: 9,
+      prog: clone(PROGRAMS), macros: clone(MACROS),
+      picker: false, pickQ: "", pickGroup: "all",
+      libQ: "", libGroup: "all", custom: clone(CUSTOM0), addOpen: false,
+      form: { name: "", group: "shoulders", equipment: "Dumbbell", log: "w", sets: 3, reps: 10, cue: "" },
+      reply: "", replies: { emma: [], sarah: [] },
+      counterQ: "", ov: null,
+      todayLog: [{ who: "emma", name: "Emma Wilson", left: 6, total: 10, time: "20:30" }],
+      toast: ""
+    };
+    this.timers = [];
+  }
+  componentWillUnmount() { this.timers.forEach(clearTimeout); }
+  flash(msg) { var self = this; this.setState({ toast: msg }); this.timers.push(setTimeout(function () { if (self.state.toast === msg) self.setState({ toast: "" }); }, 2800)); }
+  editProg(fn) { var p = clone(this.state.prog); fn(p[this.state.who]); p[this.state.who].dirty = true; this.setState({ prog: p }); }
+  editMacros(fn) { var m = clone(this.state.macros); fn(m[this.state.who]); m[this.state.who].dirty = true; this.setState({ macros: m }); }
+  setLead(id, fn) { this.setState({ leads: this.state.leads.map(function (l) { if (l.id !== id) return l; var n = Object.assign({}, l); fn(n); return n; }) }); }
+  renderVals() {
+    var s = this.state, self = this, t = T[s.lang];
+    var names = ["login", "leads", "workout", "nutrition", "checkins", "library", "counter"];
+    var is = {}; names.forEach(function (n) { is[n] = s.screen === n; });
+    var baseName = BASE[s.screen] || "leads";
+    var go = function (n) { return function () { self.setState({ screen: n, picker: false, addOpen: false }); }; };
+    var gl = function (g) { return g ? g[s.lang] || g.en : ""; };
+    var groupById = {}; GROUPS.forEach(function (g) { groupById[g.id] = g; });
+
+    // clients
+    var who = s.who, C = CLIENTS[who];
+    var ptLine = function (id) { return CLIENTS[id].pack + " PT · " + s.pt[id] + " of " + CLIENTS[id].pack + " left · until " + CLIENTS[id].valid; };
+    var openUse = function (id) { return function () { self.setState({ ov: { mode: "confirm", who: id } }); }; };
+
+    // leads
+    var newCount = s.leads.filter(function (l) { return l.stage === "new"; }).length;
+    var stageLabel = { "new": t.stNew, contacted: t.stContacted, trial: t.stTrial, archived: t.stArchived };
+    var stagePill = { "new": "s1-pill s1-pill--active", contacted: "s1-pill s1-pill--expiring", trial: "s1-pill s1-pill--pt", archived: "s1-pill s1-pill--none" };
+    var leadCards = s.leads.filter(function (l) { return s.showArchived ? true : l.stage !== "archived"; }).map(function (l) {
+      return { name: l.name, initials: initials(l.name), lang: l.lang, source: l.source, when: l.when, detail: l.detail, phone: l.phone, email: l.email,
+        pill: stagePill[l.stage], stageLabel: stageLabel[l.stage], active: l.stage !== "archived", archived: l.stage === "archived",
+        ring: l.stage === "new" ? "inset 0 0 0 1px rgba(0,180,255,0.4)" : "none",
+        stages: ["new", "contacted", "trial"].map(function (st) { return { label: stageLabel[st], pressed: l.stage === st, pick: function () { self.setLead(l.id, function (n) { n.stage = st; }); if (st === "trial") self.flash(l.name + ": free intro booked. Add the time in your calendar."); } }; }),
+        message: function () { self.setLead(l.id, function (n) { if (n.stage === "new") n.stage = "contacted"; }); self.flash("Opens WhatsApp to " + l.phone + " with a hello in " + l.hello + "."); },
+        call: function () { self.flash("Calling " + l.phone); },
+        archive: function () { self.setLead(l.id, function (n) { n.stage = "archived"; }); self.flash(l.name + " moved to Not now. Details kept."); },
+        restore: function () { self.setLead(l.id, function (n) { n.stage = "new"; }); self.flash(l.name + " is back in your leads."); } };
+    });
+
+    // program
+    var P = s.prog[who];
+    var dayObj = P.days[P.active] || { name: "", items: [] };
+    // Rough session length: work + rest per set, plus 10 minutes to warm up, to the nearest 5 minutes (Day A ≈ 50).
+    var mins = Math.round((dayObj.items.reduce(function (a, x) { return a + x.sets * (x.unit === "min" ? x.reps * 60 + 60 : (x.unit === "s" ? x.reps + x.rest : 60 + x.rest)); }, 0) + 600) / 300) * 5;
+    var dayItems = dayObj.items.map(function (x, i) {
+      var step = x.unit === "s" ? 5 : 1;
+      var edit = function (fn) { return function () { self.editProg(function (p) { fn(p.days[p.active].items[i]); }); }; };
+      return { n: i + 1, name: x.name, meta: x.muscle + " · " + x.equipment + " · rest " + x.rest + " s", cue: x.cue, hasCue: !!x.cue, sets: x.sets, reps: x.reps + unitShort(x.unit),
+        unitLabel: x.unit === "s" ? t.secs : (x.unit === "min" ? t.mins : t.reps), last: x.pr ? x.last + " PR" : x.last, lastColor: x.pr ? "var(--s1-yellow)" : (x.last === "New" ? "var(--s1-blue)" : "#ffffff"),
+        setsDown: edit(function (it) { it.sets = Math.max(1, it.sets - 1); }), setsUp: edit(function (it) { it.sets = Math.min(10, it.sets + 1); }),
+        repsDown: edit(function (it) { it.reps = Math.max(step, it.reps - step); }), repsUp: edit(function (it) { it.reps = it.reps + step; }),
+        remove: function () { self.editProg(function (p) { p.days[p.active].items.splice(i, 1); }); } };
+    });
+    var setsTotal = dayObj.items.reduce(function (a, x) { return a + x.sets; }, 0);
+
+    // nutrition
+    var M = s.macros[who];
+    var kcal = M.p * 4 + M.c * 4 + M.f * 9;
+    var pct = function (g, k) { return Math.round(g * k / kcal * 100); };
+    var mrow = function (key, label, color, unit, step, min, fmtv, hint) {
+      return { label: label, color: color, value: fmtv(M[key]) + unit, hint: hint,
+        down: function () { self.editMacros(function (m) { m[key] = Math.max(min, Math.round((m[key] - step) * 10) / 10); }); },
+        up: function () { self.editMacros(function (m) { m[key] = Math.round((m[key] + step) * 10) / 10; }); } };
+    };
+
+    // check-ins
+    var rows = CHECKINS[who];
+    var weights = rows.filter(function (r) { return !r.missing && r.weight != null; });
+    var wNow = weights[0], wOld = weights[weights.length - 1];
+    var streak = 0; for (var i = 0; i < rows.length; i++) { if (rows[i].missing) break; streak++; }
+    var tone = function (v, good, ok) { return v >= good ? "var(--s1-green)" : (v >= ok ? "#ffffff" : "var(--s1-yellow)"); };
+
+    // library
+    var custom = s.custom.map(function (e) { return { e: e, mine: true }; });
+    var all = custom.concat(LIB.map(function (e) { return { e: e, mine: false }; }));
+    var logLabel = { w: t.logW, r: t.logR, t: t.logT };
+    var match = function (q, group) { return function (o) {
+      if (group === "yours" && !o.mine) return false;
+      if (group !== "all" && group !== "yours" && o.e[1] !== group) return false;
+      return !q || (o.e[0] + " " + o.e[2] + " " + o.e[3]).toLowerCase().indexOf(q) >= 0;
+    }; };
+    var lq = s.libQ.trim().toLowerCase();
+    var libGroupsList = [{ id: "all", label: t.all, count: all.length }].concat(GROUPS.map(function (g) { return { id: g.id, label: gl(g), count: all.filter(function (o) { return o.e[1] === g.id; }).length }; })).concat([{ id: "yours", label: t.yours, count: custom.length }]);
+    var pq = s.pickQ.trim().toLowerCase();
+
+    // counter
+    var cq = s.counterQ.trim().toLowerCase();
+    var counterList = ["emma", "sarah"].filter(function (id) { return !cq || CLIENTS[id].name.toLowerCase().indexOf(cq) >= 0; }).map(function (id) {
+      return { name: CLIENTS[id].name, initials: CLIENTS[id].initials, packLine: CLIENTS[id].pack + " PT · until " + CLIENTS[id].valid, left: s.pt[id], use: openUse(id), useLabel: t.useSession + " · " + CLIENTS[id].name };
+    });
+
+    // overlay
+    var ov = s.ov, ovInfo = { initials: "", name: "", packLine: "", from: 0, to: 0, doneLine: "" };
+    if (ov) {
+      var OC = CLIENTS[ov.who];
+      var cur = s.pt[ov.who];
+      ovInfo = { initials: OC.initials, name: OC.name, packLine: OC.pack + " PT with Sunman", from: ov.mode === "done" ? cur + 1 : cur, to: ov.mode === "done" ? cur : Math.max(0, cur - 1),
+        doneLine: "Logged " + (ov.time || "") + " by Sunman · " + OC.first + " sees it in the app now" };
+    }
+    var phone = s.screen === "counter";
+
+    return {
+      is: is, lang: s.lang, t: t, base: { client: baseName === "client" }, rootH: phone ? "844px" : "940px",
+      inPortal: s.screen !== "login" && s.screen !== "counter",
+      loginStep1: s.loginStep === 1, loginStep2: s.loginStep === 2,
+      sendCode: function (ev) { ev.preventDefault(); self.setState({ loginStep: 2 }); },
+      signIn: function (ev) { ev.preventDefault(); self.setState({ loginStep: 1, screen: "leads" }); },
+      backToEmail: function () { self.setState({ loginStep: 1 }); },
+      codeDigits: "731406".split("").map(function (n, k) { return { n: n, delay: (k * 60) + "ms" }; }),
+      langs: [{ code: "en", label: "English" }, { code: "th", label: "ไทย" }].map(function (l) { return { code: l.code, label: l.label, pressed: s.lang === l.code, pick: function () { self.setState({ lang: l.code }); } }; }),
+      logOut: function () { self.setState({ screen: "login", loginStep: 1, ov: null, picker: false, addOpen: false }); },
+      navClients: baseName === "leads" || baseName === "client", navLibrary: baseName === "library",
+      goLeads: go("leads"), goLibrary: go("library"), goCounter: go("counter"),
+      hasNew: newCount > 0, newCount: newCount,
+      kpis: [
+        { label: t.kActive, value: "2", sub: t.kActiveSub, color: "#ffffff" },
+        { label: t.kSessions, value: String(s.month), sub: t.kSessionsSub, color: "var(--s1-pink)" },
+        { label: t.kLeads, value: String(newCount), sub: t.kLeadsSub, color: newCount ? "var(--s1-blue)" : "#ffffff" }
+      ],
+      archivedLabel: (s.showArchived ? t.hideArchived : t.showArchived) + " (" + s.leads.filter(function (l) { return l.stage === "archived"; }).length + ")",
+      toggleArchived: function () { self.setState({ showArchived: !self.state.showArchived }); },
+      leadCards: leadCards,
+      clientCards: ["emma", "sarah"].map(function (id) {
+        var c = CLIENTS[id];
+        return { name: c.name, initials: c.initials, plan: c.pack + " PT · until " + c.valid + " · " + c.plan, left: s.pt[id], ofTotal: "of " + c.pack + " " + t.left,
+          lastWorkout: c.lastWorkout, lastCheck: c.lastCheck, checkColor: c.checkFlag ? "var(--s1-yellow)" : "var(--s1-green)",
+          open: function () { self.setState({ screen: "workout", who: id }); }, use: openUse(id) };
+      }),
+      clientSwitch: ["emma", "sarah"].map(function (id) { return { name: CLIENTS[id].name, cls: id === who ? "s1-chip-pt" : "s1-chip-off", pick: function () { self.setState({ who: id, reply: "" }); } }; }),
+      cur: { name: C.name, initials: C.initials, meta: C.meta, ptLine: ptLine(who), plan: C.plan, workouts: C.workouts, checkFlag: C.checkFlag, flagText: C.flagText },
+      useCur: openUse(who),
+      messageClient: function () { self.flash("Opens WhatsApp to " + C.name + "."); },
+      clientTabs: [{ id: "workout", label: t.program }, { id: "nutrition", label: t.nutrition }, { id: "checkins", label: t.checkins }].map(function (x) { return { label: x.label, pressed: s.screen === x.id, pick: go(x.id) }; }),
+
+      days: P.days.map(function (d, k) { return { name: d.name, sub: d.items.length + " exercises", bg: k === P.active ? "var(--s1-pink-tint)" : "transparent", arrow: k === P.active ? "var(--s1-pink)" : "var(--text-tertiary)",
+        pick: function () { var p = clone(self.state.prog); p[who].active = k; self.setState({ prog: p }); } }; }),
+      addDay: function () { self.editProg(function (p) { var letter = String.fromCharCode(65 + p.days.length); p.days.push({ name: "Day " + letter + " · New", items: [] }); p.active = p.days.length - 1; }); },
+      day: { name: dayObj.name, sub: dayObj.items.length + " exercises · " + setsTotal + " sets · about " + mins + " min", items: dayItems, empty: dayItems.length === 0 },
+      psync: P.dirty ? { pill: "s1-pill s1-pill--expiring", label: t.unsent, off: "" } : { pill: "s1-pill s1-pill--active", label: t.inApp + " · v" + P.version + " · " + P.sent, off: "s1-off" },
+      sendLabel: t.sendTo + " " + C.first,
+      sendProgram: function () { if (!P.dirty) return; var p = clone(self.state.prog); p[who].dirty = false; p[who].version += 1; p[who].sent = "just now"; self.setState({ prog: p }); self.flash(C.first + "'s Train tab now shows v" + p[who].version + ". She gets a notification."); },
+      openPicker: function () { self.setState({ picker: true, pickQ: "", pickGroup: "all" }); },
+      sheetOpen: s.picker || s.addOpen, picker: s.picker, addOpen: s.addOpen,
+      closeSheet: function () { self.setState({ picker: false, addOpen: false }); },
+      pickerTitle: t.addTo + " " + dayObj.name,
+      pickQ: s.pickQ, onPickQ: function (ev) { self.setState({ pickQ: ev.target.value }); },
+      pickGroups: libGroupsList.map(function (g) { return { label: g.label, cls: s.pickGroup === g.id ? "s1-chip-pt" : "s1-chip-off", pick: function () { self.setState({ pickGroup: g.id }); } }; }),
+      pickItems: all.filter(match(pq, s.pickGroup)).slice(0, 40).map(function (o) {
+        var e = o.e;
+        return { name: e[0], muscle: e[2], equipment: e[3], dflt: dflt(e), add: function () {
+          self.editProg(function (p) { p.days[p.active].items.push(ex(e[0], e[2], e[3], e[5], e[6], e[7], 90, "New", false, o.mine ? e[8] : "")); });
+          self.setState({ picker: false }); self.flash(e[0] + " added to " + dayObj.name + ".");
+        } };
+      }),
+
+      goals: [{ id: "lose", label: t.goalLose }, { id: "keep", label: t.goalKeep }, { id: "build", label: t.goalBuild }].map(function (g) { return { label: g.label, pressed: M.goal === g.id, pick: function () { self.editMacros(function (m) { m.goal = g.id; }); } }; }),
+      kcal: num(kcal), bar: { p: pct(M.p, 4), c: pct(M.c, 4), f: Math.max(0, 100 - pct(M.p, 4) - pct(M.c, 4)) },
+      macroRows: [
+        mrow("p", t.protein, "#00b4ff", " g", 5, 40, num, num(M.p * 4) + " kcal"),
+        mrow("c", t.carbs, "#8fdcff", " g", 5, 40, num, num(M.c * 4) + " kcal"),
+        mrow("f", t.fat, "#3a404a", " g", 5, 20, num, num(M.f * 9) + " kcal"),
+        mrow("water", t.water, "#00e0ff", " L", 0.5, 1, function (v) { return String(v); }, ""),
+        mrow("steps", t.steps, "#2bd46a", "", 1000, 2000, num, "")
+      ],
+      nsync: M.dirty ? { pill: "s1-pill s1-pill--expiring", label: t.unsent, off: "" } : { pill: "s1-pill s1-pill--active", label: t.inApp + " · " + M.sent, off: "s1-off" },
+      sendTargetsLabel: t.sendTo + " " + C.first,
+      sendTargets: function () { if (!M.dirty) return; var m = clone(self.state.macros); m[who].dirty = false; m[who].sent = "just now"; self.setState({ macros: m }); self.flash(C.first + "'s Fuel tab is updated."); },
+      pinCount: M.pins.length + " / 3 " + t.pinned.toLowerCase(),
+      cafePicksNote: t.cafePicksNote.replace("{name}", C.first),
+      pickables: PICKABLE.map(function (it) {
+        var on = M.pins.indexOf(it.id) >= 0;
+        return { name: it.name, sub: it.sub, price: "฿" + it.price, label: on ? t.pinned : t.pin, cls: on ? "s1-chip-pt" : "s1-chip-off",
+          toggle: function () {
+            if (!on && M.pins.length >= 3) { self.flash("Up to 3 picks. Unpin one first."); return; }
+            self.editMacros(function (m) { m.pins = on ? m.pins.filter(function (x) { return x !== it.id; }) : m.pins.concat([it.id]); });
+          } };
+      }),
+
+      ciStats: [
+        { label: t.sleep, value: avg(rows, "sleep").toFixed(1) + " h", sub: "average · last 10 days", color: "#8fdcff" },
+        { label: t.energy, value: avg(rows, "energy").toFixed(1) + " / 5", sub: "digestion " + avg(rows, "dig").toFixed(1) + " / 5", color: "var(--s1-yellow)" },
+        { label: t.water, value: avg(rows, "water").toFixed(1) + " L", sub: "target " + M.water + " L", color: "#00e0ff" },
+        { label: t.weight, value: wNow ? wNow.weight.toFixed(1) + " kg" : "—", sub: wNow && wOld ? ((wNow.weight - wOld.weight) < 0 ? "−" : "+") + Math.abs(wNow.weight - wOld.weight).toFixed(1) + " kg since " + wOld.day + (streak ? " · " + streak + "-day streak" : "") : "", color: "var(--s1-green)" }
+      ],
+      ciRows: rows.map(function (r) {
+        if (r.missing) return { day: r.day, dayColor: "var(--text-tertiary)", sleep: "—", energy: "—", dig: "—", water: "—", steps: "—", weight: "—", note: t.noCheckin, noteColor: "var(--s1-yellow)",
+          sleepColor: "var(--text-tertiary)", energyColor: "var(--text-tertiary)", digColor: "var(--text-tertiary)", waterColor: "var(--text-tertiary)" };
+        return { day: r.day, dayColor: "#ffffff", sleep: r.sleep + " h", energy: r.energy + " / 5", dig: r.dig + " / 5", water: r.water + " L", steps: num(r.steps), weight: r.weight != null ? r.weight.toFixed(1) + " kg" : "—",
+          note: r.note || "—", noteColor: r.note ? "#ffffff" : "var(--text-tertiary)",
+          sleepColor: tone(r.sleep, 7.5, 7), energyColor: tone(r.energy, 4, 3), digColor: tone(r.dig, 4, 3), waterColor: tone(r.water, M.water, M.water - 0.5) };
+      }),
+      nudge: function () { self.flash("Nudge sent to " + C.first + "'s phone."); },
+      replies: (s.replies[who] || []).map(function (x) { return { text: x, when: "just now" }; }),
+      replyPh: t.replyPh.replace("{name}", C.first), reply: s.reply, replyOff: s.reply.trim() ? "" : "s1-off",
+      onReply: function (ev) { self.setState({ reply: ev.target.value }); },
+      sendReply: function (ev) { ev.preventDefault(); var text = self.state.reply.trim(); if (!text) return; var r = clone(self.state.replies); r[who] = [text].concat(r[who]).slice(0, 2); self.setState({ replies: r, reply: "" }); self.flash("Sent. It shows on " + C.first + "'s Home."); },
+
+      libSub: LIB.length + " exercises from SUPER1 · " + s.custom.length + " of your own",
+      libQ: s.libQ, onLibQ: function (ev) { self.setState({ libQ: ev.target.value }); },
+      libGroups: libGroupsList.map(function (g) { return { label: g.label, count: g.count, cls: s.libGroup === g.id ? "s1-chip-blue" : "s1-chip-off", pick: function () { self.setState({ libGroup: g.id }); } }; }),
+      libItems: all.filter(match(lq, s.libGroup)).map(function (o) {
+        var e = o.e;
+        return { name: e[0], muscle: e[2], equipment: e[3], dflt: dflt(e), logLabel: logLabel[e[4]], mine: o.mine, cue: o.mine ? e[8] : "", hasCue: o.mine && !!e[8], ring: o.mine ? "inset 0 0 0 1px rgba(255,78,219,0.35)" : "none" };
+      }),
+      openAdd: function () { self.setState({ addOpen: true, form: { name: "", group: "shoulders", equipment: "Dumbbell", log: "w", sets: 3, reps: 10, cue: "" } }); },
+      form: s.form,
+      onFormName: function (ev) { self.setState({ form: Object.assign({}, self.state.form, { name: ev.target.value }) }); },
+      onFormCue: function (ev) { self.setState({ form: Object.assign({}, self.state.form, { cue: ev.target.value }) }); },
+      formGroups: GROUPS.map(function (g) { return { label: gl(g), cls: s.form.group === g.id ? "s1-chip-pt" : "s1-chip-off", pick: function () { self.setState({ form: Object.assign({}, self.state.form, { group: g.id }) }); } }; }),
+      formEquip: EQUIP.map(function (q) { return { label: q, cls: s.form.equipment === q ? "s1-chip-pt" : "s1-chip-off", pick: function () { self.setState({ form: Object.assign({}, self.state.form, { equipment: q }) }); } }; }),
+      formLogs: [{ id: "w", label: t.logW }, { id: "r", label: t.logR }, { id: "t", label: t.logT }].map(function (x) { return { label: x.label, pressed: s.form.log === x.id, pick: function () { self.setState({ form: Object.assign({}, self.state.form, { log: x.id, reps: x.id === "t" ? 30 : 10 }) }); } }; }),
+      formSteppers: [
+        { label: t.defSets, value: s.form.sets, down: function () { self.setState({ form: Object.assign({}, self.state.form, { sets: Math.max(1, self.state.form.sets - 1) }) }); }, up: function () { self.setState({ form: Object.assign({}, self.state.form, { sets: Math.min(10, self.state.form.sets + 1) }) }); } },
+        { label: s.form.log === "t" ? t.secs : t.defReps, value: s.form.reps, down: function () { var st = self.state.form.log === "t" ? 5 : 1; self.setState({ form: Object.assign({}, self.state.form, { reps: Math.max(st, self.state.form.reps - st) }) }); }, up: function () { var st = self.state.form.log === "t" ? 5 : 1; self.setState({ form: Object.assign({}, self.state.form, { reps: self.state.form.reps + st }) }); } }
+      ],
+      saveOff: s.form.name.trim().length >= 3 ? "" : "s1-off",
+      saveCustom: function (ev) {
+        ev.preventDefault(); var f = self.state.form; if (f.name.trim().length < 3) return;
+        var row = [f.name.trim(), f.group, gl(groupById[f.group]), f.equipment, f.log, f.sets, f.reps, f.log === "t" ? "s" : "reps", f.cue.trim()];
+        self.setState({ custom: [row].concat(self.state.custom), addOpen: false, libGroup: "yours", libQ: "" }); self.flash(row[0] + " is in your library.");
+      },
+
+      counterQ: s.counterQ, onCounterQ: function (ev) { self.setState({ counterQ: ev.target.value }); },
+      counterList: counterList, counterEmpty: counterList.length === 0,
+      todayLog: s.todayLog.map(function (l) { return { name: l.name, sub: l.left + " of " + l.total + " " + t.left + " · Sunman", time: l.time }; }),
+
+      ovOpen: !!ov, ovConfirm: !!ov && ov.mode === "confirm", ovDone: !!ov && ov.mode === "done", ov: ovInfo,
+      ovAlign: phone ? "flex-end" : "center", ovPad: phone ? "0" : "24px", ovRadius: phone ? "28px 28px 0 0" : "28px", ovAnim: phone ? "s1-sheet-up" : "s1-pop",
+      closeOv: function () { self.setState({ ov: null }); },
+      confirmUse: function () {
+        if (!self.state.ov) return;
+        var id = self.state.ov.who, left = self.state.pt[id];
+        if (left <= 0) { self.setState({ ov: null }); self.flash("No sessions left. Ask the desk to sell a new pack."); return; }
+        var pt = Object.assign({}, self.state.pt); pt[id] = left - 1;
+        var time = "21:" + String(14 + self.state.todayLog.length).padStart(2, "0");
+        self.setState({ pt: pt, month: self.state.month + 1, todayLog: [{ who: id, name: CLIENTS[id].name, left: left - 1, total: CLIENTS[id].pack, time: time }].concat(self.state.todayLog), ov: { mode: "done", who: id, time: time } });
+      },
+      undoUse: function () {
+        if (!self.state.ov) return;
+        var id = self.state.ov.who;
+        var pt = Object.assign({}, self.state.pt); pt[id] = pt[id] + 1;
+        self.setState({ pt: pt, month: self.state.month - 1, todayLog: self.state.todayLog.slice(1), ov: null });
+        self.flash("Undone. " + CLIENTS[id].first + " has " + pt[id] + " left.");
+      },
+      toast: s.toast
+    };
+  }
+}
+</script>
+</body>
+</html>

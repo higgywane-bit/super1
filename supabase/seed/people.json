@@ -1,0 +1,131 @@
+{
+ "_note": "Desk staff from the old activity check constraint; Qashier logins from the 12 Oct report. Coaches from the old repo and Qashier. Orn and Bonnie-as-coach are assumptions (docs/11-OPEN-QUESTIONS.md).",
+ "staff": [
+  {
+   "name": "Joy",
+   "qashier_name": "joy"
+  },
+  {
+   "name": "Jeab",
+   "qashier_name": null
+  },
+  {
+   "name": "Tee",
+   "qashier_name": null
+  },
+  {
+   "name": "Bonnie",
+   "qashier_name": null
+  },
+  {
+   "name": "Fai",
+   "qashier_name": null
+  },
+  {
+   "name": "Ning",
+   "qashier_name": null
+  }
+ ],
+ "unmatched_qashier_logins": [
+  "Hayatee Boonya"
+ ],
+ "coaches": [
+  {
+   "slug": "sunman",
+   "name": "Sunman",
+   "full_name": "Sunman Fitness",
+   "email": "sunman@superfitphuket.com",
+   "on_qr": true,
+   "portal": "invited",
+   "qashier_product": null,
+   "note": "Pilot coach for the portal. Email is a placeholder."
+  },
+  {
+   "slug": "aun",
+   "name": "Aun",
+   "full_name": "Aun Wichuporn",
+   "on_qr": true,
+   "portal": "none",
+   "qashier_product": "SUPERCOACH AUN",
+   "photo": "coaches/aun.jpg"
+  },
+  {
+   "slug": "bella",
+   "name": "Bella",
+   "full_name": "",
+   "on_qr": true,
+   "portal": "none",
+   "qashier_product": "SUPERCOACH BELLA",
+   "photo": "coaches/bella.jpg"
+  },
+  {
+   "slug": "nicha",
+   "name": "Nicha",
+   "full_name": "",
+   "on_qr": true,
+   "portal": "none",
+   "qashier_product": "SUPERCOACH NICHA",
+   "photo": "coaches/nicha.jpg"
+  },
+  {
+   "slug": "poom",
+   "name": "Poom",
+   "full_name": "",
+   "on_qr": true,
+   "portal": "none",
+   "qashier_product": "SUPERCOACH POOM",
+   "photo": "coaches/poom.jpg"
+  },
+  {
+   "slug": "bonnie",
+   "name": "Bonnie",
+   "full_name": "",
+   "on_qr": true,
+   "portal": "none",
+   "qashier_product": null,
+   "photo": "coaches/bonnie.jpg"
+  },
+  {
+   "slug": "orn",
+   "name": "Orn",
+   "full_name": "",
+   "on_qr": true,
+   "portal": "none",
+   "qashier_product": null
+  },
+  {
+   "slug": "team",
+   "name": "Team",
+   "full_name": "Superfit Team",
+   "on_qr": false,
+   "portal": "house",
+   "qashier_product": "SUPERFIT TEAM"
+  }
+ ],
+ "logins": [
+  {
+   "email": "higgywane@gmail.com",
+   "role": "admin",
+   "display_name": "Pete"
+  },
+  {
+   "email": "andy@superfitphuket.com",
+   "role": "owner",
+   "display_name": "Andy",
+   "note": "Email to confirm."
+  },
+  {
+   "email": "desk@superfitphuket.com",
+   "role": "desk",
+   "display_name": "Front desk",
+   "note": "Shared desk login; passcode set by Pete."
+  },
+  {
+   "email": "sunman@superfitphuket.com",
+   "role": "coach",
+   "display_name": "Sunman Fitness",
+   "coach": "sunman",
+   "note": "Placeholder email."
+  }
+ ]
+}

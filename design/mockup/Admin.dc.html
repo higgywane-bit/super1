@@ -1,0 +1,773 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SUPER1 admin</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="s1.css">
+<link rel="stylesheet" href="ds/super1/components/bundle.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Noto+Sans+Thai:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#000}
+</style>
+</helmet>
+<div class="s1" lang="en" style="position: relative; min-height: 900px; width: 100%; background: #000000; color: #ffffff; font-family: var(--font-sans);">
+
+  <!-- ===================== SIGN IN ===================== -->
+  <sc-if value="{{is.login}}" hint-placeholder-val="{{ false }}">
+    <div style="min-height: 900px; display: flex; flex-wrap: wrap;">
+      <div style="flex: 1 1 520px; position: relative; min-height: 400px; overflow: hidden;">
+        <img class="s1-photo" src="/_blob/b25c4c113a566bdd587bb5c57e16eee7" alt="Members arriving at Superfit" style="position: absolute; inset: 0;">
+        <span style="position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.55) 62%, #000000 100%);"></span>
+        <div class="s1-rise-2" style="position: absolute; left: 44px; right: 44px; bottom: 52px; display: flex; flex-direction: column; gap: 14px;">
+          <span class="s1-pill" style="align-self: flex-start; color: var(--s1-blue); background: var(--s1-blue-tint);">super1.world/admin</span>
+          <span style="max-width: 480px; font: 700 38px/44px var(--font-sans); letter-spacing: -0.02em; text-shadow: 0 2px 24px rgba(0,0,0,0.6);">Prices, menu, people and the Qashier numbers. One place.</span>
+        </div>
+      </div>
+      <div style="flex: 1 1 420px; display: grid; place-items: center; padding: 48px 24px; box-sizing: border-box;">
+        <div style="width: min(380px, 100%); display: flex; flex-direction: column; gap: 22px;">
+          <div style="display: flex; align-items: center; gap: 12px;"><img class="s1-wipe" src="/_blob/398b8f14610abf876aef8dbb1e7417d2" alt="SUPER1" style="height: 32px; width: auto;"><span class="s1-pill" style="color: var(--s1-blue); background: var(--s1-blue-tint);">Admin</span></div>
+          <sc-if value="{{loginStep1}}" hint-placeholder-val="{{ true }}">
+            <form class="s1-rise" onSubmit="{{sendCode}}" style="display: flex; flex-direction: column; gap: 14px;">
+              <h1 class="s1-title2" style="font-size: 28px; line-height: 34px;">Sign in</h1>
+              <div><label class="s1-label" for="a-email">Email</label><input class="s1-input" id="a-email" type="email" value="higgywane@gmail.com" readonly></div>
+              <button class="s1-btn s1-btn--primary s1-btn--lg s1-btn--block" type="submit">Email me a code</button>
+            </form>
+          </sc-if>
+          <sc-if value="{{loginStep2}}" hint-placeholder-val="{{ false }}">
+            <form class="s1-rise" onSubmit="{{signIn}}" style="display: flex; flex-direction: column; gap: 14px;">
+              <h1 class="s1-title2" style="font-size: 28px; line-height: 34px;">Check your email</h1>
+              <p style="margin: 0; font: 400 15px/22px var(--font-sans); color: var(--text-secondary);">We sent a 6-digit code to higgywane@gmail.com</p>
+              <div style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px;">
+                <sc-for list="{{codeDigits}}" as="d" hint-placeholder-count="6"><span class="s1-num s1-pop" style="height: 58px; border-radius: 14px; background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--hairline); display: grid; place-items: center; font: 700 24px/1 var(--font-sans); animation-delay: {{d.delay}};">{{d.n}}</span></sc-for>
+              </div>
+              <button class="s1-btn s1-btn--primary s1-btn--lg s1-btn--block" type="submit">Sign in</button>
+            </form>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ===================== ADMIN ===================== -->
+  <sc-if value="{{inApp}}" hint-placeholder-val="{{ true }}">
+    <div style="display: flex; flex-wrap: wrap; min-height: 900px;">
+      <aside style="flex: 1 0 236px; max-width: 100%; box-sizing: border-box; background: var(--surface-1); box-shadow: inset -1px 0 0 var(--hairline); padding: 28px 14px; display: flex; flex-direction: column; gap: 22px;">
+        <div style="display: flex; align-items: center; gap: 10px; margin-left: 12px;"><img src="/_blob/398b8f14610abf876aef8dbb1e7417d2" alt="SUPER1" style="height: 22px; width: auto;"><span class="s1-pill" style="height: 22px; font-size: 11px; color: var(--s1-blue); background: var(--s1-blue-tint);">Admin</span></div>
+        <nav style="display: flex; flex-direction: column; gap: 4px;">
+          <button class="s1-navitem" type="button" aria-pressed="{{nav.dashboard}}" onClick="{{go.dashboard}}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg><span style="flex: 1;">Dashboard</span><sc-if value="{{hasInbox}}" hint-placeholder-val="{{ true }}"><span class="s1-pill" style="height: 22px; color: var(--on-blue); background: var(--s1-blue);">{{inboxCount}}</span></sc-if></button>
+          <button class="s1-navitem" type="button" aria-pressed="{{nav.import}}" onClick="{{go.import}}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg><span style="flex: 1;">Qashier import</span></button>
+          <button class="s1-navitem" type="button" aria-pressed="{{nav.plans}}" onClick="{{go.plans}}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2"/><path d="M13 17v2"/><path d="M13 11v2"/></svg><span style="flex: 1;">Plans and prices</span></button>
+          <button class="s1-navitem" type="button" aria-pressed="{{nav.menu}}" onClick="{{go.menu}}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/></svg><span style="flex: 1;">Café menu</span><sc-if value="{{hasDrafts}}" hint-placeholder-val="{{ false }}"><span class="s1-pill s1-pill--expiring" style="height: 22px;">{{draftCount}}</span></sc-if></button>
+          <button class="s1-navitem" type="button" aria-pressed="{{nav.people}}" onClick="{{go.people}}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span style="flex: 1;">Staff and coaches</span></button>
+          <button class="s1-navitem" type="button" aria-pressed="{{nav.logins}}" onClick="{{go.logins}}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span style="flex: 1;">Logins and roles</span></button>
+          <button class="s1-navitem" type="button" aria-pressed="{{nav.settings}}" onClick="{{go.settings}}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg><span style="flex: 1;">Settings</span></button>
+        </nav>
+        <div style="margin-top: auto; display: flex; flex-direction: column; gap: 10px;">
+          <div class="s1-card" style="padding: 12px 14px; display: flex; align-items: center; gap: 12px;">
+            <span class="s1-avatar" style="background: var(--s1-blue-tint); color: var(--s1-blue);">P</span>
+            <div style="min-width: 0; display: flex; flex-direction: column; gap: 2px;"><span style="font: 600 15px/20px var(--font-sans);">Pete</span><span style="font: 500 12px/16px var(--font-sans); color: var(--text-secondary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">higgywane@gmail.com</span></div>
+          </div>
+          <button class="s1-btn s1-btn--plain" type="button" onClick="{{logOut}}" style="align-self: flex-start; color: var(--text-secondary);">Log out</button>
+        </div>
+      </aside>
+
+      <main style="flex: 999 1 560px; min-width: 0; box-sizing: border-box; padding: 36px 44px 56px; display: flex; flex-direction: column; gap: 24px; max-width: 1120px;">
+
+        <!-- ===== DASHBOARD ===== -->
+        <sc-if value="{{is.dashboard}}" hint-placeholder-val="{{ true }}">
+          <div class="s1-tab-in" style="display: flex; flex-direction: column; gap: 24px;">
+            <header style="display: flex; flex-direction: column; gap: 6px;"><h1 class="s1-largetitle">Dashboard</h1><span style="font: 500 15px/20px var(--font-sans); color: var(--text-secondary);">Mon 12 Oct · everything Andy sees, plus your inbox</span></header>
+            <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px;">
+              <sc-for list="{{dashKpis}}" as="k" hint-placeholder-count="4">
+                <div class="s1-card" style="padding: 18px; display: flex; flex-direction: column; gap: 4px;">
+                  <span style="font: 600 13px/18px var(--font-sans); color: var(--text-secondary);">{{k.label}}</span>
+                  <span class="s1-num s1-pop" style="font: 700 30px/36px var(--font-sans); letter-spacing: -0.02em;">{{k.value}}</span>
+                  <span style="font: 500 13px/18px var(--font-sans); color: {{k.subColor}};">{{k.sub}}</span>
+                </div>
+              </sc-for>
+            </div>
+            <div style="display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 20px; align-items: start;">
+              <section style="display: flex; flex-direction: column; gap: 12px;">
+                <div style="display: flex; align-items: center; gap: 10px;"><h2 class="s1-section" style="margin: 0 0 0 4px;">Inbox</h2><sc-if value="{{hasInbox}}" hint-placeholder-val="{{ true }}"><span class="s1-pill" style="height: 22px; color: var(--on-blue); background: var(--s1-blue);">{{inboxCount}}</span></sc-if></div>
+                <sc-if value="{{inbox.merge}}" hint-placeholder-val="{{ true }}">
+                  <div class="s1-card s1-slide-down" style="padding: 18px; display: flex; flex-direction: column; gap: 14px; box-shadow: inset 0 0 0 1px rgba(0,180,255,0.35);">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                      <span class="s1-disc s1-disc--money"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/></svg></span>
+                      <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px;"><span class="s1-headline" style="font-size: 16px;">Merge Natalia Orlova #1188 into #0957</span><span style="font: 500 13px/18px var(--font-sans); color: var(--text-secondary);">Asked by Tee at the desk · 21:12 · same phone +7 999 555 0123</span></div>
+                    </div>
+                    <div style="display: flex; gap: 8px;"><button class="s1-btn s1-btn--primary s1-btn--sm" type="button" onClick="{{openMerge}}">Review merge</button><button class="s1-btn s1-btn--plain s1-btn--sm" type="button" onClick="{{dismissMerge}}" style="color: var(--text-secondary);">Not a duplicate</button></div>
+                  </div>
+                </sc-if>
+                <sc-if value="{{inbox.joy}}" hint-placeholder-val="{{ true }}">
+                  <div class="s1-card s1-slide-down" style="padding: 18px; display: flex; flex-direction: column; gap: 14px;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                      <span class="s1-avatar" style="background: var(--s1-yellow-tint); color: var(--s1-yellow);">J</span>
+                      <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px;"><span class="s1-headline" style="font-size: 16px;">Joy · front desk · 20:41</span><span style="font: 500 14px/20px var(--font-sans); color: var(--text-secondary);">“Can we add a 3-day pass? Two tourists asked for one today.”</span></div>
+                    </div>
+                    <sc-if value="{{replyOpen}}" hint-placeholder-val="{{ false }}">
+                      <form onSubmit="{{sendReply}}" style="display: flex; gap: 8px;">
+                        <label for="a-reply" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0);">Reply to Joy</label>
+                        <input class="s1-input" id="a-reply" placeholder="Reply to Joy" value="{{replyText}}" onChange="{{onReply}}" style="height: 40px;">
+                        <button class="s1-btn s1-btn--primary s1-btn--sm {{replyOff}}" type="submit" style="height: 40px;">Send</button>
+                      </form>
+                    </sc-if>
+                    <sc-if value="{{replyClosed}}" hint-placeholder-val="{{ true }}">
+                      <div style="display: flex; gap: 8px;"><button class="s1-btn s1-btn--secondary s1-btn--sm" type="button" onClick="{{openReply}}">Reply</button><button class="s1-btn s1-btn--tinted s1-btn--sm" type="button" onClick="{{go.plans}}">Open plans</button></div>
+                    </sc-if>
+                  </div>
+                </sc-if>
+                <sc-if value="{{inbox.qashier}}" hint-placeholder-val="{{ true }}">
+                  <div class="s1-card s1-slide-down" style="padding: 18px; display: flex; flex-direction: column; gap: 14px; box-shadow: inset 0 0 0 1px rgba(255,230,0,0.3);">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                      <span class="s1-disc s1-disc--warn"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="10"/></svg></span>
+                      <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px;"><span class="s1-headline" style="font-size: 16px;">7 Qashier products aren't in the menu app</span><span style="font: 500 13px/18px var(--font-sans); color: var(--text-secondary);">Found in the Mon 12 Oct import · Sports Bra, Active Shorts, Towel, Gatorade, Pocari Sweat, Tea, Orange</span></div>
+                    </div>
+                    <button class="s1-btn s1-btn--secondary s1-btn--sm" type="button" onClick="{{go.import}}" style="align-self: flex-start;">Review in the import</button>
+                  </div>
+                </sc-if>
+                <sc-if value="{{inboxEmpty}}" hint-placeholder-val="{{ false }}">
+                  <div class="s1-card s1-rise" style="padding: 28px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center;"><span class="s1-disc s1-disc--go"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path class="s1-draw" d="M20 6 9 17l-5-5"/></svg></span><span class="s1-headline" style="font-size: 16px;">Inbox clear</span><span style="font: 500 14px/19px var(--font-sans); color: var(--text-secondary);">Merge requests and desk messages land here.</span></div>
+                </sc-if>
+              </section>
+              <section style="display: flex; flex-direction: column; gap: 12px;">
+                <h2 class="s1-section" style="margin: 0 0 0 4px;">This week</h2>
+                <div class="s1-card" style="padding: 18px; display: flex; flex-direction: column; gap: 12px;">
+                  <div style="display: flex; align-items: center; justify-content: space-between;"><span class="s1-num" style="font: 700 24px/28px var(--font-sans); letter-spacing: -0.02em;">฿310,452</span><span class="s1-sample">Sample · Mon real</span></div>
+                  <div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; align-items: end; height: 96px;">
+                    <sc-for list="{{weekBars}}" as="b" hint-placeholder-count="7"><span class="s1-bar-grow" style="display: block; height: {{b.h}}%; border-radius: 6px 6px 3px 3px; background: {{b.color}}; animation-delay: {{b.delay}};"></span></sc-for>
+                  </div>
+                  <div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px;"><sc-for list="{{weekBars}}" as="b" hint-placeholder-count="7"><span style="text-align: center; font: 600 11px/14px var(--font-sans); color: var(--text-secondary);">{{b.label}}</span></sc-for></div>
+                </div>
+                <h2 class="s1-section" style="margin: 6px 0 0 4px;">PT sessions in October</h2>
+                <div class="s1-group">
+                  <sc-for list="{{coachMini}}" as="c" hint-placeholder-count="4">
+                    <div class="s1-row" style="min-height: 52px; padding: 8px 16px;">
+                      <span class="s1-avatar" style="width: 32px; height: 32px; font-size: 11px; overflow: hidden; background: {{c.bg}}; color: {{c.fg}};"><sc-if value="{{c.hasPhoto}}" hint-placeholder-val="{{ false }}"><img class="s1-photo" src="{{c.photo}}" alt="{{c.name}}"></sc-if><sc-if value="{{c.noPhoto}}" hint-placeholder-val="{{ true }}">{{c.initials}}</sc-if></span>
+                      <div class="s1-row__main"><div class="s1-row__title" style="font-size: 15px;">{{c.name}}</div></div>
+                      <span class="s1-num" style="font: 500 13px/18px var(--font-sans); color: var(--text-secondary);">{{c.clients}} clients</span>
+                      <span class="s1-num" style="width: 40px; text-align: right; font: 700 15px/20px var(--font-sans); color: var(--s1-pink);">{{c.sessions}}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </section>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ===== QASHIER IMPORT ===== -->
+        <sc-if value="{{is.import}}" hint-placeholder-val="{{ false }}">
+          <div class="s1-tab-in" style="display: flex; flex-direction: column; gap: 20px;">
+            <header style="display: flex; flex-direction: column; gap: 8px;">
+              <h1 class="s1-largetitle">Qashier import</h1>
+              <p style="margin: 0; font: 500 15px/22px var(--font-sans); color: var(--text-secondary); max-width: 680px;">Export the Sales Report from Qashier as CSV and drop it here. One file per day. Importing a day again replaces it, so a corrected export is safe.</p>
+            </header>
+            <sc-if value="{{imp.empty}}" hint-placeholder-val="{{ false }}">
+              <button type="button" onClick="{{pickFile}}" class="s1-rise" style="appearance: none; border: 0; cursor: pointer; border-radius: 20px; padding: 44px; background: var(--surface-1); box-shadow: inset 0 0 0 2px rgba(0,180,255,0.35); display: flex; flex-direction: column; align-items: center; gap: 14px; color: #ffffff;">
+                <span class="s1-disc s1-disc--money" style="width: 56px; height: 56px;"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true" style="width: 26px; height: 26px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg></span>
+                <span class="s1-headline">Drop the Qashier CSV here</span>
+                <span style="font: 500 14px/19px var(--font-sans); color: var(--text-secondary);">or click to choose · several days at once is fine</span>
+              </button>
+            </sc-if>
+            <sc-if value="{{imp.hasFile}}" hint-placeholder-val="{{ true }}">
+              <section class="s1-rise" style="display: flex; flex-direction: column; gap: 16px;">
+                <div class="s1-card" style="padding: 18px 20px; display: flex; flex-wrap: wrap; align-items: center; gap: 16px;">
+                  <span class="s1-disc s1-disc--money"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M8 13h2"/><path d="M14 13h2"/><path d="M8 17h2"/><path d="M14 17h2"/></svg></span>
+                  <div style="flex: 1; min-width: 220px; display: flex; flex-direction: column; gap: 3px;"><span class="s1-headline">Mon 12 Oct 2026 · Superfit™</span><span style="font: 500 14px/19px var(--font-sans); color: var(--text-secondary);">Sales_Report_-_Superfit.csv · 00:00 – 23:59 · 12 sections · 35 products</span></div>
+                  <sc-if value="{{imp.preview}}" hint-placeholder-val="{{ true }}">
+                    <div style="display: flex; gap: 8px;"><button class="s1-btn s1-btn--secondary" type="button" onClick="{{resetImport}}">Cancel</button><button class="s1-btn s1-btn--primary" type="button" onClick="{{commitImport}}">Import Mon 12 Oct</button></div>
+                  </sc-if>
+                  <sc-if value="{{imp.done}}" hint-placeholder-val="{{ false }}"><span class="s1-pill s1-pill--active s1-pop">Imported 21:05 · on Andy's app</span></sc-if>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px;">
+                  <sc-for list="{{checks}}" as="c" hint-placeholder-count="3">
+                    <div class="s1-card" style="padding: 16px; display: flex; gap: 12px; align-items: flex-start;"><span class="s1-disc s1-disc--go" style="width: 30px; height: 30px;"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true" style="width: 15px; height: 15px; stroke-width: 3;"><path d="M20 6 9 17l-5-5"/></svg></span><span style="font: 500 14px/20px var(--font-sans);">{{c.text}} <span class="s1-num" style="font-weight: 700;">{{c.num}}</span></span></div>
+                  </sc-for>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; align-items: start;">
+                  <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <h2 class="s1-section" style="margin: 0 0 0 4px;">Desk vs Qashier</h2>
+                    <div class="s1-group">
+                      <div style="display: grid; grid-template-columns: minmax(0, 1.3fr) repeat(2, minmax(0, 1fr)) 28px; gap: 10px; padding: 12px 16px; font: 600 12px/16px var(--font-sans); color: var(--text-secondary);"><span>What</span><span>Desk logged</span><span>Qashier rang</span><span></span></div>
+                      <sc-for list="{{recon}}" as="r" hint-placeholder-count="4">
+                        <div style="display: grid; grid-template-columns: minmax(0, 1.3fr) repeat(2, minmax(0, 1fr)) 28px; gap: 10px; align-items: center; padding: 11px 16px; box-shadow: inset 0 1px 0 var(--hairline); font: 500 14px/19px var(--font-sans);">
+                          <span>{{r.what}}</span><span class="s1-num">{{r.desk}}</span><span class="s1-num">{{r.qashier}}</span>
+                          <span class="s1-disc s1-disc--go" style="width: 24px; height: 24px;"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true" style="width: 13px; height: 13px; stroke-width: 3;"><path d="M20 6 9 17l-5-5"/></svg></span>
+                        </div>
+                      </sc-for>
+                    </div>
+                    <span style="font: 500 13px/18px var(--font-sans); color: var(--text-tertiary); padding: 0 4px;">Every desk sale is logged with its price and who was on shift. A gap here means something was sold but not rung, or rung but not logged.</span>
+                  </div>
+                  <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <h2 class="s1-section" style="margin: 0 0 0 4px;">In Qashier, not in the menu app</h2>
+                    <div class="s1-card" style="padding: 16px; display: flex; flex-direction: column; gap: 12px; box-shadow: inset 0 0 0 1px rgba(255,230,0,0.3);">
+                      <div style="display: flex; flex-wrap: wrap; gap: 8px;"><sc-for list="{{missing}}" as="m" hint-placeholder-count="7"><span style="height: 30px; padding: 0 12px; border-radius: 999px; background: var(--surface-3); display: inline-flex; align-items: center; gap: 6px; font: 600 13px/1 var(--font-sans);">{{m.name}}<span class="s1-num" style="color: var(--text-secondary);">{{m.price}}</span></span></sc-for></div>
+                      <button class="s1-btn s1-btn--tinted s1-btn--sm {{addOff}}" type="button" onClick="{{addDrafts}}" style="align-self: flex-start;">{{addLabel}}</button>
+                      <span style="font: 500 13px/18px var(--font-sans); color: var(--text-tertiary);">Qashier still has an old category, “Fruit ผลไม้ !!! หมวดหมู่เก่า”, with 1 sale (Banana ฿20). It's counted under Snacks and fruit.</span>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </sc-if>
+            <div class="s1-card" style="padding: 14px 18px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px;">
+              <span style="font: 600 13px/18px var(--font-sans); color: var(--text-secondary);">Imported days</span>
+              <sc-for list="{{days}}" as="d" hint-placeholder-count="4"><span class="{{d.pill}}">{{d.label}}</span></sc-for>
+              <span style="flex: 1; min-width: 160px; text-align: right; font: 500 13px/18px var(--font-sans); color: var(--text-tertiary);">Drop past days together to fill Andy's week and month</span>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ===== PLANS AND PRICES ===== -->
+        <sc-if value="{{is.plans}}" hint-placeholder-val="{{ false }}">
+          <div class="s1-tab-in" style="display: flex; flex-direction: column; gap: 20px;">
+            <header style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px;">
+              <div style="display: flex; flex-direction: column; gap: 6px;"><h1 class="s1-largetitle">Plans and prices</h1><span style="font: 500 15px/20px var(--font-sans); color: var(--text-secondary);">What the desk can sell. Qashier is still the till, so change a price in both places.</span></div>
+              <div style="display: flex; align-items: center; gap: 10px;"><sc-if value="{{pricesDirty}}" hint-placeholder-val="{{ false }}"><span class="s1-pill s1-pill--expiring">Unsaved</span></sc-if><button class="s1-btn s1-btn--primary {{saveOff}}" type="button" onClick="{{savePrices}}">Save prices</button></div>
+            </header>
+            <div class="s1-seg" style="display: flex; align-self: flex-start;"><sc-for list="{{planTabs}}" as="pt" hint-placeholder-count="4"><button type="button" aria-pressed="{{pt.pressed}}" onClick="{{pt.pick}}">{{pt.label}}</button></sc-for></div>
+            <div style="display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 20px; align-items: start;">
+              <div class="s1-group">
+                <div style="display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1.3fr) 128px 60px; gap: 12px; padding: 12px 18px; font: 600 12px/16px var(--font-sans); color: var(--text-secondary);"><span>Plan</span><span>Length</span><span>Qashier product</span><span style="text-align: right;">Price ฿</span><span>Desk</span></div>
+                <sc-for list="{{planRows}}" as="r" hint-placeholder-count="7">
+                  <div style="display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1.3fr) 128px 60px; gap: 12px; align-items: center; padding: 10px 18px; box-shadow: inset 0 1px 0 var(--hairline); opacity: {{r.opacity}};">
+                    <span style="font: 600 15px/20px var(--font-sans);">{{r.name}}</span>
+                    <span style="font: 500 14px/19px var(--font-sans); color: var(--text-secondary);">{{r.len}}</span>
+                    <span style="font: 500 13px/18px var(--font-sans); color: {{r.qColor}}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{r.q}}</span>
+                    <input class="s1-input s1-num" aria-label="{{r.priceLabel}}" inputmode="numeric" value="{{r.price}}" onChange="{{r.onPrice}}" style="height: 40px; text-align: right; font-weight: 600; box-shadow: {{r.ring}};">
+                    <button type="button" role="switch" class="s1-switch" aria-checked="{{r.on}}" aria-label="{{r.switchLabel}}" onClick="{{r.toggle}}"></button>
+                  </div>
+                </sc-for>
+              </div>
+              <div class="s1-card" style="padding: 18px; display: flex; flex-direction: column; gap: 12px;">
+                <span class="s1-headline" style="font-size: 16px;">Rules the system follows</span>
+                <sc-for list="{{rules}}" as="rl" hint-placeholder-count="6">
+                  <div style="display: flex; gap: 10px;"><span style="width: 6px; height: 6px; border-radius: 50%; background: var(--s1-blue); margin-top: 8px; flex: none;"></span><span style="font: 400 14px/20px var(--font-sans); color: var(--text-secondary);">{{rl}}</span></div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ===== CAFE MENU ===== -->
+        <sc-if value="{{is.menu}}" hint-placeholder-val="{{ false }}">
+          <div class="s1-tab-in" style="display: flex; flex-direction: column; gap: 18px;">
+            <header style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px;">
+              <div style="display: flex; flex-direction: column; gap: 6px;"><h1 class="s1-largetitle">Café menu</h1><span style="font: 500 15px/20px var(--font-sans); color: var(--text-secondary);">What members see in the app. They still pay at the counter on Qashier.</span></div>
+              <span class="s1-pill s1-pill--expiring">{{verifyLine}}</span>
+            </header>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;"><sc-for list="{{menuCats}}" as="c" hint-placeholder-count="7"><button type="button" class="{{c.cls}}" onClick="{{c.pick}}" style="height: 36px; padding: 0 14px; border: 0; border-radius: 999px; font: 600 14px/1 var(--font-sans); cursor: pointer; white-space: nowrap;">{{c.label}}<span style="margin-left: 6px; opacity: 0.6;">{{c.count}}</span></button></sc-for></div>
+            <div class="s1-group s1-stagger">
+              <sc-for list="{{menuRows}}" as="m" hint-placeholder-count="9">
+                <div class="s1-row" style="min-height: 66px; padding: 9px 18px;">
+                  <span style="width: 48px; height: 48px; border-radius: 12px; overflow: hidden; flex: none; background: {{m.bg}}; display: grid; place-items: center; font: 700 13px/1 var(--font-sans); color: var(--text-secondary);"><sc-if value="{{m.hasPhoto}}" hint-placeholder-val="{{ true }}"><img class="s1-photo" src="{{m.photo}}" alt="{{m.name}}" style="object-position: {{m.pos}};"></sc-if><sc-if value="{{m.noPhoto}}" hint-placeholder-val="{{ false }}">{{m.initials}}</sc-if></span>
+                  <div class="s1-row__main"><div class="s1-row__title" style="font-size: 15px;">{{m.name}}</div><div class="s1-row__sub" style="font-size: 13px;">{{m.sub}}</div></div>
+                  <span class="s1-num" style="width: 64px; text-align: right; font: 600 15px/20px var(--font-sans);">{{m.price}}</span>
+                  <span class="{{m.pill}}" style="width: 120px; justify-content: center;">{{m.status}}</span>
+                  <button type="button" role="switch" class="s1-switch" aria-checked="{{m.on}}" aria-label="{{m.switchLabel}}" onClick="{{m.toggle}}"></button>
+                  <button class="s1-btn s1-btn--secondary s1-btn--sm" type="button" onClick="{{m.edit}}">Edit</button>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ===== STAFF AND COACHES ===== -->
+        <sc-if value="{{is.people}}" hint-placeholder-val="{{ false }}">
+          <div class="s1-tab-in" style="display: flex; flex-direction: column; gap: 20px;">
+            <header style="display: flex; flex-direction: column; gap: 6px;"><h1 class="s1-largetitle">Staff and coaches</h1><span style="font: 500 15px/20px var(--font-sans); color: var(--text-secondary);">Who works the desk and who coaches. Archive someone who leaves, their history stays.</span></header>
+            <div style="display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: 20px; align-items: start;">
+              <section style="display: flex; flex-direction: column; gap: 12px;">
+                <h2 class="s1-section" style="margin: 0 0 0 4px;">Front desk · on the shift picker</h2>
+                <div class="s1-group">
+                  <sc-for list="{{staffRows}}" as="st" hint-placeholder-count="6">
+                    <div class="s1-row" style="min-height: 58px; padding: 8px 16px;">
+                      <span class="s1-avatar" style="width: 34px; height: 34px; font-size: 13px;">{{st.initial}}</span>
+                      <div class="s1-row__main"><div class="s1-row__title" style="font-size: 15px;">{{st.name}}</div><div class="s1-row__sub" style="font-size: 13px; color: {{st.subColor}};">{{st.sub}}</div></div>
+                      <button type="button" role="switch" class="s1-switch" aria-checked="{{st.on}}" aria-label="{{st.switchLabel}}" onClick="{{st.toggle}}"></button>
+                    </div>
+                  </sc-for>
+                </div>
+                <form onSubmit="{{addStaff}}" style="display: flex; gap: 8px;">
+                  <label for="a-staff" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0);">New staff name</label>
+                  <input class="s1-input" id="a-staff" placeholder="Add a name, e.g. Mint" value="{{newStaff}}" onChange="{{onNewStaff}}" style="height: 44px;">
+                  <button class="s1-btn s1-btn--secondary {{addStaffOff}}" type="submit" style="height: 44px;">Add</button>
+                </form>
+                <sc-if value="{{needsMatch}}" hint-placeholder-val="{{ true }}">
+                  <div class="s1-card s1-slide-down" style="padding: 16px; display: flex; flex-direction: column; gap: 12px; box-shadow: inset 0 0 0 1px rgba(255,230,0,0.3);">
+                    <span style="font: 600 15px/20px var(--font-sans);">Who is “Hayatee Boonya” on Qashier?</span>
+                    <span style="font: 500 13px/18px var(--font-sans); color: var(--text-secondary);">59 sales today. Match the Qashier login to a desk name so Andy sees one person, not two.</span>
+                    <div style="display: flex; flex-wrap: wrap; gap: 8px;"><sc-for list="{{matchChips}}" as="mc" hint-placeholder-count="6"><button type="button" class="s1-chip-off" onClick="{{mc.pick}}" style="height: 34px; padding: 0 14px; border: 0; border-radius: 999px; font: 600 13px/1 var(--font-sans); cursor: pointer;">{{mc.name}}</button></sc-for></div>
+                  </div>
+                </sc-if>
+              </section>
+              <section style="display: flex; flex-direction: column; gap: 12px;">
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;"><h2 class="s1-section" style="margin: 0 0 0 4px;">Coaches</h2><span class="s1-sample">Sample except Sunman</span></div>
+                <div class="s1-group">
+                  <sc-for list="{{coachRows}}" as="c" hint-placeholder-count="8">
+                    <div class="s1-row" style="min-height: 62px; padding: 8px 16px;">
+                      <span class="s1-avatar" style="width: 40px; height: 40px; overflow: hidden; background: {{c.bg}}; color: {{c.fg}};"><sc-if value="{{c.hasPhoto}}" hint-placeholder-val="{{ false }}"><img class="s1-photo" src="{{c.photo}}" alt="{{c.name}}"></sc-if><sc-if value="{{c.noPhoto}}" hint-placeholder-val="{{ true }}">{{c.initials}}</sc-if></span>
+                      <div class="s1-row__main"><div class="s1-row__title" style="font-size: 15px;">{{c.name}}</div><div class="s1-row__sub" style="font-size: 13px;">{{c.sub}}</div></div>
+                      <span class="{{c.pill}}">{{c.status}}</span>
+                      <button class="s1-btn s1-btn--sm {{c.btnCls}}" type="button" onClick="{{c.invite}}" style="min-width: 88px;">{{c.btn}}</button>
+                    </div>
+                  </sc-for>
+                </div>
+                <span style="font: 500 13px/18px var(--font-sans); color: var(--text-tertiary); padding: 0 4px;">Customers can pick any coach on the counter QR. Coaches with a portal login get their leads, programs and counter mode.</span>
+              </section>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ===== LOGINS AND ROLES ===== -->
+        <sc-if value="{{is.logins}}" hint-placeholder-val="{{ false }}">
+          <div class="s1-tab-in" style="display: flex; flex-direction: column; gap: 20px;">
+            <header style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px;">
+              <div style="display: flex; flex-direction: column; gap: 6px;"><h1 class="s1-largetitle">Logins and roles</h1><span style="font: 500 15px/20px var(--font-sans); color: var(--text-secondary);">Everyone signs in with an email code. The desk shares one login on its own devices.</span></div>
+              <button class="s1-btn s1-btn--primary" type="button" onClick="{{openAddLogin}}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>Add a login</button>
+            </header>
+            <div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 20px; align-items: start;">
+              <div style="display: flex; flex-direction: column; gap: 16px;">
+                <div class="s1-group s1-stagger">
+                  <sc-for list="{{loginRows}}" as="l" hint-placeholder-count="4">
+                    <div class="s1-row" style="min-height: 66px; padding: 10px 16px;">
+                      <span class="s1-avatar" style="width: 36px; height: 36px; font-size: 13px; background: {{l.bg}}; color: {{l.fg}};">{{l.initial}}</span>
+                      <div class="s1-row__main"><div class="s1-row__title" style="font-size: 15px;">{{l.name}} <span style="font-weight: 500; color: var(--text-secondary);">· {{l.role}}</span></div><div class="s1-row__sub" style="font-size: 13px;">{{l.email}}</div></div>
+                      <span style="font: 500 12px/16px var(--font-sans); color: {{l.statusColor}}; text-align: right; max-width: 130px;">{{l.status}}</span>
+                    </div>
+                  </sc-for>
+                </div>
+                <div class="s1-card" style="padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+                  <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;"><span class="s1-headline" style="font-size: 16px;">Desk devices</span><button class="s1-btn s1-btn--secondary s1-btn--sm" type="button" onClick="{{changePasscode}}">Change desk passcode</button></div>
+                  <sc-for list="{{devices}}" as="dv" hint-placeholder-count="2">
+                    <div style="display: flex; align-items: center; gap: 12px;"><span style="width: 8px; height: 8px; border-radius: 50%; background: {{dv.dot}};"></span><span style="flex: 1; font: 500 14px/19px var(--font-sans);">{{dv.name}} <span style="color: var(--text-secondary);">· {{dv.seen}}</span></span><button class="s1-btn s1-btn--plain s1-btn--sm {{dv.off}}" type="button" onClick="{{dv.signOut}}" style="color: var(--s1-red);">{{dv.btn}}</button></div>
+                  </sc-for>
+                </div>
+                <span style="font: 500 13px/18px var(--font-sans); color: var(--text-tertiary); padding: 0 4px;">Members sign in to the SUPER1 app with an email code too. Their invite goes out when the desk attaches a tag.</span>
+              </div>
+              <div class="s1-group">
+                <div style="display: grid; grid-template-columns: minmax(0, 2.2fr) repeat(5, minmax(0, 1fr)); gap: 6px; padding: 12px 16px; font: 600 12px/16px var(--font-sans); color: var(--text-secondary);"><span>Can</span><span>Pete</span><span>Andy</span><span>Desk</span><span>Coach</span><span>Member</span></div>
+                <sc-for list="{{matrix}}" as="mx" hint-placeholder-count="11">
+                  <div style="display: grid; grid-template-columns: minmax(0, 2.2fr) repeat(5, minmax(0, 1fr)); gap: 6px; align-items: center; padding: 9px 16px; box-shadow: inset 0 1px 0 var(--hairline); font: 500 13px/18px var(--font-sans);">
+                    <span>{{mx.what}}</span>
+                    <sc-for list="{{mx.cells}}" as="cell" hint-placeholder-count="5"><span style="font-weight: 700; color: {{cell.color}};">{{cell.v}}</span></sc-for>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ===== SETTINGS ===== -->
+        <sc-if value="{{is.settings}}" hint-placeholder-val="{{ false }}">
+          <div class="s1-tab-in" style="display: flex; flex-direction: column; gap: 20px;">
+            <header style="display: flex; flex-direction: column; gap: 6px;"><h1 class="s1-largetitle">Settings</h1><span style="font: 500 15px/20px var(--font-sans); color: var(--text-secondary);">The waiver, the counter QR and the gym's details.</span></header>
+            <div style="display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 20px; align-items: start;">
+              <section class="s1-card" style="padding: 20px; display: flex; flex-direction: column; gap: 14px;">
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;"><span class="s1-headline">Waiver on the counter QR</span><span class="{{waiverPill}}">{{waiverStatus}}</span></div>
+                <div class="s1-seg" style="display: flex; align-self: flex-start;"><sc-for list="{{waiverLangs}}" as="wl" hint-placeholder-count="3"><button type="button" aria-pressed="{{wl.pressed}}" onClick="{{wl.pick}}" lang="{{wl.code}}">{{wl.label}}</button></sc-for></div>
+                <sc-for list="{{waiverRules}}" as="wr" hint-placeholder-count="3">
+                  <div><label class="s1-label" for="{{wr.id}}">Line {{wr.n}}</label><input class="s1-input" id="{{wr.id}}" lang="{{wr.lang}}" value="{{wr.text}}" onChange="{{wr.onChange}}"></div>
+                </sc-for>
+                <div class="s1-card" style="padding: 12px 14px; background: var(--s1-yellow-tint); display: flex; gap: 10px; align-items: center;"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--s1-yellow);"><path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="10"/></svg><span style="font: 500 13px/18px var(--font-sans); color: var(--s1-yellow);">Have a Thai lawyer check all three languages before launch.</span></div>
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;"><span style="font: 500 13px/18px var(--font-sans); color: var(--text-secondary);">{{waiverMeta}}</span><button class="s1-btn s1-btn--primary s1-btn--sm {{publishOff}}" type="button" onClick="{{publishWaiver}}">{{publishLabel}}</button></div>
+              </section>
+              <div style="display: flex; flex-direction: column; gap: 16px;">
+                <section class="s1-card" style="padding: 20px; display: flex; align-items: center; gap: 18px;">
+                  <img src="/_blob/9249ea48337703f5addad5fcfa52473f" alt="QR code for super1.app/join" style="width: 112px; height: 112px; border-radius: 12px; background: #ffffff; padding: 8px; box-sizing: border-box; flex: none;">
+                  <div style="display: flex; flex-direction: column; gap: 8px;"><span class="s1-headline" style="font-size: 16px;">Counter QR</span><span class="s1-num" style="font: 500 14px/19px var(--font-sans); color: var(--s1-blue);">super1.app/join</span><button class="s1-btn s1-btn--secondary s1-btn--sm" type="button" onClick="{{downloadPoster}}" style="align-self: flex-start;">Download the stand poster</button></div>
+                </section>
+                <section class="s1-group">
+                  <sc-for list="{{gymRows}}" as="g" hint-placeholder-count="6">
+                    <div class="s1-row" style="min-height: 50px; padding: 8px 18px;"><span class="s1-row__main" style="font: 500 14px/19px var(--font-sans); color: var(--text-secondary);">{{g.k}}</span><span style="font: 600 14px/19px var(--font-sans); text-align: right;">{{g.v}}</span></div>
+                  </sc-for>
+                </section>
+                <section class="s1-card" style="padding: 16px 18px; display: flex; gap: 12px; align-items: flex-start;">
+                  <span class="s1-disc s1-disc--neutral" style="width: 32px; height: 32px;"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px;"><rect width="20" height="5" x="2" y="3" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"/><path d="M10 12h4"/></svg></span>
+                  <span style="font: 500 14px/20px var(--font-sans); color: var(--text-secondary);">Nothing in SUPER1 can be deleted. Members are archived or merged, plans are ended, and every change keeps who made it and when.</span>
+                </section>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+      </main>
+    </div>
+
+    <!-- ===== SHEETS ===== -->
+    <sc-if value="{{sheetOpen}}" hint-placeholder-val="{{ false }}">
+      <div style="position: fixed; inset: 0; z-index: 20; display: flex; justify-content: flex-end;">
+        <button type="button" aria-label="Close" onClick="{{closeSheet}}" class="s1-glass" style="position: absolute; inset: 0; border: 0; cursor: default;"></button>
+        <div class="s1-sheet" style="position: relative; width: min(600px, 100%); height: 100%; border-radius: 28px 0 0 28px; padding: 28px; box-sizing: border-box; overflow-y: auto; display: flex; flex-direction: column; gap: 18px; animation: s1-rise 360ms var(--ease-ios) both;">
+
+          <sc-if value="{{mergeOpen}}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; flex-direction: column; gap: 18px;">
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;"><h2 class="s1-title2">Merge a duplicate</h2><button class="s1-btn s1-btn--secondary s1-btn--icon" type="button" aria-label="Close" onClick="{{closeSheet}}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></div>
+              <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px;">
+                <div class="s1-card" style="padding: 16px; display: flex; flex-direction: column; gap: 8px; box-shadow: inset 0 0 0 2px var(--s1-blue);">
+                  <span class="s1-pill" style="align-self: flex-start; color: var(--on-blue); background: var(--s1-blue);">Keep · #0957</span>
+                  <span class="s1-headline" style="font-size: 16px;">Natalia Orlova</span>
+                  <span style="font: 500 13px/19px var(--font-sans); color: var(--text-secondary);">Joined Mar 2025<br>64 visits · tag 000957<br>+7 999 555 0123<br>natalia.orlova@yandex.ru</span>
+                </div>
+                <div class="s1-card" style="padding: 16px; display: flex; flex-direction: column; gap: 8px;">
+                  <span class="s1-pill s1-pill--none" style="align-self: flex-start;">Duplicate · #1188</span>
+                  <span class="s1-headline" style="font-size: 16px;">Natalia Orlova</span>
+                  <span style="font: 500 13px/19px var(--font-sans); color: var(--text-secondary);">Made Sat 3 Oct by Tee<br>4 visits · tag 001877<br>+7 999 555 0123<br>1 Week · Sat 3 → Fri 9 Oct</span>
+                </div>
+              </div>
+              <div class="s1-card" style="padding: 16px 18px; background: var(--surface-2); display: flex; flex-direction: column; gap: 10px;">
+                <span style="font: 600 13px/18px var(--font-sans); color: var(--text-secondary);">What happens</span>
+                <sc-for list="{{mergeSteps}}" as="ms" hint-placeholder-count="4"><div style="display: flex; gap: 10px;"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--s1-green); width: 18px; height: 18px; margin-top: 1px;"><path d="M20 6 9 17l-5-5"/></svg><span style="font: 500 14px/20px var(--font-sans);">{{ms}}</span></div></sc-for>
+              </div>
+              <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px;"><button class="s1-btn s1-btn--secondary s1-btn--lg" type="button" onClick="{{closeSheet}}">Cancel</button><button class="s1-btn s1-btn--primary s1-btn--lg" type="button" onClick="{{doMerge}}">Merge into #0957</button></div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{editOpen}}" hint-placeholder-val="{{ false }}">
+            <form onSubmit="{{saveItem}}" style="display: flex; flex-direction: column; gap: 16px;">
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;"><h2 class="s1-title2">{{ed.name}}</h2><button class="s1-btn s1-btn--secondary s1-btn--icon" type="button" aria-label="Close" onClick="{{closeSheet}}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></div>
+              <div style="display: flex; align-items: center; gap: 14px;">
+                <span style="width: 88px; height: 88px; border-radius: 18px; overflow: hidden; background: var(--surface-2); display: grid; place-items: center; flex: none; font: 700 18px/1 var(--font-sans); color: var(--text-secondary);"><sc-if value="{{ed.hasPhoto}}" hint-placeholder-val="{{ true }}"><img class="s1-photo" src="{{ed.photo}}" alt="{{ed.name}}" style="object-position: {{ed.pos}};"></sc-if><sc-if value="{{ed.noPhoto}}" hint-placeholder-val="{{ false }}">{{ed.initials}}</sc-if></span>
+                <div style="display: flex; flex-direction: column; gap: 6px;"><button class="s1-btn s1-btn--secondary s1-btn--sm" type="button" onClick="{{replacePhoto}}">Replace photo</button><span style="font: 500 12px/16px var(--font-sans); color: var(--text-tertiary);">Square, at least 1200 px. Shown in the app's menu.</span></div>
+              </div>
+              <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px;">
+                <div><label class="s1-label" for="e-en">English</label><input class="s1-input" id="e-en" value="{{ed.name}}" readonly></div>
+                <div><label class="s1-label" for="e-th">ไทย</label><input class="s1-input" id="e-th" lang="th" value="{{ed.th}}" placeholder="—" readonly></div>
+                <div><label class="s1-label" for="e-ru">Русский</label><input class="s1-input" id="e-ru" lang="ru" value="{{ed.ru}}" placeholder="—" readonly></div>
+              </div>
+              <div style="display: grid; grid-template-columns: 140px minmax(0, 1fr); gap: 10px;">
+                <div><label class="s1-label" for="e-price">Price ฿</label><input class="s1-input s1-num" id="e-price" value="{{ed.price}}" readonly></div>
+                <div><label class="s1-label" for="e-desc">What's in it</label><input class="s1-input" id="e-desc" value="{{ed.desc}}" placeholder="Ingredients, shown on the item page" readonly></div>
+              </div>
+              <sc-if value="{{ed.hasAddons}}" hint-placeholder-val="{{ true }}">
+                <div><p class="s1-label">Add-ons members can pick</p><div style="display: flex; flex-wrap: wrap; gap: 8px;"><sc-for list="{{ed.addons}}" as="ad" hint-placeholder-count="7"><span style="height: 32px; padding: 0 12px; border-radius: 999px; background: var(--surface-2); display: inline-flex; align-items: center; gap: 6px; font: 600 13px/1 var(--font-sans);">{{ad.label}}<span class="s1-num" style="color: var(--text-secondary);">+฿{{ad.price}}</span></span></sc-for></div></div>
+              </sc-if>
+              <div class="s1-card" style="padding: 16px; background: var(--surface-2); display: flex; flex-direction: column; gap: 12px;">
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;"><span style="font: 600 15px/20px var(--font-sans);">Macros per serving</span><sc-if value="{{ed.isDraft}}" hint-placeholder-val="{{ true }}"><span class="s1-sample">Draft from the recipe card</span></sc-if></div>
+                <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px;">
+                  <sc-for list="{{ed.macros}}" as="mc" hint-placeholder-count="4"><div><label class="s1-label" for="{{mc.id}}">{{mc.label}}</label><input class="s1-input s1-num" id="{{mc.id}}" inputmode="numeric" value="{{mc.value}}" onChange="{{mc.onChange}}" placeholder="—" style="text-align: right;"></div></sc-for>
+                </div>
+                <div style="display: flex; align-items: center; gap: 12px;"><button type="button" role="switch" class="s1-switch" aria-checked="{{ed.verified}}" aria-label="Macros checked and shown in the app" onClick="{{toggleVerified}}"></button><span style="font: 500 14px/20px var(--font-sans);">Checked by weighing. Show these numbers in the app.</span></div>
+              </div>
+              <button class="s1-btn s1-btn--primary s1-btn--lg s1-btn--block" type="submit">Save</button>
+            </form>
+          </sc-if>
+
+          <sc-if value="{{addLoginOpen}}" hint-placeholder-val="{{ false }}">
+            <form onSubmit="{{sendInvite}}" style="display: flex; flex-direction: column; gap: 18px;">
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;"><h2 class="s1-title2">Add a login</h2><button class="s1-btn s1-btn--secondary s1-btn--icon" type="button" aria-label="Close" onClick="{{closeSheet}}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></div>
+              <div><label class="s1-label" for="a-new-email">Email</label><input class="s1-input" id="a-new-email" type="email" placeholder="name@example.com" value="{{loginForm.email}}" onChange="{{onLoginEmail}}"></div>
+              <div><p class="s1-label">Role</p><div class="s1-seg" style="display: flex;"><sc-for list="{{roleOpts}}" as="ro" hint-placeholder-count="4"><button type="button" aria-pressed="{{ro.pressed}}" onClick="{{ro.pick}}" style="flex: 1;">{{ro.label}}</button></sc-for></div></div>
+              <div class="s1-card" style="padding: 14px 16px; background: var(--surface-2); font: 500 14px/20px var(--font-sans); color: var(--text-secondary);">{{roleNote}}</div>
+              <button class="s1-btn s1-btn--primary s1-btn--lg s1-btn--block {{inviteOff}}" type="submit">Send the invite</button>
+            </form>
+          </sc-if>
+        </div>
+      </div>
+    </sc-if>
+  </sc-if>
+
+  <sc-if value="{{toast}}" hint-placeholder-val="{{ false }}">
+    <div class="s1-slide-down" role="status" style="position: fixed; left: 50%; top: 24px; transform: translateX(-50%); z-index: 40; width: max-content; max-width: calc(100% - 32px); padding: 14px 18px; border-radius: 16px; background: var(--surface-2); box-shadow: var(--shadow-sheet), inset 0 0 0 1px var(--hairline); display: flex; align-items: center; gap: 12px; font: 600 15px/20px var(--font-sans);">
+      <span class="s1-disc s1-disc--go" style="width: 28px; height: 28px;"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true" style="width: 15px; height: 15px; stroke-width: 3;"><path d="M20 6 9 17l-5-5"/></svg></span>{{toast}}
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"start":{"editor":"enum","options":["login","dashboard","import","plans","menu","people","logins","settings"],"default":"dashboard"},"$preview":{"width":1280,"height":900}}'>
+var PHOTO = { cafe: "/_blob/cdc0bb4eada39ac9515967abc0d39748", espresso: "/_blob/c6dbb7672b6c0c583d91e888340aba1c", capp: "/_blob/bc8046c477cfb3b2379c4734b3b2a560", flat: "/_blob/b22e1834550a77b2fb97df21625e3ecd", bruce: "/_blob/3eabe9d3ae5c02b68645eaf5c9c94583", mct: "/_blob/de85303544049c7bf7f22230551fefa9",
+  tee: "/_blob/4579ab66e0da7e628f078fd8dc86e3fa", leggings: "/_blob/20d93db7745348f777084c7ce9daed9e", top: "/_blob/9c54e9b4fa79d0918ae17e2f0911631c", nba: "/_blob/422228dc127f9a1db9eff3cfcb997803",
+  aun: "/_blob/a36c61e30cc4725326f7d3dc2eb9c0d7", bella: "/_blob/2b0dba687ad22bba596119d1529930d5", bonnie: "/_blob/4250623bb9b7a6edf66078ec4132ac84", nicha: "/_blob/ae35b242cdeaf6dac7a26f22a82c7be8", poom: "/_blob/4421d34bc1fc929a3d1a7108d7f8a7da" };
+var PLANS = {
+  member: [{ id: "day", name: "Day Pass", len: "1 day", price: 250, q: "Day Pass (วันหนึ่ง)" }, { id: "1w", name: "1 Week", len: "7 days", price: 1200, q: "1 Week (1 สัปดาห์)" }, { id: "2w", name: "2 Weeks", len: "14 days", price: 1800, q: "2 Weeks (2 สัปดาห์)" },
+    { id: "1m", name: "1 Month", len: "1 calendar month", price: 2200, q: "1 Month (1 เดือน)" }, { id: "3m", name: "3 Months", len: "3 calendar months", price: 5400, q: "3 Months (3 เดือน)" }, { id: "6m", name: "6 Months", len: "6 calendar months", price: 9000, q: "6 Months (6 เดือน)" }, { id: "12m", name: "12 Months", len: "12 calendar months", price: 12000, q: "12 Months (12 เดือน)" }],
+  thai: [{ id: "th1m", name: "Thai 1 Month", len: "1 calendar month", price: 1200, q: "THAI 1 เดือน" }, { id: "th3m", name: "Thai 3 Months", len: "3 calendar months", price: 2900, q: "THAI 3 เดือน" }, { id: "th6m", name: "Thai 6 Months", len: "6 calendar months", price: 6000, q: "THAI 6 เดือน" }, { id: "th12m", name: "Thai 12 Months", len: "12 calendar months", price: 10900, q: "THAI 12 เดือน" }],
+  pt: [{ id: "pt1", name: "1 PT session", len: "valid 1 month", price: 1700, q: "SUPERCOACH <coach> + PT 1 Session" }, { id: "pt3", name: "3 PT sessions", len: "valid 2 months", price: 5000, q: "SUPERCOACH <coach> + PT 3 Session" }, { id: "pt10", name: "10 PT sessions", len: "valid 4 months", price: 15000, q: "SUPERCOACH <coach> + PT 10 Session" }, { id: "pt20", name: "20 PT sessions", len: "valid 6 months", price: 27000, q: "SUPERCOACH <coach> + PT 20 Session" }],
+  packs: [{ id: "10v", name: "10 Visits", len: "valid 6 months", price: 2000, q: "10 Visit Pack (แพ็กเกจ 10 ครั้ง)" }, { id: "inbody", name: "InBody scan", len: "one scan", price: 400, q: "InBody Scan + Single Scan" }, { id: "inbody2", name: "InBody 2 pack", len: "valid 3 months", price: 600, q: "InBody Scan + 2 Pack", off: true }, { id: "inbody3", name: "InBody 3 pack", len: "valid 3 months", price: 750, q: "InBody Scan + 3 Pack" }, { id: "inbody4", name: "InBody 4 pack", len: "valid 6 months", price: 1000, q: "InBody Scan + 4 Pack", off: true }, { id: "inbody10", name: "InBody 10 pack", len: "valid 12 months", price: 2000, q: "InBody Scan + 10 Pack", off: true }]
+};
+var PLAN_TABS = [{ id: "member", label: "Memberships" }, { id: "thai", label: "Thai residents" }, { id: "pt", label: "PT" }, { id: "packs", label: "Packs and extras" }];
+var RULES = [
+  "Dates count both ends. 1 Month from Thu 1 Oct ends Sat 31 Oct.",
+  "Buying before a plan ends queues the new one to start the day after.",
+  "A pause moves the end date, and every queued plan, back by the paused days.",
+  "10 Visits uses one visit per check-in and ends after 6 months.",
+  "PT sessions belong to a coach and end with the pack.",
+  "Nothing is deleted. Archive hides a member, merge joins two into one."
+];
+var MENU = [
+  { id: "strong-vibes", cat: "shakes", name: "Strong Vibes", th: "สตรองไวบ์", price: 149, desc: "Banana, blueberry, Greek yogurt, peanut butter, coconut water, açaí, vanilla whey protein", pos: "30% 50%", draft: { kcal: 457, p: 34, c: 51, f: 13 } },
+  { id: "banana-bam-bam", cat: "shakes", name: "Banana Bam Bam", th: "บานาน่า แบม แบม", price: 149, desc: "Banana, honey, cinnamon, coconut water, coconut milk, vanilla whey protein", pos: "60% 50%" },
+  { id: "berry-hype", cat: "shakes", name: "Berry Hype", th: "เบอร์รี่ไฮป์", price: 149, desc: "Blueberry, raspberry, strawberry, açaí, coconut water, vanilla whey protein", pos: "12% 50%" },
+  { id: "thick", cat: "shakes", name: "Thick", th: "ติก", price: 149, desc: "Banana, peanut butter, cacao powder, oat milk, chocolate whey protein", pos: "50% 50%" },
+  { id: "skinny-rich", cat: "shakes", name: "Skinny & Rich", th: "ผอม & รวย", price: 149, desc: "Raspberry, cacao powder, almond butter, oat milk, chocolate whey protein", pos: "80% 50%" },
+  { id: "espresso-max", cat: "shakes", name: "Espresso Max", th: "เอสเพรสโซ่ แม็กซ์", price: 149, desc: "", pos: "50% 50%" },
+  { id: "mocha-monster", cat: "shakes", name: "Mocha Monster", th: "สัตว์ประหลาดมอคค่า", price: 149, desc: "", pos: "50% 50%" },
+  { id: "cyo-whey", cat: "shakes", name: "Create your own: Whey", th: "", price: 90, desc: "Pick your fruit, milk and add-ons", pos: "50% 50%" },
+  { id: "cyo-vegan", cat: "shakes", name: "Create your own: Vegan", th: "", price: 120, desc: "Plant protein, your way", pos: "50% 50%" },
+  { id: "espresso", cat: "coffee", name: "Espresso", price: 50, photo: "espresso" }, { id: "americano", cat: "coffee", name: "Americano", price: 50, photo: "espresso" },
+  { id: "cappuccino", cat: "coffee", name: "Cappuccino", price: 80, photo: "capp" }, { id: "flat-white", cat: "coffee", name: "Flat White", price: 80, photo: "flat" },
+  { id: "latte", cat: "coffee", name: "Latte", price: 80, photo: "capp" }, { id: "bruce", cat: "coffee", name: "Bulletproof Bruce", price: 70, photo: "bruce", desc: "Add Bruce MCT oil to any coffee" },
+  { id: "oj", cat: "juices", name: "OJ Classic", price: 139, desc: "Oranges" }, { id: "ak", cat: "juices", name: "AK Energy", price: 139, desc: "Apple, kiwi" }, { id: "passion", cat: "juices", name: "Pure Passion", price: 139, desc: "Passionfruit" },
+  { id: "alg", cat: "juices", name: "ALG", price: 169, desc: "Apple, lemon, ginger" }, { id: "bkk", cat: "juices", name: "Bangkok Beat", price: 169, desc: "Orange, unripened banana, ginger" },
+  { id: "bmho", cat: "juices", name: "Blow My Head Off", price: 169, desc: "Orange, carrot, ginger, turmeric, cayenne pepper" }, { id: "ginger", cat: "juices", name: "Ginger Shot", price: 69, desc: "One sharp shot" },
+  { id: "c4", cat: "fuel", name: "C4 Pre Workout Scoop", price: 99, desc: "Pre-workout" }, { id: "creatine", cat: "fuel", name: "Creatine 5g", price: 50, desc: "Add to any shake" }, { id: "wilder", cat: "fuel", name: "Wilder Electrolyte Sachet", price: 60, desc: "Electrolytes" },
+  { id: "coconut", cat: "fuel", name: "Coconut Water", price: 40, desc: "Fresh, chilled" }, { id: "water-big", cat: "fuel", name: "Big Water 1500ml", price: 40 }, { id: "water-small", cat: "fuel", name: "Small Water 600ml", price: 20 },
+  { id: "waffle-1", cat: "food", name: "1 Waffle", th: "1 วาฟเฟิล", price: 169, desc: "Add banana, mango, peanut butter, berries" }, { id: "waffle-2", cat: "food", name: "2 Waffles", th: "2 วาฟเฟิล", price: 269, desc: "Add banana, mango, peanut butter, berries" },
+  { id: "ball-m", cat: "food", name: "Protein Ball (M)", price: 30 }, { id: "banana", cat: "food", name: "Banana", price: 20 },
+  { id: "tee", cat: "shop", name: "Superfit T-shirt", price: 599, photo: "tee" }, { id: "leggings", cat: "shop", name: "Leggings", price: 990, photo: "leggings" }, { id: "tight-top", cat: "shop", name: "Tight Top", price: 690, photo: "top" }, { id: "nba", cat: "shop", name: "NBA Top", price: 599, photo: "nba" }
+];
+var DRAFTS = [
+  { id: "d-bra", cat: "drafts", name: "Sports Bra (Blue)", price: 690, desc: "From Qashier · Superfit Clothes" }, { id: "d-shorts", cat: "drafts", name: "Active Shorts (Black)", price: 690, desc: "From Qashier · Superfit Clothes" },
+  { id: "d-towel", cat: "drafts", name: "Towel", price: 149, desc: "From Qashier · Towel" }, { id: "d-gatorade", cat: "drafts", name: "Gatorade", price: 50, desc: "From Qashier · blue and yellow" },
+  { id: "d-pocari", cat: "drafts", name: "Pocari Sweat 500ml", price: 50, desc: "From Qashier · Drink" }, { id: "d-tea", cat: "drafts", name: "Tea", price: 60, desc: "From Qashier · Coffee" }, { id: "d-orange", cat: "drafts", name: "Orange", price: 30, desc: "From Qashier · Snacks and fruit" }
+];
+var MENU_CATS = [{ id: "shakes", label: "Shakes" }, { id: "coffee", label: "Coffee" }, { id: "juices", label: "Juices" }, { id: "fuel", label: "Fuel-ups" }, { id: "food", label: "Waffles and snacks" }, { id: "shop", label: "Shop" }];
+var ADDONS = {
+  shakes: [{ label: "XL size", price: 50 }, { label: "Extra scoop", price: 60 }, { label: "Vegan protein", price: 30 }, { label: "Creatine 5g", price: 50 }, { label: "MCT oil 5 ml", price: 30 }, { label: "Peanut butter 20 g", price: 20 }, { label: "Oat milk", price: 20 }],
+  coffee: [{ label: "Iced", price: 30 }, { label: "Extra shot", price: 20 }, { label: "Oat milk", price: 20 }, { label: "Almond milk", price: 20 }, { label: "Bulletproof Bruce (MCT)", price: 70 }],
+  juices: [{ label: "Creatine 5g", price: 50 }, { label: "Wilder electrolyte", price: 60 }, { label: "MCT oil 5 ml", price: 30 }],
+  food: [{ label: "Banana", price: 20 }, { label: "Peanut butter", price: 20 }, { label: "Blueberries", price: 30 }, { label: "Honey", price: 15 }]
+};
+var STAFF0 = [{ name: "Joy", q: "joy" }, { name: "Jeab", q: "" }, { name: "Tee", q: "" }, { name: "Bonnie", q: "" }, { name: "Fai", q: "" }, { name: "Ning", q: "" }];
+var COACHES = [
+  { id: "sunman", name: "Sunman Fitness", initials: "SF", photo: "", clients: 2, sessions: 9, portal: "active", email: "sunman@superfitphuket.com" },
+  { id: "aun", name: "Aun", photo: "aun", clients: 6, sessions: 14, portal: "none" }, { id: "bella", name: "Bella", photo: "bella", clients: 5, sessions: 12, portal: "none" },
+  { id: "bonnie", name: "Bonnie", photo: "bonnie", clients: 4, sessions: 9, portal: "none" }, { id: "nicha", name: "Nicha", photo: "nicha", clients: 5, sessions: 11, portal: "none" },
+  { id: "poom", name: "Poom", photo: "poom", clients: 3, sessions: 6, portal: "none" }, { id: "orn", name: "Orn", initials: "O", photo: "", clients: 1, sessions: 2, portal: "none", note: "Added from the counter QR, confirm" },
+  { id: "team", name: "Team", initials: "T", photo: "", clients: 1, sessions: 1, portal: "house", note: "House PT, no login" }
+];
+var WEEK = [{ d: "Tue", sales: 41380 }, { d: "Wed", sales: 38950 }, { d: "Thu", sales: 44120 }, { d: "Fri", sales: 47600 }, { d: "Sat", sales: 52310 }, { d: "Sun", sales: 35870 }, { d: "Mon", sales: 50222, real: true }];
+var MATRIX = [
+  ["Check members in", "y", "-", "y", "-", "QR"], ["Sell and renew plans", "y", "-", "y", "-", "-"], ["Log a PT session", "y", "-", "y", "own", "-"], ["Archive a member", "y", "-", "y", "-", "-"],
+  ["Merge duplicates", "y", "-", "ask", "-", "-"], ["See sales and Qashier", "y", "y", "-", "-", "-"], ["Import Qashier CSV", "y", "-", "-", "-", "-"], ["Prices, plans, café menu", "y", "-", "-", "-", "-"],
+  ["Program and message clients", "y", "-", "-", "own", "-"], ["Log workouts and check-ins", "-", "-", "-", "-", "own"], ["Manage logins", "y", "-", "-", "-", "-"]
+];
+var WAIVER = {
+  en: ["I train at my own risk and will use the equipment safely.", "I have no medical condition that stops me exercising, or my doctor says it's OK.", "I'll follow the gym rules and the staff's directions."],
+  th: ["ฉันออกกำลังกายโดยยอมรับความเสี่ยงเอง และจะใช้อุปกรณ์อย่างปลอดภัย", "ฉันไม่มีโรคประจำตัวที่ห้ามออกกำลังกาย หรือแพทย์อนุญาตแล้ว", "ฉันจะปฏิบัติตามกฎของยิมและคำแนะนำของพนักงาน"],
+  ru: ["Я тренируюсь на свой риск и безопасно пользуюсь оборудованием.", "У меня нет противопоказаний к нагрузкам, или врач разрешил тренировки.", "Я соблюдаю правила зала и указания персонала."]
+};
+var BASE = { login: "login", dashboard: "dashboard", import: "import", plans: "plans", menu: "menu", people: "people", logins: "logins", settings: "settings" };
+function baht(n) { return "฿" + Math.round(n).toLocaleString("en-US"); }
+function initials(n) { return n.split(" ").map(function (w) { return w.charAt(0); }).join("").slice(0, 2).toUpperCase(); }
+function clone(o) { return JSON.parse(JSON.stringify(o)); }
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    var start = this.props.start || "dashboard";
+    this.state = {
+      screen: start, loginStep: 1,
+      stage: start === "import" ? "preview" : "done", draftsAdded: false,
+      inbox: { merge: true, joy: true, qashier: true }, sheet: null, replyOpen: false, replyText: "",
+      planTab: "member", prices: {}, savedPrices: {}, onDesk: {},
+      menuCat: "shakes", editId: null, verified: {}, inAppOff: {}, macroEdits: {},
+      staff: clone(STAFF0), staffOff: {}, newStaff: "", matched: null,
+      portal: {}, devices: [{ name: "Front desk iPad", seen: "last seen 21:10", on: true }, { name: "Counter laptop", seen: "last seen 20:58", on: true }],
+      logins: [], loginForm: { email: "", role: "coach" },
+      waiverLang: "en", waiver: clone(WAIVER), waiverVersion: 1, waiverDirty: false,
+      toast: ""
+    };
+    this.timers = [];
+  }
+  componentWillUnmount() { this.timers.forEach(clearTimeout); }
+  flash(msg) { var self = this; this.setState({ toast: msg }); this.timers.push(setTimeout(function () { if (self.state.toast === msg) self.setState({ toast: "" }); }, 2800)); }
+  renderVals() {
+    var s = this.state, self = this;
+    var names = ["login", "dashboard", "import", "plans", "menu", "people", "logins", "settings"];
+    var is = {}; names.forEach(function (n) { is[n] = s.screen === n; });
+    var go = {}, nav = {};
+    names.forEach(function (n) { go[n] = function () { self.setState({ screen: n, sheet: null }); }; nav[n] = s.screen === n; });
+    var inboxCount = (s.inbox.merge ? 1 : 0) + (s.inbox.joy ? 1 : 0) + (s.inbox.qashier ? 1 : 0);
+    var allMenu = MENU.concat(s.draftsAdded ? DRAFTS : []);
+    var draftCount = s.draftsAdded ? DRAFTS.length : 0;
+    var maxWeek = Math.max.apply(null, WEEK.map(function (w) { return w.sales; }));
+
+    // plans
+    var planList = PLANS[s.planTab];
+    var priceOf = function (p) { return s.prices[p.id] != null ? s.prices[p.id] : (s.savedPrices[p.id] != null ? s.savedPrices[p.id] : p.price); };
+    var pricesDirty = Object.keys(s.prices).length > 0;
+
+    // menu
+    var editItem = allMenu.filter(function (m) { return m.id === s.editId; })[0] || null;
+    var macroOf = function (m) { var e = s.macroEdits[m.id]; if (e) return e; return m.draft ? { kcal: m.draft.kcal, p: m.draft.p, c: m.draft.c, f: m.draft.f } : { kcal: "", p: "", c: "", f: "" }; };
+    var verifiedCount = Object.keys(s.verified).filter(function (k) { return s.verified[k]; }).length;
+
+    // coaches
+    var portalOf = function (c) { return s.portal[c.id] || c.portal; };
+
+    // logins
+    var baseLogins = [
+      { name: "Pete", initial: "P", role: "Admin", email: "higgywane@gmail.com", status: "Signed in now", statusColor: "var(--s1-green)", bg: "var(--s1-blue-tint)", fg: "var(--s1-blue)" },
+      { name: "Andy", initial: "A", role: "Owner", email: "andy@superfitphuket.com", status: "Invite sent · not signed in yet", statusColor: "var(--s1-yellow)", bg: "var(--surface-3)", fg: "#ffffff" },
+      { name: "Front desk", initial: "D", role: "Desk · shared", email: "desk@superfitphuket.com", status: "2 devices signed in", statusColor: "var(--s1-green)", bg: "var(--surface-3)", fg: "#ffffff" },
+      { name: "Sunman Fitness", initial: "S", role: "Coach", email: "sunman@superfitphuket.com", status: "Signed in today 21:16", statusColor: "var(--s1-green)", bg: "var(--s1-pink-tint)", fg: "var(--s1-pink)" }
+    ];
+    var roleNames = { coach: "Coach", owner: "Owner", desk: "Desk", admin: "Admin" };
+    var roleNotes = {
+      coach: "Sees only their own leads and clients: programs, nutrition, check-ins and counter mode. Can't see sales or other coaches' clients.",
+      owner: "Sees the dashboard: sales from Qashier, check-ins, memberships and the café. Can't change prices or people.",
+      desk: "Check-in, members, selling plans, PT sessions and archive. Use this for a second shared desk login only.",
+      admin: "Everything, including prices, the menu, logins and merges. Keep this to one or two people."
+    };
+    var emailOk = /.+@.+\..+/.test(s.loginForm.email.trim());
+
+    var curWaiver = s.waiver[s.waiverLang];
+
+    return {
+      is: is, go: go, nav: nav, inApp: s.screen !== "login",
+      loginStep1: s.loginStep === 1, loginStep2: s.loginStep === 2,
+      sendCode: function (ev) { ev.preventDefault(); self.setState({ loginStep: 2 }); },
+      signIn: function (ev) { ev.preventDefault(); self.setState({ loginStep: 1, screen: "dashboard" }); },
+      codeDigits: "604218".split("").map(function (n, k) { return { n: n, delay: (k * 60) + "ms" }; }),
+      logOut: function () { self.setState({ screen: "login", loginStep: 1, sheet: null }); },
+      hasInbox: inboxCount > 0, inboxCount: inboxCount, inboxEmpty: inboxCount === 0, inbox: s.inbox,
+      hasDrafts: draftCount > 0, draftCount: draftCount + " new",
+
+      dashKpis: [
+        { label: "Sales · Qashier", value: "฿50,222", sub: "123 sales · imported 21:05", subColor: "var(--text-secondary)" },
+        { label: "Visits", value: "63 + 45", sub: "members + day passes", subColor: "var(--text-secondary)" },
+        { label: "Memberships sold", value: "14", sub: "฿25,800 · desk = Qashier", subColor: "var(--s1-green)" },
+        { label: "Café", value: "฿10,655", sub: "37 shakes · top: Create your own", subColor: "var(--text-secondary)" }
+      ],
+      openMerge: function () { self.setState({ sheet: "merge" }); },
+      dismissMerge: function () { self.setState({ inbox: Object.assign({}, self.state.inbox, { merge: false }) }); self.flash("Kept as two members. Tee sees your answer at the desk."); },
+      replyOpen: s.replyOpen, replyClosed: !s.replyOpen, replyText: s.replyText, replyOff: s.replyText.trim() ? "" : "s1-off",
+      openReply: function () { self.setState({ replyOpen: true }); },
+      onReply: function (ev) { self.setState({ replyText: ev.target.value }); },
+      sendReply: function (ev) { ev.preventDefault(); if (!self.state.replyText.trim()) return; self.setState({ replyOpen: false, replyText: "", inbox: Object.assign({}, self.state.inbox, { joy: false }) }); self.flash("Sent to the desk chat. Joy sees it on her next screen."); },
+      weekBars: WEEK.map(function (w, k) { return { label: w.d, h: Math.round(w.sales / maxWeek * 100), color: w.real ? "var(--s1-blue)" : "var(--surface-4)", delay: (k * 50) + "ms" }; }),
+      coachMini: COACHES.filter(function (c) { return c.id !== "team"; }).slice(0, 4).map(function (c) {
+        return { name: c.name, initials: c.initials || initials(c.name), photo: c.photo ? PHOTO[c.photo] : "", hasPhoto: !!c.photo, noPhoto: !c.photo, clients: c.clients, sessions: c.sessions,
+          bg: c.id === "sunman" ? "var(--s1-pink-tint)" : "var(--surface-3)", fg: c.id === "sunman" ? "var(--s1-pink)" : "#ffffff" };
+      }),
+
+      sheetOpen: !!s.sheet, mergeOpen: s.sheet === "merge", editOpen: s.sheet === "edit", addLoginOpen: s.sheet === "login",
+      closeSheet: function () { self.setState({ sheet: null }); },
+      mergeSteps: ["The 1 Week plan and 4 visits move to #0957.", "Tag 001877 becomes a second tag on #0957, so either one scans her in.", "#1188 is hidden and points to #0957. Nothing is deleted.", "The history says: merged by Pete, asked by Tee."],
+      doMerge: function () { self.setState({ sheet: null, inbox: Object.assign({}, self.state.inbox, { merge: false }) }); self.flash("Merged. Natalia is one member again, #0957."); },
+
+      imp: { empty: s.stage === "empty", hasFile: s.stage !== "empty", preview: s.stage === "preview", done: s.stage === "done" },
+      pickFile: function () { self.setState({ stage: "preview" }); },
+      resetImport: function () { self.setState({ stage: "empty" }); },
+      commitImport: function () { self.setState({ stage: "done" }); self.flash("Mon 12 Oct imported. Andy's app shows it now."); },
+      checks: [{ text: "10 categories add up to net sales", num: "฿46,936.45" }, { text: "4 payment methods add up to total sales", num: "฿50,222.00" }, { text: "2 staff add up to all transactions, none voided", num: "123" }],
+      recon: [{ what: "Memberships", desk: "14 · ฿25,800", qashier: "14 · ฿25,800" }, { what: "Day passes", desk: "45 · ฿11,250", qashier: "45 · ฿11,250" }, { what: "PT packs", desk: "0", qashier: "0" }, { what: "10 Visits packs", desk: "0", qashier: "0" }],
+      missing: DRAFTS.map(function (d) { return { name: d.name, price: baht(d.price) }; }),
+      addOff: s.draftsAdded ? "s1-off" : "", addLabel: s.draftsAdded ? "Added to the café menu as drafts" : "Add 7 to the café menu as drafts",
+      addDrafts: function () { self.setState({ draftsAdded: true, inbox: Object.assign({}, self.state.inbox, { qashier: false }) }); self.flash("7 drafts added. They stay hidden from members until you switch them on."); },
+      days: [{ label: "Mon 12 Oct" + (s.stage === "done" ? " ✓" : " · waiting"), pill: s.stage === "done" ? "s1-pill s1-pill--active" : "s1-pill s1-pill--expiring" }, { label: "Sun 11 Oct", pill: "s1-pill s1-pill--none" }, { label: "Sat 10 Oct", pill: "s1-pill s1-pill--none" }, { label: "Fri 9 Oct", pill: "s1-pill s1-pill--none" }],
+
+      pricesDirty: pricesDirty, saveOff: pricesDirty ? "" : "s1-off",
+      savePrices: function () {
+        if (!Object.keys(self.state.prices).length) return;
+        self.setState({ savedPrices: Object.assign({}, self.state.savedPrices, self.state.prices), prices: {} });
+        self.flash("Saved. The desk sells at the new price now. Change it on Qashier too.");
+      },
+      planTabs: PLAN_TABS.map(function (x) { return { label: x.label, pressed: s.planTab === x.id, pick: function () { self.setState({ planTab: x.id }); } }; }),
+      planRows: planList.map(function (p) {
+        var on = s.onDesk[p.id] != null ? s.onDesk[p.id] : !p.off, price = priceOf(p), changed = s.prices[p.id] != null;
+        return { name: p.name, len: p.len, q: p.q || "Not in an import yet", qColor: p.q ? "var(--text-secondary)" : "var(--text-tertiary)", price: String(price), priceLabel: p.name + " price in baht",
+          ring: changed ? "0 0 0 2px var(--s1-yellow)" : "none", on: on, opacity: on ? "1" : "0.5", switchLabel: "Sell " + p.name + " at the desk",
+          onPrice: function (ev) { var v = parseInt(String(ev.target.value).replace(/[^0-9]/g, ""), 10); var np = Object.assign({}, self.state.prices); if (isNaN(v) || v === p.price && self.state.savedPrices[p.id] == null) { delete np[p.id]; } else { np[p.id] = isNaN(v) ? 0 : v; } self.setState({ prices: np }); },
+          toggle: function () { var o = Object.assign({}, self.state.onDesk); o[p.id] = !on; self.setState({ onDesk: o }); self.flash(p.name + (on ? " hidden from the desk." : " back on the desk.")); } };
+      }),
+      rules: RULES,
+
+      verifyLine: verifiedCount + " of " + MENU.length + " items have checked macros",
+      menuCats: MENU_CATS.concat(s.draftsAdded ? [{ id: "drafts", label: "Drafts from Qashier" }] : []).map(function (c) {
+        var n = allMenu.filter(function (m) { return m.cat === c.id; }).length;
+        return { label: c.label, count: n, cls: s.menuCat === c.id ? (c.id === "drafts" ? "s1-chip-pt" : "s1-chip-blue") : "s1-chip-off", pick: function () { self.setState({ menuCat: c.id }); } };
+      }),
+      menuRows: allMenu.filter(function (m) { return m.cat === s.menuCat; }).map(function (m) {
+        var photo = m.photo ? PHOTO[m.photo] : (m.cat === "shakes" ? PHOTO.cafe : "");
+        var isDraft = m.cat === "drafts", on = isDraft ? !!s.inAppOff["on-" + m.id] : !s.inAppOff[m.id], ver = !!s.verified[m.id];
+        return { name: m.name, sub: (m.th ? m.th + " · " : "") + (m.desc || "—"), price: baht(m.price), photo: photo, hasPhoto: !!photo, noPhoto: !photo, pos: m.pos || "50% 50%", initials: initials(m.name), bg: m.cat === "shop" ? "#e9e9eb" : "var(--surface-3)",
+          pill: isDraft ? "s1-pill s1-pill--none" : (ver ? "s1-pill s1-pill--active" : "s1-pill s1-pill--expiring"), status: isDraft ? "Draft" : (ver ? "Macros checked" : "Macros to check"),
+          on: on, switchLabel: "Show " + m.name + " in the app",
+          toggle: function () { var o = Object.assign({}, self.state.inAppOff); if (isDraft) o["on-" + m.id] = !on; else o[m.id] = on; self.setState({ inAppOff: o }); self.flash(m.name + (on ? " hidden from the app." : " is in the app now.")); },
+          edit: function () { self.setState({ sheet: "edit", editId: m.id }); } };
+      }),
+      ed: editItem ? (function () {
+        var m = editItem, photo = m.photo ? PHOTO[m.photo] : (m.cat === "shakes" ? PHOTO.cafe : ""), mac = macroOf(m);
+        var labels = [["kcal", "kcal"], ["p", "Protein g"], ["c", "Carbs g"], ["f", "Fat g"]];
+        return { name: m.name, th: m.th || "", ru: "", price: String(m.price), desc: m.desc || "", photo: photo, hasPhoto: !!photo, noPhoto: !photo, pos: m.pos || "50% 50%", initials: initials(m.name),
+          addons: ADDONS[m.cat] || [], hasAddons: !!ADDONS[m.cat], isDraft: !!m.draft && !s.macroEdits[m.id], verified: !!s.verified[m.id],
+          macros: labels.map(function (l) { return { id: "mac-" + l[0], label: l[1], value: String(mac[l[0]]), onChange: function (ev) {
+            var cur = Object.assign({}, macroOf(m)); cur[l[0]] = String(ev.target.value).replace(/[^0-9.]/g, ""); var me = Object.assign({}, self.state.macroEdits); me[m.id] = cur; self.setState({ macroEdits: me });
+          } }; }) };
+      })() : { name: "", th: "", ru: "", price: "", desc: "", photo: "", hasPhoto: false, noPhoto: true, pos: "50% 50%", initials: "", addons: [], hasAddons: false, isDraft: false, verified: false, macros: [] },
+      toggleVerified: function () { if (!self.state.editId) return; var v = Object.assign({}, self.state.verified); v[self.state.editId] = !v[self.state.editId]; self.setState({ verified: v }); },
+      replacePhoto: function () { self.flash("Opens your photos. The app crops it square."); },
+      saveItem: function (ev) { ev.preventDefault(); var m = editItem; self.setState({ sheet: null }); if (m) self.flash(m.name + (self.state.verified[m.id] ? " saved. Macros now show in the app." : " saved. Macros stay hidden until checked.")); },
+
+      staffRows: s.staff.map(function (st) {
+        var on = !s.staffOff[st.name];
+        var q = st.q || (s.matched === st.name ? "Hayatee Boonya" : "");
+        return { name: st.name, initial: st.name.charAt(0), on: on, switchLabel: "Show " + st.name + " on the shift picker",
+          sub: q ? "Qashier: " + q : "No Qashier login matched", subColor: q ? "var(--text-secondary)" : "var(--text-tertiary)",
+          toggle: function () { var o = Object.assign({}, self.state.staffOff); o[st.name] = on; self.setState({ staffOff: o }); self.flash(st.name + (on ? " archived. Their sales history stays." : " is back on the shift picker.")); } };
+      }),
+      newStaff: s.newStaff, onNewStaff: function (ev) { self.setState({ newStaff: ev.target.value }); }, addStaffOff: s.newStaff.trim().length >= 2 ? "" : "s1-off",
+      addStaff: function (ev) { ev.preventDefault(); var n = self.state.newStaff.trim(); if (n.length < 2) return; self.setState({ staff: self.state.staff.concat([{ name: n, q: "" }]), newStaff: "" }); self.flash(n + " is on the shift picker."); },
+      needsMatch: !s.matched,
+      matchChips: s.staff.filter(function (st) { return !st.q; }).map(function (st) { return { name: st.name, pick: function () { self.setState({ matched: st.name }); self.flash("Hayatee Boonya on Qashier is " + st.name + " at the desk."); } }; }),
+      coachRows: COACHES.map(function (c) {
+        var p = portalOf(c);
+        var status = { active: "Portal · active", invited: "Invite sent", none: "No login", house: "House PT" }[p];
+        var pill = { active: "s1-pill s1-pill--pt", invited: "s1-pill s1-pill--expiring", none: "s1-pill s1-pill--none", house: "s1-pill s1-pill--none" }[p];
+        return { name: c.name, initials: c.initials || initials(c.name), photo: c.photo ? PHOTO[c.photo] : "", hasPhoto: !!c.photo, noPhoto: !c.photo,
+          bg: c.id === "sunman" ? "var(--s1-pink-tint)" : "var(--surface-3)", fg: c.id === "sunman" ? "var(--s1-pink)" : "#ffffff",
+          sub: (c.note ? c.note + " · " : "") + c.clients + " PT clients · " + c.sessions + " sessions in October", status: status, pill: pill,
+          btn: p === "active" ? "Open" : (p === "invited" ? "Resend" : (p === "house" ? "Details" : "Invite")), btnCls: p === "none" ? "s1-btn--tinted" : "s1-btn--secondary",
+          invite: function () {
+            if (p === "none") { var o = Object.assign({}, self.state.portal); o[c.id] = "invited"; self.setState({ portal: o }); self.flash("Invite sent to " + c.name + ". They sign in with an email code."); }
+            else if (p === "invited") self.flash("Invite sent again to " + c.name + ".");
+            else if (p === "active") self.flash("Sunman: 2 clients, 2 leads, 9 sessions in October.");
+            else self.flash("Team covers PT sold without a named coach.");
+          } };
+      }),
+
+      openAddLogin: function () { self.setState({ sheet: "login", loginForm: { email: "", role: "coach" } }); },
+      loginRows: baseLogins.concat(s.logins),
+      loginForm: s.loginForm, onLoginEmail: function (ev) { self.setState({ loginForm: Object.assign({}, self.state.loginForm, { email: ev.target.value }) }); },
+      roleOpts: ["coach", "owner", "desk", "admin"].map(function (r) { return { label: roleNames[r], pressed: s.loginForm.role === r, pick: function () { self.setState({ loginForm: Object.assign({}, self.state.loginForm, { role: r }) }); } }; }),
+      roleNote: roleNotes[s.loginForm.role], inviteOff: emailOk ? "" : "s1-off",
+      sendInvite: function (ev) {
+        ev.preventDefault(); var f = self.state.loginForm; if (!/.+@.+\..+/.test(f.email.trim())) return;
+        var row = { name: f.email.trim().split("@")[0], initial: f.email.trim().charAt(0).toUpperCase(), role: roleNames[f.role], email: f.email.trim(), status: "Invite sent just now", statusColor: "var(--s1-yellow)", bg: "var(--surface-3)", fg: "#ffffff" };
+        self.setState({ logins: self.state.logins.concat([row]), sheet: null }); self.flash("Invite sent to " + row.email + ".");
+      },
+      devices: s.devices.map(function (d, k) {
+        return { name: d.name, seen: d.on ? d.seen : "signed out", dot: d.on ? "var(--s1-green)" : "var(--surface-4)", btn: d.on ? "Sign out" : "Signed out", off: d.on ? "" : "s1-off",
+          signOut: function () { var l = self.state.devices.map(function (x, i) { return i === k ? Object.assign({}, x, { on: false }) : x; }); self.setState({ devices: l }); self.flash(d.name + " signed out. It needs the passcode again."); } };
+      }),
+      changePasscode: function () { self.flash("New desk passcode set. Every desk device signs in again."); },
+      matrix: MATRIX.map(function (r) {
+        return { what: r[0], cells: r.slice(1).map(function (v) {
+          var map = { y: { v: "✓", color: "var(--s1-green)" }, "-": { v: "—", color: "var(--text-tertiary)" }, own: { v: "Own", color: "var(--s1-pink)" }, ask: { v: "Ask", color: "var(--s1-blue)" }, QR: { v: "QR", color: "var(--s1-blue)" } };
+          return map[v];
+        }) };
+      }),
+
+      waiverLangs: [{ code: "en", label: "English" }, { code: "th", label: "ไทย" }, { code: "ru", label: "Русский" }].map(function (l) { return { code: l.code, label: l.label, pressed: s.waiverLang === l.code, pick: function () { self.setState({ waiverLang: l.code }); } }; }),
+      waiverRules: curWaiver.map(function (text, k) {
+        return { id: "w-" + s.waiverLang + "-" + k, n: k + 1, lang: s.waiverLang, text: text, onChange: function (ev) {
+          var w = clone(self.state.waiver); w[self.state.waiverLang][k] = ev.target.value; self.setState({ waiver: w, waiverDirty: true });
+        } };
+      }),
+      waiverPill: s.waiverDirty ? "s1-pill s1-pill--expiring" : "s1-pill s1-pill--active", waiverStatus: s.waiverDirty ? "Unpublished changes" : "v" + s.waiverVersion + " live",
+      waiverMeta: s.waiverVersion === 1 ? "v1 · in use since Thu 1 Oct · every signature keeps its version" : "v" + s.waiverVersion + " · published just now · earlier signatures stay on their version",
+      publishOff: s.waiverDirty ? "" : "s1-off", publishLabel: "Publish as v" + (s.waiverVersion + 1),
+      publishWaiver: function () { if (!self.state.waiverDirty) return; self.setState({ waiverVersion: self.state.waiverVersion + 1, waiverDirty: false }); self.flash("Waiver v" + (self.state.waiverVersion + 1) + " is live. New sign-ups sign this one."); },
+      downloadPoster: function () { self.flash("Downloads the counter stand as a print-ready PDF."); },
+      gymRows: [{ k: "Gym", v: "Superfit · Chalong, Phuket" }, { k: "Prices", v: "Include 7% VAT" }, { k: "Currency and time", v: "THB · Asia/Bangkok" }, { k: "Member languages", v: "English · ไทย · Русский" }, { k: "Staff languages", v: "English · ไทย" }, { k: "Invite email sender", v: "To confirm" }],
+      toast: s.toast
+    };
+  }
+}
+</script>
+</body>
+</html>

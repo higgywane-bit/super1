@@ -1,0 +1,763 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SUPER1 member app</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="s1.css">
+<link rel="stylesheet" href="ds/super1/components/bundle.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Noto+Sans+Thai:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#000}
+</style>
+</helmet>
+<div class="s1 s1-screen" lang="{{lang}}" style="font-family: var(--font-sans); color: #ffffff; background: #000000;">
+
+  <!-- ===================== SPLASH ===================== -->
+  <sc-if value="{{is.splash}}" hint-placeholder-val="{{ false }}">
+    <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px;">
+      <div style="position: relative;">
+        <span class="s1-bloom" style="position: absolute; right: -40px; top: -44px; width: 150px; height: 150px; border-radius: 50%; background: radial-gradient(circle, rgba(0,160,255,0.75) 0%, rgba(0,69,251,0) 70%);"></span>
+        <img class="s1-wipe" src="/_blob/398b8f14610abf876aef8dbb1e7417d2" alt="SUPER1" style="position: relative; height: 40px; width: auto; display: block;">
+      </div>
+      <span class="s1-rise-3" style="font: 600 13px/18px var(--font-sans); color: var(--text-secondary);">Superfit · Chalong, Phuket</span>
+    </div>
+  </sc-if>
+
+  <!-- ===================== SIGN IN ===================== -->
+  <sc-if value="{{is.signin}}" hint-placeholder-val="{{ false }}">
+    <form class="s1-tab-in" onSubmit="{{sendCode}}" style="position: absolute; inset: 0; padding: 64px 24px 32px; box-sizing: border-box; display: flex; flex-direction: column; gap: 18px;">
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <img src="/_blob/398b8f14610abf876aef8dbb1e7417d2" alt="SUPER1" style="height: 26px; width: auto;">
+        <div class="s1-seg"><sc-for list="{{langs}}" as="l" hint-placeholder-count="3"><button type="button" aria-pressed="{{l.pressed}}" onClick="{{l.pick}}" lang="{{l.code}}" style="padding: 0 10px;">{{l.short}}</button></sc-for></div>
+      </div>
+      <div style="margin-top: 72px; display: flex; flex-direction: column; gap: 10px;">
+        <h1 class="s1-largetitle">{{t.signIn}}</h1>
+        <p style="margin: 0; font: 500 16px/24px var(--font-sans); color: var(--text-secondary);">{{t.signInSub}}</p>
+      </div>
+      <div><label class="s1-label" for="m-email">{{t.email}}</label><input class="s1-input" id="m-email" type="email" inputmode="email" autocomplete="email" value="{{email}}" onChange="{{onEmail}}"></div>
+      <button class="s1-btn s1-btn--primary s1-btn--lg s1-btn--block" type="submit">{{t.sendCode}}</button>
+      <p style="margin: auto 0 0; font: 500 14px/20px var(--font-sans); color: var(--text-secondary); text-align: center;">{{t.newHere}}</p>
+    </form>
+  </sc-if>
+
+  <!-- ===================== CODE ===================== -->
+  <sc-if value="{{is.code}}" hint-placeholder-val="{{ false }}">
+    <div class="s1-tab-in" style="position: absolute; inset: 0; padding: 56px 24px 32px; box-sizing: border-box; display: flex; flex-direction: column; gap: 18px;">
+      <button class="s1-btn s1-btn--secondary s1-btn--icon" type="button" aria-label="{{t.back}}" onClick="{{back}}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+      <div style="margin-top: 32px; display: flex; flex-direction: column; gap: 10px;">
+        <h1 class="s1-largetitle">{{t.enterCode}}</h1>
+        <p style="margin: 0; font: 500 16px/24px var(--font-sans); color: var(--text-secondary);">{{t.codeSent}} <span style="color: #ffffff;">{{email}}</span></p>
+      </div>
+      <label for="m-code" style="position: relative; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; cursor: text;">
+        <sc-for list="{{codeBoxes}}" as="b" hint-placeholder-count="6">
+          <span class="s1-num" style="height: 60px; border-radius: 14px; background: var(--surface-2); box-shadow: {{b.ring}}; display: grid; place-items: center; font: 700 26px/1 var(--font-sans);">{{b.d}}</span>
+        </sc-for>
+        <input id="m-code" inputmode="numeric" autocomplete="one-time-code" aria-label="{{t.enterCode}}" value="{{code}}" onChange="{{onCode}}" style="position: absolute; inset: 0; opacity: 0; font-size: 16px;">
+      </label>
+      <button class="s1-link" type="button" onClick="{{fillCode}}" style="align-self: flex-start;">{{t.pasteCode}}</button>
+      <span style="font: 500 14px/20px var(--font-sans); color: var(--text-tertiary);">{{t.codeNote}}</span>
+    </div>
+  </sc-if>
+
+  <!-- ===================== HOME ===================== -->
+  <sc-if value="{{is.home}}" hint-placeholder-val="{{ true }}">
+    <div class="s1-scrollbox s1-tab-in" style="padding: 56px 20px 112px; box-sizing: border-box; display: flex; flex-direction: column; gap: 16px;">
+      <header style="display: flex; align-items: center; justify-content: space-between;">
+        <div style="display: flex; flex-direction: column; gap: 4px;">
+          <span style="font: 600 14px/19px var(--font-sans); color: var(--text-secondary);">{{t.evening}}</span>
+          <h1 class="s1-largetitle">Emma</h1>
+        </div>
+        <button type="button" onClick="{{goMe}}" aria-label="{{t.me}}" class="s1-avatar" style="border: 0; width: 44px; height: 44px; cursor: pointer;">EW</button>
+      </header>
+
+      <sc-if value="{{justDone}}" hint-placeholder-val="{{ false }}">
+        <div class="s1-card s1-slide-down" style="padding: 14px 16px; display: flex; align-items: center; gap: 12px; background: var(--s1-green-tint);">
+          <svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--s1-green);"><path d="M20 6 9 17l-5-5"/></svg>
+          <span style="font: 600 15px/20px var(--font-sans);">{{t.doneBanner}}</span>
+        </div>
+      </sc-if>
+
+      <div class="s1-card s1-slide-down" style="padding: 14px 16px; display: flex; align-items: center; gap: 12px;">
+        <span class="s1-avatar" style="position: relative; width: 36px; height: 36px; background: var(--s1-pink-tint); color: var(--s1-pink); font-size: 12px;">SF<span class="s1-ping" style="position: absolute; right: -2px; top: -2px; width: 9px; height: 9px; border-radius: 50%; background: var(--s1-pink);"></span></span>
+        <span style="flex: 1; display: flex; flex-direction: column; gap: 2px;"><span style="font: 600 15px/20px var(--font-sans);">{{t.fromCoach}}</span><span style="font: 500 13px/18px var(--font-sans); color: var(--text-secondary);">{{t.coachNote}}</span></span>
+      </div>
+
+      <button type="button" onClick="{{startWorkout}}" class="s1-card s1-tap" style="border: 0; text-align: left; cursor: pointer; padding: 22px; display: flex; flex-direction: column; gap: 14px; background: var(--s1-blue); color: #000000;">
+        <span style="font: 600 13px/18px var(--font-sans); color: rgba(0,0,0,0.65);">{{t.today}}</span>
+        <span style="font: 700 30px/34px var(--font-sans); letter-spacing: -0.02em;">Day A · Push</span>
+        <span style="display: flex; align-items: center; justify-content: space-between;"><span style="font: 500 15px/20px var(--font-sans);">5 · ~50 min</span><span style="display: inline-flex; align-items: center; gap: 6px; font: 700 16px/1 var(--font-sans);">{{t.workoutNow}}<svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true" style="width: 18px; height: 18px;"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span></span>
+      </button>
+
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px;">
+        <button type="button" onClick="{{goMe}}" class="s1-card s1-tap" style="border: 0; text-align: left; cursor: pointer; padding: 16px; display: flex; flex-direction: column; gap: 8px; color: #ffffff;">
+          <span class="s1-pill s1-pill--active" style="align-self: flex-start;">{{t.active}}</span>
+          <span class="s1-num" style="font: 700 28px/32px var(--font-sans); letter-spacing: -0.02em;">19</span>
+          <span style="font: 500 13px/18px var(--font-sans); color: var(--text-secondary);">{{t.daysLeftOn}}</span>
+        </button>
+        <div class="s1-card" style="padding: 16px; display: flex; flex-direction: column; gap: 8px;">
+          <span class="s1-pill s1-pill--pt" style="align-self: flex-start;">PT</span>
+          <span class="s1-num" style="font: 700 28px/32px var(--font-sans); letter-spacing: -0.02em;">6 / 10</span>
+          <span style="font: 500 13px/18px var(--font-sans); color: var(--text-secondary);">{{t.sessionsWith}}</span>
+        </div>
+      </div>
+
+      <button type="button" onClick="{{goCheckin}}" class="s1-card s1-tap" style="border: 0; text-align: left; cursor: pointer; padding: 16px; display: flex; align-items: center; gap: 14px; color: #ffffff;">
+        <span class="{{checkDisc}}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27"/></svg></span>
+        <span style="flex: 1; display: flex; flex-direction: column; gap: 3px;"><span class="s1-headline" style="font-size: 16px;">{{checkTitle}}</span><span style="font: 500 13px/18px var(--font-sans); color: var(--text-secondary);">{{checkSub}}</span></span>
+        <svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--text-secondary);"><path d="m9 18 6-6-6-6"/></svg>
+      </button>
+
+      <button type="button" onClick="{{goFuel}}" class="s1-card s1-tap" style="border: 0; text-align: left; cursor: pointer; padding: 16px; display: flex; flex-direction: column; gap: 12px; color: #ffffff;">
+        <span style="display: flex; justify-content: space-between; width: 100%;"><span style="font: 600 13px/18px var(--font-sans); color: var(--text-secondary);">{{t.targets}}</span><span class="s1-num" style="font: 600 13px/18px var(--font-sans);">1,735 kcal</span></span>
+        <span style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; width: 100%;">
+          <span style="display: flex; flex-direction: column; gap: 2px;"><span class="s1-num" style="font: 700 20px/24px var(--font-sans);">130 g</span><span style="font: 500 12px/16px var(--font-sans); color: var(--text-secondary);">{{t.protein}}</span></span>
+          <span style="display: flex; flex-direction: column; gap: 2px;"><span class="s1-num" style="font: 700 20px/24px var(--font-sans);">180 g</span><span style="font: 500 12px/16px var(--font-sans); color: var(--text-secondary);">{{t.carbs}}</span></span>
+          <span style="display: flex; flex-direction: column; gap: 2px;"><span class="s1-num" style="font: 700 20px/24px var(--font-sans);">55 g</span><span style="font: 500 12px/16px var(--font-sans); color: var(--text-secondary);">{{t.fat}}</span></span>
+        </span>
+      </button>
+
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 6px;"><h2 class="s1-section" style="margin: 0 0 0 4px;">{{t.fromCafe}}</h2><button class="s1-link" type="button" onClick="{{goFuel}}" style="font-size: 14px;">{{t.seeMenu}}</button></div>
+      <div class="s1-hscroll s1-stagger" style="margin: 0 -20px; padding: 0 20px;">
+        <button type="button" onClick="{{openStrong}}" style="border: 0; padding: 0; cursor: pointer; width: 150px; text-align: left; background: transparent; color: #ffffff; display: flex; flex-direction: column; gap: 8px;"><span style="height: 150px; border-radius: 18px; overflow: hidden; background: var(--surface-2);"><img class="s1-photo" src="/_blob/cdc0bb4eada39ac9515967abc0d39748" alt="Protein shakes" style="object-position: 30% 50%;"></span><span style="font: 600 14px/19px var(--font-sans);">Strong Vibes</span><span class="s1-num" style="font: 500 13px/18px var(--font-sans); color: var(--text-secondary);">฿149</span></button>
+        <button type="button" onClick="{{openBruce}}" style="border: 0; padding: 0; cursor: pointer; width: 150px; text-align: left; background: transparent; color: #ffffff; display: flex; flex-direction: column; gap: 8px;"><span style="height: 150px; border-radius: 18px; overflow: hidden; background: var(--surface-2);"><img class="s1-photo" src="/_blob/3eabe9d3ae5c02b68645eaf5c9c94583" alt="Bulletproof Bruce"></span><span style="font: 600 14px/19px var(--font-sans);">Bulletproof Bruce</span><span class="s1-num" style="font: 500 13px/18px var(--font-sans); color: var(--text-secondary);">+฿70 on any coffee</span></button>
+        <button type="button" onClick="{{openFlat}}" style="border: 0; padding: 0; cursor: pointer; width: 150px; text-align: left; background: transparent; color: #ffffff; display: flex; flex-direction: column; gap: 8px;"><span style="height: 150px; border-radius: 18px; overflow: hidden; background: var(--surface-2);"><img class="s1-photo" src="/_blob/b22e1834550a77b2fb97df21625e3ecd" alt="Flat white"></span><span style="font: 600 14px/19px var(--font-sans);">Flat White</span><span class="s1-num" style="font: 500 13px/18px var(--font-sans); color: var(--text-secondary);">฿80</span></button>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ===================== TRAIN ===================== -->
+  <sc-if value="{{is.train}}" hint-placeholder-val="{{ false }}">
+    <div class="s1-scrollbox s1-tab-in" style="padding: 56px 20px 112px; box-sizing: border-box; display: flex; flex-direction: column; gap: 16px;">
+      <h1 class="s1-largetitle">{{t.train}}</h1>
+      <p class="s1-section" style="margin: 4px 0 -6px 4px;">{{t.fromSunman}}</p>
+      <div class="s1-group s1-stagger">
+        <button type="button" onClick="{{startWorkout}}" class="s1-row" style="width: 100%; border: 0; background: transparent; text-align: left; cursor: pointer; color: #ffffff;"><span class="s1-disc s1-disc--money" style="font: 700 15px/1 var(--font-sans);">A</span><span class="s1-row__main"><span class="s1-row__title" style="display: block;">Push</span><span class="s1-row__sub" style="display: block;">5 · Thu 8 Oct</span></span><span class="s1-btn s1-btn--primary s1-btn--sm" style="height: 32px;">{{t.start}}</span></button>
+        <div class="s1-row"><span class="s1-disc s1-disc--neutral" style="font: 700 15px/1 var(--font-sans);">B</span><span class="s1-row__main"><span class="s1-row__title" style="display: block;">Pull</span><span class="s1-row__sub" style="display: block;">4 · Fri 9 Oct</span></span></div>
+        <div class="s1-row"><span class="s1-disc s1-disc--neutral" style="font: 700 15px/1 var(--font-sans);">C</span><span class="s1-row__main"><span class="s1-row__title" style="display: block;">Legs</span><span class="s1-row__sub" style="display: block;">5 · Sat 10 Oct</span></span></div>
+      </div>
+      <button type="button" onClick="{{goProgress}}" class="s1-card s1-tap" style="border: 0; text-align: left; cursor: pointer; padding: 16px; display: flex; align-items: center; gap: 14px; color: #ffffff;">
+        <span class="s1-disc s1-disc--money"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span>
+        <span style="flex: 1; display: flex; flex-direction: column; gap: 3px;"><span class="s1-headline" style="font-size: 16px;">{{t.progress}}</span><span style="font: 500 13px/18px var(--font-sans); color: var(--text-secondary);">Barbell bench press 42.5 kg × 8 · PR</span></span>
+        <svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--text-secondary);"><path d="m9 18 6-6-6-6"/></svg>
+      </button>
+      <p class="s1-section" style="margin: 8px 0 -6px 4px;">{{t.myOwn}}</p>
+      <div class="s1-group">
+        <sc-for list="{{own}}" as="o" hint-placeholder-count="1">
+          <div class="s1-row" style="min-height: 56px;"><span class="s1-disc s1-disc--neutral" style="width: 32px; height: 32px;"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px;"><path d="M14.4 14.4 9.6 9.6"/><path d="M18.657 21.485a2 2 0 1 1-2.829-2.828l-1.767 1.768a2 2 0 1 1-2.829-2.829l6.364-6.364a2 2 0 1 1 2.829 2.829l-1.768 1.767a2 2 0 1 1 2.828 2.829z"/><path d="m21.5 21.5-1.4-1.4"/><path d="M3.9 3.9 2.5 2.5"/><path d="M6.404 12.768a2 2 0 1 1-2.829-2.829l1.768-1.767a2 2 0 1 1-2.828-2.829l2.828-2.828a2 2 0 1 1 2.829 2.828l1.767-1.768a2 2 0 1 1 2.829 2.829z"/></svg></span><span class="s1-row__main"><span class="s1-row__title" style="display: block; font-size: 15px;">{{o}}</span></span></div>
+        </sc-for>
+        <form onSubmit="{{addOwn}}" style="display: flex; gap: 8px; padding: 12px;">
+          <label for="m-own" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0);">{{t.addExercise}}</label>
+          <input class="s1-input" id="m-own" placeholder="{{t.addExercise}}" value="{{ownDraft}}" onChange="{{onOwn}}" style="flex: 1; height: 44px;">
+          <button class="s1-btn s1-btn--secondary s1-btn--icon" type="submit" aria-label="{{t.add}}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg></button>
+        </form>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ===================== PROGRESS ===================== -->
+  <sc-if value="{{is.progress}}" hint-placeholder-val="{{ false }}">
+    <div class="s1-scrollbox s1-tab-in" style="padding: 52px 20px 40px; box-sizing: border-box; display: flex; flex-direction: column; gap: 16px;">
+      <div style="display: flex; align-items: center; gap: 12px;"><button class="s1-btn s1-btn--secondary s1-btn--icon" type="button" aria-label="{{t.back}}" onClick="{{back}}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button><h1 class="s1-title2">{{t.progress}}</h1></div>
+      <div class="s1-card" style="padding: 18px; display: flex; flex-direction: column; gap: 12px;">
+        <div style="display: flex; justify-content: space-between; align-items: baseline;"><span class="s1-headline" style="font-size: 16px;">Barbell bench press</span><span class="s1-num" style="font: 700 22px/26px var(--font-sans);">42.5 kg</span></div>
+        <svg viewBox="0 0 310 110" width="100%" height="110" role="img" aria-label="Barbell bench press top set rising from 35 to 42.5 kg over six weeks">
+          <line x1="0" y1="100" x2="310" y2="100" stroke="#2a2f37" stroke-width="1"/>
+          <polyline points="10,90 64,74 118,74 172,52 226,52 280,24" fill="none" stroke="#00b4ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="280" cy="24" r="6" fill="#ffe600"/>
+          <circle cx="10" cy="90" r="4" fill="#00b4ff"/><circle cx="64" cy="74" r="4" fill="#00b4ff"/><circle cx="118" cy="74" r="4" fill="#00b4ff"/><circle cx="172" cy="52" r="4" fill="#00b4ff"/><circle cx="226" cy="52" r="4" fill="#00b4ff"/>
+        </svg>
+        <span style="font: 500 13px/18px var(--font-sans); color: var(--text-secondary);">Top set over 6 weeks · 35 → 42.5 kg</span>
+      </div>
+      <p class="s1-section" style="margin: 4px 0 -6px 4px;">{{t.bests}}</p>
+      <div class="s1-group">
+        <div class="s1-row" style="min-height: 56px;"><span class="s1-row__main"><span class="s1-row__title" style="display: block; font-size: 15px;">Barbell bench press</span></span><span class="s1-num" style="font: 600 15px/20px var(--font-sans);">42.5 × 8</span><span style="height: 22px; padding: 0 8px; border-radius: 999px; background: var(--s1-yellow); color: #000; font: 800 11px/22px var(--font-sans);">PR</span></div>
+        <div class="s1-row" style="min-height: 56px;"><span class="s1-row__main"><span class="s1-row__title" style="display: block; font-size: 15px;">Back squat</span></span><span class="s1-num" style="font: 600 15px/20px var(--font-sans);">50 × 8</span></div>
+        <div class="s1-row" style="min-height: 56px;"><span class="s1-row__main"><span class="s1-row__title" style="display: block; font-size: 15px;">Lat pulldown</span></span><span class="s1-num" style="font: 600 15px/20px var(--font-sans);">35 × 10</span></div>
+      </div>
+      <p class="s1-section" style="margin: 4px 0 -6px 4px;">{{t.recent}}</p>
+      <div class="s1-group">
+        <div class="s1-row" style="min-height: 56px;"><span class="s1-row__main"><span class="s1-row__title" style="display: block; font-size: 15px;">Day A · Push</span><span class="s1-row__sub" style="display: block;">Mon 12 Oct · 46 min · 16 sets</span></span></div>
+        <div class="s1-row" style="min-height: 56px;"><span class="s1-row__main"><span class="s1-row__title" style="display: block; font-size: 15px;">Day C · Legs</span><span class="s1-row__sub" style="display: block;">Sat 10 Oct · 52 min · 17 sets</span></span></div>
+        <div class="s1-row" style="min-height: 56px;"><span class="s1-row__main"><span class="s1-row__title" style="display: block; font-size: 15px;">Day B · Pull</span><span class="s1-row__sub" style="display: block;">Fri 9 Oct · 41 min · 13 sets</span></span></div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ===================== LIVE WORKOUT ===================== -->
+  <sc-if value="{{is.live}}" hint-placeholder-val="{{ false }}">
+    <div class="s1-scrollbox s1-tab-in" style="padding: 52px 20px 32px; box-sizing: border-box; display: flex; flex-direction: column; gap: 16px;">
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <button class="s1-btn s1-btn--secondary s1-btn--icon" type="button" aria-label="{{t.close}}" onClick="{{quit}}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+        <span class="s1-num" style="font: 600 15px/20px var(--font-sans);">Day A · Push · 12:40</span>
+        <button type="button" onClick="{{toggleTimer}}" class="{{timerCls}}" style="height: 36px; padding: 0 12px; border: 0; border-radius: 999px; font: 600 13px/1 var(--font-sans); cursor: pointer; display: inline-flex; align-items: center; gap: 6px;"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px;"><line x1="10" x2="14" y1="2" y2="2"/><line x1="12" x2="15" y1="14" y2="11"/><circle cx="12" cy="14" r="8"/></svg>{{timerLabel}}</button>
+      </div>
+      <div style="display: flex; gap: 4px;"><sc-for list="{{progressBar}}" as="pg" hint-placeholder-count="5"><span style="flex: 1; height: 4px; border-radius: 999px; background: {{pg}};"></span></sc-for></div>
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        <span class="s1-num" style="font: 600 13px/18px var(--font-sans); color: var(--text-secondary);">{{exLabel}}</span>
+        <h1 class="s1-largetitle" style="font-size: 30px; line-height: 36px;">{{ex.name}}</h1>
+        <span class="s1-num" style="font: 500 15px/20px var(--font-sans); color: var(--s1-blue);">{{lastLabel}}</span>
+        <sc-if value="{{ex.cue}}" hint-placeholder-val="{{ false }}"><span style="font: 500 14px/20px var(--font-sans); color: var(--text-secondary);">Sunman: {{ex.cue}}</span></sc-if>
+      </div>
+      <sc-if value="{{resting}}" hint-placeholder-val="{{ false }}">
+        <div class="s1-card s1-slide-down" style="padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; background: var(--s1-blue-tint);">
+          <span style="font: 600 15px/20px var(--font-sans);">{{t.rest}}</span>
+          <span class="s1-num" style="font: 700 26px/30px var(--font-sans); color: var(--s1-blue);">{{restLabel}}</span>
+          <button class="s1-link" type="button" onClick="{{skipRest}}">{{t.skip}}</button>
+        </div>
+      </sc-if>
+      <div class="s1-group">
+        <sc-for list="{{sets}}" as="st" hint-placeholder-count="4">
+          <div style="display: flex; align-items: center; gap: 8px; padding: 12px 12px; box-shadow: inset 0 -1px 0 var(--hairline); background: {{st.bg}};">
+            <span class="s1-num" style="width: 16px; font: 700 15px/1 var(--font-sans); color: var(--text-tertiary);">{{st.n}}</span>
+            <span style="display: flex; align-items: center; gap: 4px; flex: 1;">
+              <button class="s1-btn s1-btn--secondary s1-btn--sm" type="button" aria-label="{{t.lessKg}}" onClick="{{st.kgDown}}" style="width: 32px; padding: 0;">−</button>
+              <span class="s1-num" style="min-width: 54px; text-align: center; font: 700 17px/22px var(--font-sans);">{{st.kg}}<span style="font-size: 12px; color: var(--text-secondary);"> kg</span></span>
+              <button class="s1-btn s1-btn--secondary s1-btn--sm" type="button" aria-label="{{t.moreKg}}" onClick="{{st.kgUp}}" style="width: 32px; padding: 0;">+</button>
+            </span>
+            <span style="display: flex; align-items: center; gap: 4px;">
+              <button class="s1-btn s1-btn--secondary s1-btn--sm" type="button" aria-label="{{t.lessReps}}" onClick="{{st.repDown}}" style="width: 32px; padding: 0;">−</button>
+              <span class="s1-num" style="min-width: 30px; text-align: center; font: 700 17px/22px var(--font-sans);">{{st.reps}}</span>
+              <button class="s1-btn s1-btn--secondary s1-btn--sm" type="button" aria-label="{{t.moreReps}}" onClick="{{st.repUp}}" style="width: 32px; padding: 0;">+</button>
+            </span>
+            <button type="button" role="checkbox" aria-checked="{{st.done}}" aria-label="{{t.setDone}}" onClick="{{st.toggle}}" class="s1-check s1-tap" style="width: 38px; height: 38px; border: 0; border-radius: 11px; cursor: pointer; color: #000;"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true" style="width: 18px; height: 18px; stroke-width: 3;"><path d="M20 6 9 17l-5-5"/></svg></button>
+          </div>
+        </sc-for>
+      </div>
+      <label class="s1-label" for="m-note" style="margin-bottom: -8px;">{{t.note}}</label>
+      <input class="s1-input" id="m-note" placeholder="{{t.notePh}}" value="{{note}}" onChange="{{onNote}}">
+      <div style="display: flex; gap: 10px; margin-top: 4px;">
+        <button class="s1-btn s1-btn--secondary {{prevOff}}" type="button" onClick="{{prev}}" style="flex: 1;">{{t.previous}}</button>
+        <button class="s1-btn s1-btn--primary" type="button" onClick="{{next}}" style="flex: 2;">{{nextLabel}}</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ===================== WORKOUT DONE ===================== -->
+  <sc-if value="{{is.done}}" hint-placeholder-val="{{ false }}">
+    <div class="s1-tab-in" style="position: absolute; inset: 0; padding: 72px 24px 36px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; gap: 24px; text-align: center;">
+      <div style="position: relative; width: 200px; height: 200px; display: grid; place-items: center; margin-top: 24px;">
+        <svg viewBox="0 0 120 120" width="200" height="200" aria-hidden="true" style="position: absolute; inset: 0; transform: rotate(-90deg);">
+          <circle cx="60" cy="60" r="54" fill="none" stroke="#2a2f37" stroke-width="7"/>
+          <circle class="s1-ring-fill" cx="60" cy="60" r="54" fill="none" stroke="#00b4ff" stroke-width="7" stroke-linecap="round" stroke-dasharray="339.3" style="--len: 339.3; --to: 0;"/>
+        </svg>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 2px;"><span class="s1-num" style="font: 700 52px/54px var(--font-sans); letter-spacing: -0.03em;">16</span><span style="font: 500 13px/18px var(--font-sans); color: var(--text-secondary);">{{t.sets}}</span></div>
+        <span class="s1-pop" style="position: absolute; right: -8px; top: 18px; animation-delay: 1200ms; height: 30px; padding: 0 14px; border-radius: 999px; background: var(--s1-yellow); color: #000; font: 800 14px/30px var(--font-sans);">PR</span>
+      </div>
+      <div class="s1-rise-2" style="display: flex; flex-direction: column; gap: 8px;"><h1 class="s1-largetitle">{{t.workoutDone}}</h1><span style="font: 500 16px/22px var(--font-sans); color: var(--text-secondary);">Day A · Push · 46 min</span></div>
+      <div class="s1-card s1-rise-3" style="align-self: stretch; padding: 16px 18px; display: flex; align-items: center; gap: 14px; text-align: left;">
+        <svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--s1-yellow);"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+        <span style="flex: 1; display: flex; flex-direction: column; gap: 2px;"><span style="font: 600 15px/20px var(--font-sans);">Barbell bench press 42.5 kg × 8</span><span style="font: 500 13px/18px var(--font-sans); color: var(--text-secondary);">+2.5 kg on last week</span></span>
+      </div>
+      <span class="s1-rise-3" style="font: 500 14px/20px var(--font-sans); color: var(--text-secondary);">{{t.coachSees}}</span>
+      <button class="s1-btn s1-btn--primary s1-btn--lg s1-btn--block" type="button" onClick="{{finish}}" style="margin-top: auto;">{{t.done}}</button>
+    </div>
+  </sc-if>
+
+  <!-- ===================== FUEL + MENU ===================== -->
+  <sc-if value="{{is.fuel}}" hint-placeholder-val="{{ false }}">
+    <div class="s1-scrollbox s1-tab-in" style="padding: 56px 20px 112px; box-sizing: border-box; display: flex; flex-direction: column; gap: 16px;">
+      <h1 class="s1-largetitle">{{t.fuel}}</h1>
+      <div class="s1-card" style="padding: 18px; display: flex; flex-direction: column; gap: 12px;">
+        <div style="display: flex; justify-content: space-between; align-items: baseline;"><span style="font: 600 13px/18px var(--font-sans); color: var(--text-secondary);">{{t.fromSunmanTargets}}</span><span class="s1-num" style="font: 700 20px/24px var(--font-sans);">1,735 kcal</span></div>
+        <sc-for list="{{macroBars}}" as="b" hint-placeholder-count="3">
+          <div style="display: flex; flex-direction: column; gap: 6px;">
+            <div style="display: flex; justify-content: space-between;"><span style="font: 500 15px/20px var(--font-sans);">{{b.label}}</span><span class="s1-num" style="font: 600 15px/20px var(--font-sans);">{{b.grams}} g</span></div>
+            <div style="height: 8px; border-radius: 999px; background: var(--surface-3); overflow: hidden;"><div class="s1-width-grow" style="height: 100%; width: {{b.pct}}%; background: {{b.color}}; border-radius: 999px;"></div></div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <span style="display: inline-flex; align-items: center; gap: 8px; margin-left: 4px; font: 600 13px/18px var(--font-sans); color: var(--s1-pink);"><span style="width: 8px; height: 8px; border-radius: 50%; background: var(--s1-pink);"></span>{{t.coachPicks}}</span>
+        <div class="s1-hscroll" style="margin: 0 -20px; padding: 0 20px; gap: 10px;">
+          <sc-for list="{{picks}}" as="pk" hint-placeholder-count="3">
+            <button type="button" onClick="{{pk.open}}" class="s1-card s1-tap" style="flex: none; width: 156px; border: 0; padding: 14px; cursor: pointer; text-align: left; color: #ffffff; display: flex; flex-direction: column; gap: 4px; box-shadow: inset 0 0 0 1px rgba(255,78,219,0.3);">
+              <span style="font: 600 15px/20px var(--font-sans);">{{pk.name}}</span>
+              <span class="s1-num" style="font: 500 13px/18px var(--font-sans); color: var(--text-secondary);">{{pk.priceLabel}}</span>
+              <span style="font: 500 12px/16px var(--font-sans); color: var(--s1-pink);">{{pk.why}}</span>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 4px;"><h2 class="s1-title2">{{t.cafe}}</h2><span style="font: 500 13px/18px var(--font-sans); color: var(--text-secondary);">{{t.payCounter}}</span></div>
+      <div class="s1-hscroll" style="margin: 0 -20px; padding: 0 20px; gap: 8px;">
+        <sc-for list="{{cats}}" as="c" hint-placeholder-count="6"><button type="button" class="{{c.cls}}" onClick="{{c.pick}}" style="height: 36px; padding: 0 14px; border: 0; border-radius: 999px; font: 600 14px/1 var(--font-sans); cursor: pointer; white-space: nowrap;">{{c.label}}</button></sc-for>
+      </div>
+
+      <sc-if value="{{catHero}}" hint-placeholder-val="{{ true }}">
+        <div style="position: relative; height: 150px; border-radius: 20px; overflow: hidden;"><img class="s1-photo" src="/_blob/cdc0bb4eada39ac9515967abc0d39748" alt="Superfit protein shakes"><span style="position: absolute; left: 16px; bottom: 14px; font: 700 20px/24px var(--font-sans); text-shadow: 0 2px 12px rgba(0,0,0,0.8);">{{t.shakesHero}}</span></div>
+      </sc-if>
+
+      <sc-if value="{{catGrid}}" hint-placeholder-val="{{ false }}">
+        <div class="s1-stagger" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px;">
+          <sc-for list="{{menuItems}}" as="m" hint-placeholder-count="4">
+            <button type="button" onClick="{{m.open}}" style="border: 0; padding: 0; cursor: pointer; text-align: left; background: transparent; color: #ffffff; display: flex; flex-direction: column; gap: 8px;">
+              <span style="aspect-ratio: 1; border-radius: 18px; overflow: hidden; background: {{m.bg}}; display: block;"><img class="s1-photo" src="{{m.photo}}" alt="{{m.name}}"></span>
+              <span style="font: 600 15px/20px var(--font-sans);">{{m.name}}</span>
+              <span class="s1-num" style="font: 500 14px/19px var(--font-sans); color: var(--text-secondary); margin-top: -4px;">{{m.priceLabel}}</span>
+            </button>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{catList}}" hint-placeholder-val="{{ true }}">
+        <div class="s1-group s1-stagger">
+          <sc-for list="{{menuItems}}" as="m" hint-placeholder-count="6">
+            <button type="button" onClick="{{m.open}}" class="s1-row" style="width: 100%; border: 0; background: transparent; text-align: left; cursor: pointer; color: #ffffff; align-items: center;">
+              <span class="s1-row__main"><span class="s1-row__title" style="display: block; font-size: 16px;">{{m.name}}</span><span class="s1-row__sub" style="display: block;">{{m.sub}}</span></span>
+              <sc-if value="{{m.tag}}" hint-placeholder-val="{{ false }}"><span class="s1-pill" style="height: 22px; color: var(--s1-blue); background: var(--s1-blue-tint); font-size: 11px;">{{m.tag}}</span></sc-if>
+              <span class="s1-num" style="font: 600 15px/20px var(--font-sans);">{{m.priceLabel}}</span>
+            </button>
+          </sc-for>
+        </div>
+      </sc-if>
+    </div>
+  </sc-if>
+
+  <!-- ===================== MENU ITEM ===================== -->
+  <sc-if value="{{is.item}}" hint-placeholder-val="{{ false }}">
+    <div class="s1-scrollbox s1-tab-in" style="box-sizing: border-box; display: flex; flex-direction: column;">
+      <div style="position: relative; height: {{item.heroH}}; flex: none; background: var(--surface-2);">
+        <sc-if value="{{item.hasPhoto}}" hint-placeholder-val="{{ true }}"><img class="s1-photo" src="{{item.hero}}" alt="{{item.name}}" style="object-position: {{item.pos}};"></sc-if>
+        <span style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0) 35%, rgba(0,0,0,0) 60%, #000000 100%);"></span>
+        <button class="s1-btn s1-btn--icon s1-glass" type="button" aria-label="{{t.back}}" onClick="{{back}}" style="position: absolute; left: 20px; top: 52px; color: #ffffff;"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+      </div>
+      <div style="padding: 0 20px 120px; margin-top: -28px; position: relative; display: flex; flex-direction: column; gap: 16px;">
+        <div style="display: flex; flex-direction: column; gap: 4px;">
+          <h1 class="s1-largetitle" style="font-size: 32px;">{{item.name}}</h1>
+          <sc-if value="{{item.th}}" hint-placeholder-val="{{ false }}"><span lang="th" style="font: 500 16px/24px var(--font-sans); color: var(--text-secondary);">{{item.th}}</span></sc-if>
+          <span class="s1-num" style="font: 600 18px/24px var(--font-sans); color: var(--s1-blue);">{{item.priceLabel}}</span>
+        </div>
+        <sc-if value="{{item.desc}}" hint-placeholder-val="{{ false }}"><p style="margin: 0; font: 400 15px/22px var(--font-sans); color: var(--text-secondary);">{{item.desc}}</p></sc-if>
+        <div class="s1-card" style="padding: 16px; display: flex; flex-direction: column; gap: 10px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;"><span style="font: 600 13px/18px var(--font-sans); color: var(--text-secondary);">{{t.macros}}</span><span class="s1-pill s1-pill--expiring" style="height: 22px; font-size: 11px;">{{t.verifying}}</span></div>
+          <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px;">
+            <span style="display: flex; flex-direction: column; gap: 2px;"><span class="s1-num" style="font: 700 18px/22px var(--font-sans); color: var(--text-tertiary);">—</span><span style="font: 500 12px/16px var(--font-sans); color: var(--text-secondary);">kcal</span></span>
+            <span style="display: flex; flex-direction: column; gap: 2px;"><span class="s1-num" style="font: 700 18px/22px var(--font-sans); color: var(--text-tertiary);">—</span><span style="font: 500 12px/16px var(--font-sans); color: var(--text-secondary);">{{t.protein}}</span></span>
+            <span style="display: flex; flex-direction: column; gap: 2px;"><span class="s1-num" style="font: 700 18px/22px var(--font-sans); color: var(--text-tertiary);">—</span><span style="font: 500 12px/16px var(--font-sans); color: var(--text-secondary);">{{t.carbs}}</span></span>
+            <span style="display: flex; flex-direction: column; gap: 2px;"><span class="s1-num" style="font: 700 18px/22px var(--font-sans); color: var(--text-tertiary);">—</span><span style="font: 500 12px/16px var(--font-sans); color: var(--text-secondary);">{{t.fat}}</span></span>
+          </div>
+          <span style="font: 500 12px/17px var(--font-sans); color: var(--text-tertiary);">{{t.macrosNote}}</span>
+        </div>
+        <sc-for list="{{optionGroups}}" as="g" hint-placeholder-count="2">
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <p class="s1-section" style="margin: 0 0 0 4px;">{{g.label}}</p>
+            <div class="s1-group">
+              <sc-for list="{{g.items}}" as="o" hint-placeholder-count="2">
+                <button type="button" role="checkbox" aria-checked="{{o.on}}" onClick="{{o.toggle}}" class="s1-row" style="width: 100%; min-height: 54px; border: 0; background: transparent; text-align: left; cursor: pointer; color: #ffffff;">
+                  <span class="s1-check" aria-checked="{{o.on}}"><sc-if value="{{o.on}}" hint-placeholder-val="{{ false }}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px; stroke-width: 3;"><path d="M20 6 9 17l-5-5"/></svg></sc-if></span>
+                  <span class="s1-row__main"><span style="font: 500 15px/20px var(--font-sans);">{{o.label}}</span></span>
+                  <span class="s1-num" style="font: 500 15px/20px var(--font-sans); color: var(--text-secondary);">+฿{{o.price}}</span>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+      <div class="s1-glass" style="position: absolute; left: 0; right: 0; bottom: 0; padding: 14px 20px 30px; box-shadow: inset 0 1px 0 var(--hairline);">
+        <button class="s1-btn s1-btn--primary s1-btn--lg s1-btn--block" type="button" onClick="{{goCounter}}">{{t.showCounter}} · {{totalLabel}}</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ===================== SHOW AT COUNTER ===================== -->
+  <sc-if value="{{is.counter}}" hint-placeholder-val="{{ false }}">
+    <div class="s1-tab-in" style="position: absolute; inset: 0; padding: 56px 24px 32px; box-sizing: border-box; display: flex; flex-direction: column; gap: 22px;">
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <span style="font: 600 14px/19px var(--font-sans); color: var(--s1-blue);">{{t.showThis}}</span>
+        <button class="s1-btn s1-btn--secondary s1-btn--sm" type="button" onClick="{{back}}">{{t.done}}</button>
+      </div>
+      <div class="s1-card s1-pop" style="padding: 26px 22px; display: flex; flex-direction: column; gap: 18px; background: #ffffff; color: #000000; box-shadow: 0 0 80px -20px rgba(0,180,255,0.6);">
+        <span style="font: 600 14px/19px var(--font-sans); color: #4b5563;">Superfit Café</span>
+        <span style="font: 800 40px/44px var(--font-sans); letter-spacing: -0.03em;">{{item.name}}</span>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <sc-for list="{{chosen}}" as="c" hint-placeholder-count="2"><span style="font: 600 20px/26px var(--font-sans);">+ {{c}}</span></sc-for>
+          <sc-if value="{{noneChosen}}" hint-placeholder-val="{{ false }}"><span style="font: 600 20px/26px var(--font-sans);">{{t.asIs}}</span></sc-if>
+        </div>
+        <div style="display: flex; align-items: baseline; justify-content: space-between; box-shadow: inset 0 1px 0 #e5e7eb; padding-top: 16px;"><span style="font: 600 16px/22px var(--font-sans); color: #4b5563;">{{t.total}}</span><span class="s1-num" style="font: 800 34px/38px var(--font-sans);">{{totalLabel}}</span></div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 12px;"><span class="s1-avatar">EW</span><span style="display: flex; flex-direction: column; gap: 2px;"><span style="font: 600 16px/21px var(--font-sans);">Emma Wilson</span><span class="s1-num" style="font: 500 13px/18px var(--font-sans); color: var(--text-secondary);">Member #1043 · tag 003909</span></span></div>
+      <p style="margin: auto 0 0; font: 500 14px/20px var(--font-sans); color: var(--text-secondary); text-align: center;">{{t.payQashier}}</p>
+    </div>
+  </sc-if>
+
+  <!-- ===================== DAILY CHECK-IN ===================== -->
+  <sc-if value="{{is.checkin}}" hint-placeholder-val="{{ false }}">
+    <div class="s1-scrollbox s1-tab-in" style="padding: 52px 20px 40px; box-sizing: border-box; display: flex; flex-direction: column; gap: 14px;">
+      <div style="display: flex; align-items: center; gap: 12px;"><button class="s1-btn s1-btn--secondary s1-btn--icon" type="button" aria-label="{{t.back}}" onClick="{{back}}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button><h1 class="s1-title2">{{t.checkTitle}}</h1></div>
+      <sc-if value="{{checkDone}}" hint-placeholder-val="{{ false }}">
+        <div class="s1-card s1-pop" style="padding: 24px; display: flex; flex-direction: column; gap: 12px; align-items: flex-start;">
+          <span class="s1-disc s1-disc--go" style="width: 56px; height: 56px;"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true" style="width: 26px; height: 26px; stroke-width: 2.6;"><path class="s1-draw" d="M20 6 9 17l-5-5"/></svg></span>
+          <span class="s1-headline">{{t.doneToday}}</span>
+          <span style="font: 500 15px/20px var(--font-sans); color: var(--text-secondary);">{{t.streak}}</span>
+        </div>
+      </sc-if>
+      <sc-if value="{{checkOpen}}" hint-placeholder-val="{{ true }}">
+        <div class="s1-stagger" style="display: flex; flex-direction: column; gap: 12px;">
+          <div class="s1-card" style="padding: 16px; display: flex; align-items: center; justify-content: space-between;">
+            <span style="display: flex; flex-direction: column; gap: 2px;"><span class="s1-headline" style="font-size: 16px;">{{t.sleep}}</span><span style="font: 500 13px/18px var(--font-sans); color: var(--text-secondary);">{{t.hours}}</span></span>
+            <span style="display: flex; align-items: center; gap: 10px;">
+              <button class="s1-btn s1-btn--secondary s1-btn--icon" type="button" aria-label="−" onClick="{{sleepDown}}" style="width: 40px; height: 40px;"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/></svg></button>
+              <span class="s1-num" style="width: 44px; text-align: center; font: 700 20px/24px var(--font-sans);">{{sleep}}</span>
+              <button class="s1-btn s1-btn--secondary s1-btn--icon" type="button" aria-label="+" onClick="{{sleepUp}}" style="width: 40px; height: 40px;"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg></button>
+            </span>
+          </div>
+          <div class="s1-card" style="padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+            <span class="s1-headline" style="font-size: 16px;">{{t.energy}}</span>
+            <div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px;"><sc-for list="{{energy}}" as="en" hint-placeholder-count="5"><button type="button" aria-pressed="{{en.pressed}}" onClick="{{en.pick}}" class="{{en.cls}}" style="height: 44px; border: 0; border-radius: 12px; font: 700 16px/1 var(--font-sans); cursor: pointer;">{{en.n}}</button></sc-for></div>
+          </div>
+          <div class="s1-card" style="padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+            <span class="s1-headline" style="font-size: 16px;">{{t.digestion}}</span>
+            <div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px;"><sc-for list="{{digestion}}" as="dg" hint-placeholder-count="5"><button type="button" aria-pressed="{{dg.pressed}}" onClick="{{dg.pick}}" class="{{dg.cls}}" style="height: 44px; border: 0; border-radius: 12px; font: 700 16px/1 var(--font-sans); cursor: pointer;">{{dg.n}}</button></sc-for></div>
+          </div>
+          <div class="s1-card" style="padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+            <span style="display: flex; justify-content: space-between;"><span class="s1-headline" style="font-size: 16px;">{{t.water}}</span><span style="font: 500 13px/18px var(--font-sans); color: var(--text-secondary);">{{t.target}} 3 L</span></span>
+            <div class="s1-seg" style="display: flex;"><sc-for list="{{water}}" as="w" hint-placeholder-count="5"><button type="button" aria-pressed="{{w.pressed}}" onClick="{{w.pick}}" style="flex: 1;">{{w.label}}</button></sc-for></div>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px;">
+            <div class="s1-card" style="padding: 14px;"><label class="s1-label" for="m-steps" style="margin-left: 0;">{{t.steps}}</label><input class="s1-input s1-num" id="m-steps" inputmode="numeric" placeholder="10,000" value="{{steps}}" onChange="{{onSteps}}" style="height: 44px; background: var(--surface-3);"></div>
+            <div class="s1-card" style="padding: 14px;"><label class="s1-label" for="m-weight" style="margin-left: 0;">{{t.weight}}</label><input class="s1-input s1-num" id="m-weight" inputmode="decimal" placeholder="61.8" value="{{weight}}" onChange="{{onWeight}}" style="height: 44px; background: var(--surface-3);"></div>
+          </div>
+          <button class="s1-btn s1-btn--primary s1-btn--lg s1-btn--block {{checkOff}}" type="button" onClick="{{completeCheck}}">{{t.complete}}</button>
+        </div>
+      </sc-if>
+    </div>
+  </sc-if>
+
+  <!-- ===================== ME ===================== -->
+  <sc-if value="{{is.me}}" hint-placeholder-val="{{ false }}">
+    <div class="s1-scrollbox s1-tab-in" style="padding: 56px 20px 112px; box-sizing: border-box; display: flex; flex-direction: column; gap: 16px;">
+      <header style="display: flex; align-items: center; justify-content: space-between;">
+        <div style="display: flex; align-items: center; gap: 14px;"><span class="s1-avatar" style="width: 56px; height: 56px; font-size: 18px;">EW</span><span style="display: flex; flex-direction: column; gap: 2px;"><span class="s1-title2">Emma Wilson</span><span class="s1-num" style="font: 500 14px/19px var(--font-sans); color: var(--text-secondary);">{{t.memberNo}} #1043</span></span></div>
+        <button class="s1-btn s1-btn--secondary s1-btn--icon" type="button" aria-label="{{t.settings}}" onClick="{{goSettings}}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg></button>
+      </header>
+      <div class="s1-card" style="padding: 22px; display: flex; flex-direction: column; gap: 10px; box-shadow: inset 0 0 0 1px var(--hairline);">
+        <div style="display: flex; justify-content: space-between; align-items: center;"><span style="font: 600 13px/18px var(--font-sans); color: var(--text-secondary);">{{t.membership}}</span><span class="s1-pill s1-pill--active">{{t.active}}</span></div>
+        <span class="s1-num" style="font: 700 88px/88px var(--font-sans); letter-spacing: -0.04em;">19</span>
+        <span style="font: 500 16px/22px var(--font-sans); color: var(--text-secondary);">{{t.daysLeftLong}}</span>
+        <div style="display: flex; justify-content: space-between; box-shadow: inset 0 1px 0 var(--hairline); padding-top: 12px; margin-top: 6px;"><span style="font: 500 15px/20px var(--font-sans); color: var(--text-secondary);">{{t.tag}}</span><span class="s1-num" style="font: 700 17px/22px var(--font-sans); letter-spacing: 0.12em;">003909</span></div>
+        <div style="display: flex; justify-content: space-between;"><span style="font: 500 15px/20px var(--font-sans); color: var(--text-secondary);">{{t.visits}}</span><span class="s1-num" style="font: 600 15px/20px var(--font-sans);">11</span></div>
+      </div>
+      <div class="s1-card" style="padding: 16px; display: flex; align-items: center; gap: 14px;">
+        <span style="width: 84px; height: 84px; border-radius: 12px; background: #ffffff; padding: 8px; box-sizing: border-box; flex: none;"><img src="/_blob/5c35fbb9368ffcbb6f7f72ca11f68ac7" alt="Check-in code" style="width: 100%; height: 100%; display: block;"></span>
+        <span style="display: flex; flex-direction: column; gap: 4px;"><span class="s1-headline" style="font-size: 16px;">{{t.forgotTag}}</span><span style="font: 500 13px/18px var(--font-sans); color: var(--text-secondary);">{{t.forgotTagSub}}</span></span>
+      </div>
+      <div class="s1-card" style="padding: 16px; display: flex; align-items: center; gap: 14px;">
+        <span class="s1-disc s1-disc--pt"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.4 14.4 9.6 9.6"/><path d="M18.657 21.485a2 2 0 1 1-2.829-2.828l-1.767 1.768a2 2 0 1 1-2.829-2.829l6.364-6.364a2 2 0 1 1 2.829 2.829l-1.768 1.767a2 2 0 1 1 2.828 2.829z"/><path d="m21.5 21.5-1.4-1.4"/><path d="M3.9 3.9 2.5 2.5"/><path d="M6.404 12.768a2 2 0 1 1-2.829-2.829l1.768-1.767a2 2 0 1 1-2.828-2.829l2.828-2.828a2 2 0 1 1 2.829 2.828l1.767-1.768a2 2 0 1 1 2.829 2.829z"/></svg></span>
+        <span style="flex: 1; display: flex; flex-direction: column; gap: 3px;"><span class="s1-headline" style="font-size: 16px;">10 PT · 6 {{t.left}}</span><span style="font: 500 13px/18px var(--font-sans); color: var(--text-secondary);">Sunman Fitness</span></span>
+      </div>
+      <div class="s1-group">
+        <div class="s1-row" style="min-height: 56px;"><span class="s1-row__main"><span class="s1-row__title" style="display: block; font-size: 15px;">{{t.renewDesk}}</span><span class="s1-row__sub" style="display: block;">{{t.renewDeskSub}}</span></span></div>
+        <div class="s1-row" style="min-height: 56px; opacity: 0.55;"><span class="s1-row__main"><span class="s1-row__title" style="display: block; font-size: 15px;">{{t.payApp}}</span><span class="s1-row__sub" style="display: block;">{{t.later}}</span></span></div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ===================== SETTINGS ===================== -->
+  <sc-if value="{{is.settings}}" hint-placeholder-val="{{ false }}">
+    <div class="s1-scrollbox s1-tab-in" style="padding: 52px 20px 40px; box-sizing: border-box; display: flex; flex-direction: column; gap: 16px;">
+      <div style="display: flex; align-items: center; gap: 12px;"><button class="s1-btn s1-btn--secondary s1-btn--icon" type="button" aria-label="{{t.back}}" onClick="{{back}}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button><h1 class="s1-title2">{{t.settings}}</h1></div>
+      <p class="s1-section" style="margin: 8px 0 -6px 4px;">{{t.language}}</p>
+      <div class="s1-seg" style="display: flex;"><sc-for list="{{langs}}" as="l" hint-placeholder-count="3"><button type="button" aria-pressed="{{l.pressed}}" onClick="{{l.pick}}" lang="{{l.code}}" style="flex: 1; height: 40px;">{{l.label}}</button></sc-for></div>
+      <p class="s1-section" style="margin: 8px 0 -6px 4px;">{{t.notifications}}</p>
+      <div class="s1-group">
+        <sc-for list="{{notes}}" as="n" hint-placeholder-count="3">
+          <div class="s1-row" style="min-height: 60px;"><span class="s1-row__main"><span class="s1-row__title" style="display: block; font-size: 15px;">{{n.label}}</span><span class="s1-row__sub" style="display: block;">{{n.sub}}</span></span><button type="button" role="switch" aria-checked="{{n.on}}" aria-label="{{n.label}}" class="s1-switch" onClick="{{n.toggle}}"></button></div>
+        </sc-for>
+      </div>
+      <p class="s1-section" style="margin: 8px 0 -6px 4px;">{{t.units}}</p>
+      <div class="s1-seg" style="display: flex;"><sc-for list="{{units}}" as="u" hint-placeholder-count="2"><button type="button" aria-pressed="{{u.pressed}}" onClick="{{u.pick}}" style="flex: 1; height: 40px;">{{u.label}}</button></sc-for></div>
+      <div class="s1-group" style="margin-top: 8px;">
+        <div class="s1-row" style="min-height: 56px;"><span class="s1-row__main"><span class="s1-row__title" style="display: block; font-size: 15px;">{{t.email}}</span><span class="s1-row__sub" style="display: block;">emma.wilson@gmail.com</span></span></div>
+        <button type="button" onClick="{{signOut}}" class="s1-row" style="width: 100%; min-height: 56px; border: 0; background: transparent; text-align: left; cursor: pointer; color: var(--s1-red);"><span style="font: 600 15px/20px var(--font-sans);">{{t.signOut}}</span></button>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ===================== TAB BAR ===================== -->
+  <sc-if value="{{showTabs}}" hint-placeholder-val="{{ true }}">
+    <nav class="s1-tabbar" aria-label="Main">
+      <sc-for list="{{tabs}}" as="tb" hint-placeholder-count="4">
+        <button class="s1-tab" type="button" aria-pressed="{{tb.pressed}}" onClick="{{tb.pick}}">
+          <sc-if value="{{tb.isHome}}" hint-placeholder-val="{{ false }}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></sc-if>
+          <sc-if value="{{tb.isTrain}}" hint-placeholder-val="{{ false }}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.4 14.4 9.6 9.6"/><path d="M18.657 21.485a2 2 0 1 1-2.829-2.828l-1.767 1.768a2 2 0 1 1-2.829-2.829l6.364-6.364a2 2 0 1 1 2.829 2.829l-1.768 1.767a2 2 0 1 1 2.828 2.829z"/><path d="m21.5 21.5-1.4-1.4"/><path d="M3.9 3.9 2.5 2.5"/><path d="M6.404 12.768a2 2 0 1 1-2.829-2.829l1.768-1.767a2 2 0 1 1-2.828-2.829l2.828-2.828a2 2 0 1 1 2.829 2.828l1.767-1.768a2 2 0 1 1 2.829 2.829z"/></svg></sc-if>
+          <sc-if value="{{tb.isFuel}}" hint-placeholder-val="{{ false }}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg></sc-if>
+          <sc-if value="{{tb.isMe}}" hint-placeholder-val="{{ false }}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></sc-if>
+          {{tb.label}}
+        </button>
+      </sc-for>
+    </nav>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"start":{"editor":"enum","options":["splash","signin","code","home","train","live","done","progress","fuel","item","counter","checkin","me","settings"],"default":"home"},"$preview":{"width":390,"height":844}}'>
+var T = {
+  en: { home: "Home", train: "Train", fuel: "Fuel", me: "Me", evening: "Good evening", today: "Today", workoutNow: "Workout now", start: "Start", active: "Active",
+    daysLeftOn: "days left · 1 Month", daysLeftLong: "days left · 1 Month · ends Sat 31 Oct", sessionsWith: "sessions left with Sunman",
+    checkTitle: "Daily check-in", checkSub: "Sleep, energy, water · 30 seconds", checkDoneTitle: "Check-in done", checkDoneSub: "See you tomorrow",
+    targets: "Today's targets", protein: "Protein", carbs: "Carbs", fat: "Fat", fromCafe: "From the café", seeMenu: "See menu",
+    fromCoach: "Sunman sent your program", coachNote: "Day A updated · bench press goes to 42.5 kg", fromSunman: "From Sunman", myOwn: "My own", progress: "Progress", bests: "Personal bests", recent: "Recent workouts",
+    addExercise: "Add your own exercise", add: "Add", close: "Close", rest: "Rest", skip: "Skip", previous: "Previous", next: "Next exercise", finishWorkout: "Finish workout",
+    lessKg: "Less weight", moreKg: "More weight", lessReps: "Fewer reps", moreReps: "More reps", setDone: "Set done", note: "Session note", notePh: "Felt strong, shoulder fine",
+    sets: "sets", workoutDone: "Workout done", coachSees: "Saved to your progress. Sunman can see it.", done: "Done", doneBanner: "Day A done · Sunman can see it",
+    fromSunmanTargets: "Daily targets from Sunman", coachPicks: "Sunman's picks for you", pickWhy: { "strong-vibes": "After training", "cyo-whey": "Daily protein", coconut: "On hot days" }, cafe: "Superfit Café", payCounter: "Pay at the counter", shakesHero: "Protein shakes, made to order",
+    macros: "Macros", verifying: "Being verified", macrosNote: "The café checks every recipe before its numbers show here.", showCounter: "Show at the counter",
+    showThis: "Show this at the café", asIs: "As it comes", total: "Total", payQashier: "The café rings it up on Qashier. Pay by card, cash or PromptPay.",
+    sleep: "Sleep", hours: "Hours last night", energy: "Energy", digestion: "Digestion", water: "Water", target: "Target", steps: "Steps", weight: "Bodyweight kg", complete: "Complete",
+    doneToday: "Done for today", streak: "7 days in a row. Sunman sees this in your check-ins.",
+    memberNo: "Member", membership: "Membership", tag: "Check-in tag", visits: "Visits this month", forgotTag: "Forgot your tag?", forgotTagSub: "Show this code at the desk to check in.",
+    left: "left", renewDesk: "Renew at the front desk", renewDeskSub: "Your next plan starts when this one ends", payApp: "Pay in the app", later: "Coming later",
+    settings: "Settings", language: "Language", notifications: "Notifications", units: "Units", email: "Email", signOut: "Sign out",
+    signIn: "Sign in", signInSub: "Use the email you gave Superfit. We'll send you a 6-digit code.", sendCode: "Send me a code", newHere: "New to Superfit? Scan the QR at the counter.",
+    enterCode: "Enter your code", codeSent: "We sent 6 digits to", pasteCode: "Paste code from email", codeNote: "The code works for 10 minutes.", back: "Back" },
+  th: { home: "หน้าหลัก", train: "เทรน", fuel: "อาหาร", me: "ฉัน", evening: "สวัสดีตอนเย็น", today: "วันนี้", workoutNow: "เริ่มเทรน", start: "เริ่ม", active: "ใช้งานอยู่",
+    daysLeftOn: "วันที่เหลือ · 1 เดือน", daysLeftLong: "วันที่เหลือ · 1 เดือน · สิ้นสุด ส. 31 ต.ค.", sessionsWith: "ครั้งที่เหลือกับ Sunman",
+    checkTitle: "เช็กอินประจำวัน", checkSub: "การนอน พลังงาน น้ำ · 30 วินาที", checkDoneTitle: "เช็กอินแล้ว", checkDoneSub: "เจอกันพรุ่งนี้",
+    targets: "เป้าหมายวันนี้", protein: "โปรตีน", carbs: "คาร์บ", fat: "ไขมัน", fromCafe: "จากคาเฟ่", seeMenu: "ดูเมนู",
+    fromCoach: "Sunman ส่งโปรแกรมให้แล้ว", coachNote: "อัปเดตวัน A · เบนช์เพรสเพิ่มเป็น 42.5 กก.", fromSunman: "จาก Sunman", myOwn: "ของฉัน", progress: "ความคืบหน้า", bests: "สถิติดีที่สุด", recent: "การเทรนล่าสุด",
+    addExercise: "เพิ่มท่าของคุณเอง", add: "เพิ่ม", close: "ปิด", rest: "พัก", skip: "ข้าม", previous: "ก่อนหน้า", next: "ท่าถัดไป", finishWorkout: "จบการเทรน",
+    lessKg: "ลดน้ำหนัก", moreKg: "เพิ่มน้ำหนัก", lessReps: "ลดจำนวนครั้ง", moreReps: "เพิ่มจำนวนครั้ง", setDone: "จบเซ็ต", note: "บันทึก", notePh: "รู้สึกแข็งแรง ไหล่ปกติ",
+    sets: "เซ็ต", workoutDone: "เทรนเสร็จแล้ว", coachSees: "บันทึกแล้ว Sunman ดูได้", done: "เสร็จสิ้น", doneBanner: "วัน A เสร็จแล้ว · Sunman ดูได้",
+    fromSunmanTargets: "เป้าหมายรายวันจาก Sunman", coachPicks: "Sunman แนะนำให้คุณ", pickWhy: { "strong-vibes": "หลังเทรน", "cyo-whey": "โปรตีนประจำวัน", coconut: "วันที่อากาศร้อน" }, cafe: "Superfit คาเฟ่", payCounter: "ชำระที่เคาน์เตอร์", shakesHero: "โปรตีนเชค ทำสดทุกแก้ว",
+    macros: "สารอาหาร", verifying: "กำลังตรวจสอบ", macrosNote: "คาเฟ่ตรวจสูตรทุกเมนูก่อนแสดงตัวเลข", showCounter: "แสดงที่เคาน์เตอร์",
+    showThis: "แสดงหน้าจอนี้ที่คาเฟ่", asIs: "ตามสูตร", total: "รวม", payQashier: "คาเฟ่คิดเงินผ่าน Qashier ชำระด้วยบัตร เงินสด หรือพร้อมเพย์",
+    sleep: "การนอน", hours: "ชั่วโมงเมื่อคืน", energy: "พลังงาน", digestion: "การย่อย", water: "น้ำ", target: "เป้าหมาย", steps: "ก้าวเดิน", weight: "น้ำหนัก กก.", complete: "เสร็จสิ้น",
+    doneToday: "เสร็จแล้ววันนี้", streak: "ต่อเนื่อง 7 วัน Sunman เห็นข้อมูลนี้",
+    memberNo: "สมาชิก", membership: "สมาชิก", tag: "แท็กเช็กอิน", visits: "เข้าใช้เดือนนี้", forgotTag: "ลืมแท็ก?", forgotTagSub: "แสดงรหัสนี้ที่เคาน์เตอร์เพื่อเช็กอิน",
+    left: "เหลือ", renewDesk: "ต่ออายุที่เคาน์เตอร์", renewDeskSub: "แพ็กเกจใหม่เริ่มเมื่อแพ็กเกจนี้หมด", payApp: "ชำระในแอป", later: "เร็วๆ นี้",
+    settings: "ตั้งค่า", language: "ภาษา", notifications: "การแจ้งเตือน", units: "หน่วย", email: "อีเมล", signOut: "ออกจากระบบ",
+    signIn: "เข้าสู่ระบบ", signInSub: "ใช้อีเมลที่ให้ไว้กับ Superfit เราจะส่งรหัส 6 หลักให้", sendCode: "ส่งรหัสให้ฉัน", newHere: "มาครั้งแรก? สแกน QR ที่เคาน์เตอร์",
+    enterCode: "ใส่รหัส", codeSent: "เราส่งรหัส 6 หลักไปที่", pasteCode: "วางรหัสจากอีเมล", codeNote: "รหัสใช้ได้ 10 นาที", back: "ย้อนกลับ" },
+  ru: { home: "Главная", train: "Тренировки", fuel: "Питание", me: "Профиль", evening: "Добрый вечер", today: "Сегодня", workoutNow: "Начать", start: "Начать", active: "Активен",
+    daysLeftOn: "дней осталось · 1 месяц", daysLeftLong: "дней осталось · 1 месяц · до сб 31 окт", sessionsWith: "занятий осталось с Sunman",
+    checkTitle: "Ежедневный отчёт", checkSub: "Сон, энергия, вода · 30 секунд", checkDoneTitle: "Отчёт отправлен", checkDoneSub: "До завтра",
+    targets: "Цели на сегодня", protein: "Белки", carbs: "Углеводы", fat: "Жиры", fromCafe: "Из кафе", seeMenu: "Меню",
+    fromCoach: "Sunman прислал программу", coachNote: "День A обновлён · жим лёжа 42,5 кг", fromSunman: "От Sunman", myOwn: "Мои", progress: "Прогресс", bests: "Личные рекорды", recent: "Последние тренировки",
+    addExercise: "Добавить своё упражнение", add: "Добавить", close: "Закрыть", rest: "Отдых", skip: "Пропустить", previous: "Назад", next: "Следующее", finishWorkout: "Завершить",
+    lessKg: "Меньше вес", moreKg: "Больше вес", lessReps: "Меньше повторов", moreReps: "Больше повторов", setDone: "Подход выполнен", note: "Заметка", notePh: "Чувствую силу, плечо в порядке",
+    sets: "подходов", workoutDone: "Тренировка завершена", coachSees: "Сохранено. Sunman это видит.", done: "Готово", doneBanner: "День A выполнен · Sunman это видит",
+    fromSunmanTargets: "Дневные цели от Sunman", coachPicks: "Sunman советует", pickWhy: { "strong-vibes": "После тренировки", "cyo-whey": "Белок на день", coconut: "В жаркие дни" }, cafe: "Кафе Superfit", payCounter: "Оплата на стойке", shakesHero: "Протеиновые коктейли на заказ",
+    macros: "БЖУ", verifying: "На проверке", macrosNote: "Кафе проверяет каждый рецепт, прежде чем показать цифры.", showCounter: "Показать на стойке",
+    showThis: "Покажите это в кафе", asIs: "Как в меню", total: "Итого", payQashier: "Кафе пробивает заказ в Qashier. Карта, наличные или PromptPay.",
+    sleep: "Сон", hours: "Часов этой ночью", energy: "Энергия", digestion: "Пищеварение", water: "Вода", target: "Цель", steps: "Шаги", weight: "Вес, кг", complete: "Готово",
+    doneToday: "На сегодня всё", streak: "7 дней подряд. Sunman видит ваши отчёты.",
+    memberNo: "Клиент", membership: "Абонемент", tag: "Ключ для входа", visits: "Визитов в этом месяце", forgotTag: "Забыли ключ?", forgotTagSub: "Покажите этот код на ресепшене.",
+    left: "осталось", renewDesk: "Продлить на ресепшене", renewDeskSub: "Новый абонемент начнётся после текущего", payApp: "Оплата в приложении", later: "Скоро",
+    settings: "Настройки", language: "Язык", notifications: "Уведомления", units: "Единицы", email: "Эл. почта", signOut: "Выйти",
+    signIn: "Вход", signInSub: "Укажите почту, которую вы дали Superfit. Мы пришлём 6-значный код.", sendCode: "Прислать код", newHere: "Впервые в Superfit? Отсканируйте QR на стойке.",
+    enterCode: "Введите код", codeSent: "Мы отправили 6 цифр на", pasteCode: "Вставить код из письма", codeNote: "Код действует 10 минут.", back: "Назад" }
+};
+var LANGS = [{ code: "en", label: "English", short: "EN" }, { code: "th", label: "ไทย", short: "ไทย" }, { code: "ru", label: "Русский", short: "RU" }];
+var PHOTO = { cafe: "/_blob/cdc0bb4eada39ac9515967abc0d39748", espresso: "/_blob/c6dbb7672b6c0c583d91e888340aba1c", capp: "/_blob/bc8046c477cfb3b2379c4734b3b2a560", flat: "/_blob/b22e1834550a77b2fb97df21625e3ecd", bruce: "/_blob/3eabe9d3ae5c02b68645eaf5c9c94583", mct: "/_blob/de85303544049c7bf7f22230551fefa9",
+  tee: "/_blob/4579ab66e0da7e628f078fd8dc86e3fa", leggings: "/_blob/20d93db7745348f777084c7ce9daed9e", top: "/_blob/9c54e9b4fa79d0918ae17e2f0911631c", nba: "/_blob/422228dc127f9a1db9eff3cfcb997803", train: "/_blob/76e394b5ba7705659c9928c51842af3c", home: "/_blob/65beb7963b8fa172a404066cfc3ae628" };
+var CATS = [{ id: "shakes", label: "Shakes" }, { id: "coffee", label: "Coffee" }, { id: "juices", label: "Juices" }, { id: "fuel", label: "Fuel-ups" }, { id: "food", label: "Waffles & snacks" }, { id: "shop", label: "Shop" }];
+var GRID = { coffee: true, shop: true };
+var MENU = [
+  { id: "strong-vibes", cat: "shakes", name: "Strong Vibes", th: "สตรองไวบ์", price: 149, desc: "Banana, blueberry, Greek yogurt, peanut butter, coconut water, açaí, vanilla whey protein", tag: "Top shake", pos: "30% 50%" },
+  { id: "banana-bam-bam", cat: "shakes", name: "Banana Bam Bam", th: "บานาน่า แบม แบม", price: 149, desc: "Banana, honey, cinnamon, coconut water, coconut milk, vanilla whey protein", pos: "60% 50%" },
+  { id: "berry-hype", cat: "shakes", name: "Berry Hype", th: "เบอร์รี่ไฮป์", price: 149, desc: "Blueberry, raspberry, strawberry, açaí, coconut water, vanilla whey protein", pos: "12% 50%" },
+  { id: "thick", cat: "shakes", name: "Thick", th: "ติก", price: 149, desc: "Banana, peanut butter, cacao powder, oat milk, chocolate whey protein", pos: "50% 50%" },
+  { id: "skinny-rich", cat: "shakes", name: "Skinny & Rich", th: "ผอม & รวย", price: 149, desc: "Raspberry, cacao powder, almond butter, oat milk, chocolate whey protein", pos: "80% 50%" },
+  { id: "espresso-max", cat: "shakes", name: "Espresso Max", th: "เอสเพรสโซ่ แม็กซ์", price: 149, desc: "", pos: "50% 50%" },
+  { id: "mocha-monster", cat: "shakes", name: "Mocha Monster", th: "สัตว์ประหลาดมอคค่า", price: 149, desc: "", pos: "50% 50%" },
+  { id: "cyo-whey", cat: "shakes", name: "Create your own: Whey", th: "", price: 90, desc: "Pick your fruit, milk and add-ons", tag: "Most ordered", pos: "50% 50%" },
+  { id: "cyo-vegan", cat: "shakes", name: "Create your own: Vegan", th: "", price: 120, desc: "Plant protein, your way", pos: "50% 50%" },
+  { id: "espresso", cat: "coffee", name: "Espresso", price: 50, photo: "espresso" },
+  { id: "americano", cat: "coffee", name: "Americano", price: 50, photo: "espresso" },
+  { id: "cappuccino", cat: "coffee", name: "Cappuccino", price: 80, photo: "capp" },
+  { id: "flat-white", cat: "coffee", name: "Flat White", price: 80, photo: "flat" },
+  { id: "latte", cat: "coffee", name: "Latte", price: 80, photo: "capp" },
+  { id: "bruce", cat: "coffee", name: "Bulletproof Bruce", price: 70, photo: "bruce", addon: true, desc: "Add Bruce MCT oil to any coffee" },
+  { id: "oj", cat: "juices", name: "OJ Classic", price: 139, desc: "Oranges" },
+  { id: "ak", cat: "juices", name: "AK Energy", price: 139, desc: "Apple, kiwi" },
+  { id: "passion", cat: "juices", name: "Pure Passion", price: 139, desc: "Passionfruit" },
+  { id: "alg", cat: "juices", name: "ALG", price: 169, desc: "Apple, lemon, ginger" },
+  { id: "bkk", cat: "juices", name: "Bangkok Beat", price: 169, desc: "Orange, unripened banana, ginger" },
+  { id: "bmho", cat: "juices", name: "Blow My Head Off", price: 169, desc: "Orange, carrot, ginger, turmeric, cayenne pepper" },
+  { id: "ginger", cat: "juices", name: "Ginger Shot", price: 69, desc: "One sharp shot" },
+  { id: "c4", cat: "fuel", name: "C4 Pre Workout Scoop", price: 99, desc: "Pre-workout" },
+  { id: "creatine", cat: "fuel", name: "Creatine 5g", price: 50, desc: "Add to any shake" },
+  { id: "wilder", cat: "fuel", name: "Wilder Electrolyte Sachet", price: 60, desc: "Electrolytes" },
+  { id: "coconut", cat: "fuel", name: "Coconut Water", price: 40, desc: "Fresh, chilled" },
+  { id: "water-big", cat: "fuel", name: "Big Water 1500ml", price: 40, desc: "" },
+  { id: "water-small", cat: "fuel", name: "Small Water 600ml", price: 20, desc: "" },
+  { id: "waffle-1", cat: "food", name: "1 Waffle", th: "1 วาฟเฟิล", price: 169, desc: "Add banana, mango, peanut butter, berries" },
+  { id: "waffle-2", cat: "food", name: "2 Waffles", th: "2 วาฟเฟิล", price: 269, desc: "Add banana, mango, peanut butter, berries" },
+  { id: "ball-m", cat: "food", name: "Protein Ball (M)", price: 30, desc: "" },
+  { id: "banana", cat: "food", name: "Banana", price: 20, desc: "" },
+  { id: "tee", cat: "shop", name: "Superfit T-shirt", price: 599, photo: "tee" },
+  { id: "leggings", cat: "shop", name: "Leggings", price: 990, photo: "leggings" },
+  { id: "tight-top", cat: "shop", name: "Tight Top", price: 690, photo: "top" },
+  { id: "nba", cat: "shop", name: "NBA Top", price: 599, photo: "nba" }
+];
+var OPTIONS = {
+  shakes: [
+    { label: "Size", items: [{ id: "xl", label: "XL size", price: 50 }] },
+    { label: "Protein", items: [{ id: "scoop", label: "Extra scoop", price: 60 }, { id: "vegan", label: "Swap to vegan protein", price: 30 }] },
+    { label: "Add-ons", items: [{ id: "creatine", label: "Creatine 5g", price: 50 }, { id: "mct", label: "MCT oil 5 ml", price: 30 }, { id: "pb", label: "Peanut butter 20 g", price: 20 }, { id: "oat", label: "Swap to oat milk", price: 20 }] }
+  ],
+  coffee: [
+    { label: "Make it yours", items: [{ id: "iced", label: "Iced", price: 30 }, { id: "shot", label: "Extra shot", price: 20 }, { id: "oat", label: "Oat milk", price: 20 }, { id: "almond", label: "Almond milk", price: 20 }, { id: "bruce", label: "Bulletproof Bruce (MCT)", price: 70 }] }
+  ],
+  juices: [
+    { label: "Add-ons", items: [{ id: "creatine", label: "Creatine 5g", price: 50 }, { id: "wilder", label: "Wilder electrolyte", price: 60 }, { id: "mct", label: "MCT oil 5 ml", price: 30 }] }
+  ],
+  food: [
+    { label: "Toppings", items: [{ id: "banana", label: "Banana", price: 20 }, { id: "pb", label: "Peanut butter", price: 20 }, { id: "blue", label: "Blueberries", price: 30 }, { id: "honey", label: "Honey", price: 15 }] }
+  ]
+};
+var EX = [
+  { name: "Barbell bench press", target: "4 × 8", sets: 4, lastKg: 40, lastReps: 8, step: 2.5, cue: "Shoulder blades back, pause on the chest." },
+  { name: "Incline dumbbell press", target: "3 × 10", sets: 3, lastKg: 14, lastReps: 10, step: 2, cue: "" },
+  { name: "Cable fly", target: "3 × 12", sets: 3, lastKg: 10, lastReps: 12, step: 2.5, cue: "" },
+  { name: "Arnold press", target: "3 × 10", sets: 3, lastKg: 12, lastReps: 9, step: 2, cue: "" },
+  { name: "Rope pushdown", target: "3 × 12", sets: 3, lastKg: 15, lastReps: 12, step: 2.5, cue: "" }
+];
+var ROOT = { home: "home", train: "train", progress: "train", live: "train", done: "home", fuel: "fuel", item: "fuel", counter: "fuel", checkin: "home", me: "me", settings: "me" };
+var BACK = { code: "signin", progress: "train", item: "fuel", counter: "item", checkin: "home", settings: "me" };
+var TABBED = { home: true, train: true, fuel: true, me: true };
+function baht(n) { return "฿" + n.toLocaleString("en-US"); }
+function fmtTime(s) { var m = Math.floor(s / 60), r = s % 60; return m + ":" + (r < 10 ? "0" : "") + r; }
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    var start = this.props.start || "home";
+    var preset = (start === "item" || start === "counter") ? { xl: true, scoop: true } : {};
+    this.state = { screen: start, lang: "en", email: "emma.wilson@gmail.com", code: start === "code" ? "48" : "",
+      ex: 0, log: {}, timerOn: true, rest: 0, note: "", justDone: false,
+      cat: "shakes", item: "strong-vibes", opts: preset,
+      sleep: 7, energyPick: 0, digestPick: 0, water: null, steps: "", weight: "", checkDone: false,
+      own: ["Hip thrust 3 × 10"], ownDraft: "", notes: { coach: true, membership: true, cafe: false }, units: "kg" };
+    this.timers = [];
+    this.tick = null;
+  }
+  componentDidMount() {
+    var self = this;
+    if (this.state.screen === "splash") this.timers.push(setTimeout(function () { self.setState({ screen: "signin" }); }, 2000));
+    this.tick = setInterval(function () { if (self.state.rest > 0) self.setState({ rest: self.state.rest - 1 }); }, 1000);
+  }
+  componentWillUnmount() { this.timers.forEach(clearTimeout); if (this.tick) clearInterval(this.tick); }
+  go(screen) { this.setState({ screen: screen }); }
+  setsFor(i) {
+    var e = EX[i], cur = this.state.log[i];
+    if (cur) return cur;
+    var out = []; for (var k = 0; k < e.sets; k++) out.push({ kg: e.lastKg, reps: e.lastReps, done: false });
+    return out;
+  }
+  updateSet(i, k, patch) {
+    var list = this.setsFor(i).map(function (s, j) { return j === k ? Object.assign({}, s, patch) : s; });
+    var log = Object.assign({}, this.state.log); log[i] = list; return log;
+  }
+  renderVals() {
+    var s = this.state, self = this, t = T[s.lang];
+    var screens = ["splash", "signin", "code", "home", "train", "live", "done", "progress", "fuel", "item", "counter", "checkin", "me", "settings"];
+    var is = {}; screens.forEach(function (n) { is[n] = s.screen === n; });
+    var root = ROOT[s.screen] || "home";
+    var it = MENU.filter(function (m) { return m.id === s.item; })[0] || MENU[0];
+    var groups = OPTIONS[it.cat] || [];
+    var extra = 0, chosen = [];
+    groups.forEach(function (g) { g.items.forEach(function (o) { if (s.opts[o.id]) { extra += o.price; chosen.push(o.label); } }); });
+    var e = EX[s.ex], sets = this.setsFor(s.ex);
+    var total = 130 * 4 + 180 * 4 + 55 * 9;
+    var code = s.code.replace(/\D/g, "").slice(0, 6);
+    var checkReady = s.energyPick > 0 && s.water;
+    var shownItems = MENU.filter(function (m) { return m.cat === s.cat; });
+    var openItem = function (id) { return function () { self.setState({ item: id, opts: {}, screen: "item" }); }; };
+    return {
+      is: is, lang: s.lang, t: t, email: s.email, code: code,
+      showTabs: !!TABBED[s.screen],
+      langs: LANGS.map(function (l) { return { code: l.code, label: l.label, short: l.short, pressed: s.lang === l.code, pick: function () { self.setState({ lang: l.code }); } }; }),
+      tabs: [{ id: "home", label: t.home }, { id: "train", label: t.train }, { id: "fuel", label: t.fuel }, { id: "me", label: t.me }].map(function (x) {
+        return { label: x.label, pressed: root === x.id, isHome: x.id === "home", isTrain: x.id === "train", isFuel: x.id === "fuel", isMe: x.id === "me", pick: function () { self.go(x.id); } };
+      }),
+      back: function () { self.go(BACK[s.screen] || root); },
+      onEmail: function (ev) { self.setState({ email: ev.target.value }); },
+      sendCode: function (ev) { ev.preventDefault(); self.setState({ screen: "code", code: "" }); },
+      codeBoxes: [0, 1, 2, 3, 4, 5].map(function (i) { return { d: code.charAt(i), ring: i === code.length ? "inset 0 0 0 2px #00b4ff" : "inset 0 0 0 1px rgba(255,255,255,0.08)" }; }),
+      onCode: function (ev) {
+        var v = ev.target.value.replace(/\D/g, "").slice(0, 6);
+        self.setState({ code: v });
+        if (v.length === 6) self.timers.push(setTimeout(function () { self.go("home"); }, 450));
+      },
+      fillCode: function () { self.setState({ code: "482913" }); self.timers.push(setTimeout(function () { self.go("home"); }, 450)); },
+      goMe: function () { self.go("me"); }, goFuel: function () { self.go("fuel"); }, goCheckin: function () { self.go("checkin"); },
+      goProgress: function () { self.go("progress"); }, goSettings: function () { self.go("settings"); }, goCounter: function () { self.go("counter"); },
+      openStrong: openItem("strong-vibes"), openBruce: openItem("bruce"), openFlat: openItem("flat-white"),
+      justDone: s.justDone,
+      checkTitle: s.checkDone ? t.checkDoneTitle : t.checkTitle, checkSub: s.checkDone ? t.checkDoneSub : t.checkSub,
+      checkDisc: s.checkDone ? "s1-disc s1-disc--go" : "s1-disc s1-disc--warn",
+      startWorkout: function () { self.setState({ screen: "live", ex: 0, rest: 0, justDone: false }); },
+      own: s.own, ownDraft: s.ownDraft,
+      onOwn: function (ev) { self.setState({ ownDraft: ev.target.value }); },
+      addOwn: function (ev) { ev.preventDefault(); var v = self.state.ownDraft.trim(); if (v) self.setState({ own: self.state.own.concat([v]), ownDraft: "" }); },
+      ex: e, exLabel: (s.ex + 1) + " / 5 · " + e.target,
+      lastLabel: "Last time " + e.lastKg + " kg × " + e.lastReps + " · beat it by one rep",
+      progressBar: EX.map(function (x, i) { return i < s.ex ? "#00b4ff" : i === s.ex ? "#ffffff" : "#2a2f37"; }),
+      timerCls: s.timerOn ? "s1-chip-blue" : "s1-chip-off", timerLabel: s.timerOn ? "1:30" : "Off",
+      toggleTimer: function () { self.setState({ timerOn: !self.state.timerOn, rest: 0 }); },
+      resting: s.rest > 0, restLabel: fmtTime(s.rest), skipRest: function () { self.setState({ rest: 0 }); },
+      sets: sets.map(function (st, k) {
+        return { n: k + 1, kg: st.kg, reps: st.reps, done: st.done, bg: st.done ? "rgba(0,180,255,0.08)" : "transparent",
+          kgUp: function () { self.setState({ log: self.updateSet(s.ex, k, { kg: st.kg + e.step }) }); },
+          kgDown: function () { self.setState({ log: self.updateSet(s.ex, k, { kg: Math.max(0, st.kg - e.step) }) }); },
+          repUp: function () { self.setState({ log: self.updateSet(s.ex, k, { reps: st.reps + 1 }) }); },
+          repDown: function () { self.setState({ log: self.updateSet(s.ex, k, { reps: Math.max(0, st.reps - 1) }) }); },
+          toggle: function () { var d = !st.done; self.setState({ log: self.updateSet(s.ex, k, { done: d }), rest: d && self.state.timerOn ? 90 : self.state.rest }); } };
+      }),
+      note: s.note, onNote: function (ev) { self.setState({ note: ev.target.value }); },
+      prevOff: s.ex === 0 ? "s1-off" : "",
+      prev: function () { if (self.state.ex > 0) self.setState({ ex: self.state.ex - 1, rest: 0 }); },
+      nextLabel: s.ex === EX.length - 1 ? t.finishWorkout : t.next,
+      next: function () { if (self.state.ex < EX.length - 1) self.setState({ ex: self.state.ex + 1, rest: 0 }); else self.setState({ screen: "done", rest: 0 }); },
+      quit: function () { self.setState({ screen: "train", rest: 0 }); },
+      finish: function () { self.setState({ screen: "home", justDone: true }); },
+      macroBars: [{ label: t.protein, g: 130, k: 4, c: "#00b4ff" }, { label: t.carbs, g: 180, k: 4, c: "#8fdcff" }, { label: t.fat, g: 55, k: 9, c: "#3a404a" }].map(function (b) {
+        return { label: b.label, grams: b.g, pct: Math.round((b.g * b.k / total) * 100), color: b.c };
+      }),
+      cats: CATS.map(function (c) { return { label: c.label, cls: s.cat === c.id ? "s1-chip-blue" : "s1-chip-off", pick: function () { self.setState({ cat: c.id }); } }; }),
+      catHero: s.cat === "shakes", catGrid: !!GRID[s.cat], catList: !GRID[s.cat],
+      picks: ["strong-vibes", "cyo-whey", "coconut"].map(function (id) {
+        var m = MENU.filter(function (x) { return x.id === id; })[0];
+        return { name: m.name, priceLabel: baht(m.price), why: t.pickWhy[id], open: openItem(id) };
+      }),
+      menuItems: shownItems.map(function (m) {
+        return { name: m.name, sub: m.desc || (m.th || ""), tag: m.tag || "", priceLabel: m.addon ? "+" + baht(m.price) : baht(m.price),
+          photo: PHOTO[m.photo] || PHOTO.cafe, bg: m.cat === "shop" ? "#e9e9eb" : "#1e2228", open: openItem(m.id) };
+      }),
+      item: { name: it.name, th: it.th || "", desc: it.desc || "", priceLabel: it.addon ? "+" + baht(it.price) : baht(it.price),
+        hasPhoto: !!PHOTO[it.photo] || it.cat === "shakes", heroH: (!!PHOTO[it.photo] || it.cat === "shakes") ? "300px" : "170px",
+        hero: PHOTO[it.photo] || PHOTO.cafe, pos: it.pos || "50% 50%" },
+      optionGroups: groups.map(function (g) {
+        return { label: g.label, items: g.items.map(function (o) {
+          return { label: o.label, price: o.price, on: !!s.opts[o.id], toggle: function () { var n = Object.assign({}, self.state.opts); n[o.id] = !n[o.id]; self.setState({ opts: n }); } };
+        }) };
+      }),
+      chosen: chosen, noneChosen: chosen.length === 0, totalLabel: baht(it.price + extra),
+      sleep: s.sleep.toFixed(1), steps: s.steps, weight: s.weight,
+      sleepUp: function () { self.setState({ sleep: Math.min(14, self.state.sleep + 0.5) }); },
+      sleepDown: function () { self.setState({ sleep: Math.max(0, self.state.sleep - 0.5) }); },
+      energy: [1, 2, 3, 4, 5].map(function (n) { var on = s.energyPick === n; return { n: n, pressed: on, cls: on ? "s1-chip-blue" : "s1-chip-off", pick: function () { self.setState({ energyPick: n }); } }; }),
+      digestion: [1, 2, 3, 4, 5].map(function (n) { var on = s.digestPick === n; return { n: n, pressed: on, cls: on ? "s1-chip-blue" : "s1-chip-off", pick: function () { self.setState({ digestPick: n }); } }; }),
+      water: [1.5, 2, 2.5, 3, 3.5].map(function (w) { return { label: w + " L", pressed: s.water === w, pick: function () { self.setState({ water: w }); } }; }),
+      onSteps: function (ev) { self.setState({ steps: ev.target.value.replace(/[^0-9,]/g, "") }); },
+      onWeight: function (ev) { self.setState({ weight: ev.target.value.replace(/[^0-9.]/g, "") }); },
+      checkOff: checkReady ? "" : "s1-off", checkDone: s.checkDone, checkOpen: !s.checkDone,
+      completeCheck: function () { if (checkReady) self.setState({ checkDone: true }); },
+      notes: [{ id: "coach", label: "Messages from Sunman", sub: "New programs and notes" }, { id: "membership", label: "Membership reminders", sub: "7 days and 1 day before it ends" }, { id: "cafe", label: "Café specials", sub: "New shakes and offers" }].map(function (n) {
+        return { label: n.label, sub: n.sub, on: !!s.notes[n.id], toggle: function () { var x = Object.assign({}, self.state.notes); x[n.id] = !x[n.id]; self.setState({ notes: x }); } };
+      }),
+      units: [{ id: "kg", label: "kg" }, { id: "lb", label: "lb" }].map(function (u) { return { label: u.label, pressed: s.units === u.id, pick: function () { self.setState({ units: u.id }); } }; }),
+      signOut: function () { self.setState({ screen: "signin" }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

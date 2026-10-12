@@ -1,0 +1,509 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SUPER1 front desk</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="s1.css">
+<link rel="stylesheet" href="ds/super1/components/bundle.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Noto+Sans+Thai:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#000}
+</style>
+</helmet>
+<div class="s1" lang="{{lang}}" style="position: relative; min-height: 940px; width: 100%; background: #000000; color: #ffffff; font-family: var(--font-sans);">
+
+  <sc-if value="{{is.login}}" hint-placeholder-val="{{ false }}">
+    <div style="min-height: 940px; display: grid; place-items: center; padding: 40px 16px; box-sizing: border-box;">
+      <div style="width: min(440px, 100%); display: flex; flex-direction: column; gap: 22px;">
+        <div style="position: relative; align-self: center; margin-bottom: 8px;">
+          <span class="s1-bloom" style="position: absolute; right: -44px; top: -46px; width: 150px; height: 150px; border-radius: 50%; background: radial-gradient(circle, rgba(0,160,255,0.7) 0%, rgba(0,69,251,0) 70%);"></span>
+          <img class="s1-wipe" src="/_blob/398b8f14610abf876aef8dbb1e7417d2" alt="SUPER1" style="position: relative; height: 44px; width: auto; display: block;">
+        </div>
+        <p style="margin: 0; text-align: center; font: 500 14px/20px var(--font-sans); color: var(--text-secondary);">{{t.deskTitle}}</p>
+        <sc-if value="{{loginStep1}}" hint-placeholder-val="{{ true }}">
+          <form class="s1-rise" onSubmit="{{signIn}}" style="display: flex; flex-direction: column; gap: 12px;">
+            <div><label class="s1-label" for="d-email">{{t.email}}</label><input class="s1-input" id="d-email" type="email" value="desk@superfitphuket.com" readonly></div>
+            <div><label class="s1-label" for="d-pass">{{t.passcode}}</label><input class="s1-input" id="d-pass" type="password" value="••••••" readonly></div>
+            <button class="s1-btn s1-btn--primary s1-btn--lg s1-btn--block" type="submit" style="margin-top: 6px;">{{t.signIn}}</button>
+          </form>
+        </sc-if>
+        <sc-if value="{{loginStep2}}" hint-placeholder-val="{{ false }}">
+          <div class="s1-rise" style="display: flex; flex-direction: column; gap: 14px;">
+            <h1 class="s1-title2" style="text-align: center;">{{t.whoOnShift}}</h1>
+            <p style="margin: 0; text-align: center; font: 500 14px/20px var(--font-sans); color: var(--text-secondary);">{{t.shiftNote}}</p>
+            <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px;">
+              <sc-for list="{{staff}}" as="st" hint-placeholder-count="6"><button class="s1-chip" type="button" aria-pressed="{{st.pressed}}" onClick="{{st.pick}}" style="justify-content: center; padding: 0 12px;"><span class="s1-avatar" style="width: 30px; height: 30px; font-size: 12px;">{{st.initial}}</span>{{st.name}}</button></sc-for>
+            </div>
+            <button class="s1-btn s1-btn--primary s1-btn--lg s1-btn--block" type="button" onClick="{{startShift}}">{{startShiftLabel}}</button>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{inApp}}" hint-placeholder-val="{{ true }}">
+    <div style="display: flex; flex-wrap: wrap; min-height: 940px;">
+      <aside style="flex: 1 0 248px; max-width: 100%; box-sizing: border-box; background: var(--surface-1); box-shadow: inset -1px 0 0 var(--hairline); padding: 28px 16px; display: flex; flex-direction: column; gap: 22px;">
+        <img src="/_blob/398b8f14610abf876aef8dbb1e7417d2" alt="SUPER1" style="height: 24px; width: auto; align-self: flex-start; margin-left: 12px;">
+        <button type="button" onClick="{{nextShift}}" class="s1-card" style="border: 0; cursor: pointer; padding: 12px 14px; display: flex; align-items: center; gap: 12px; color: #ffffff; text-align: left;">
+          <span class="s1-avatar" style="width: 36px; height: 36px; background: var(--s1-blue-tint); color: var(--s1-blue);">{{shiftInitial}}</span>
+          <span style="flex: 1; display: flex; flex-direction: column; gap: 2px;"><span style="font: 500 12px/16px var(--font-sans); color: var(--text-secondary);">{{t.onShift}}</span><span style="font: 600 15px/20px var(--font-sans);">{{shift}}</span></span>
+          <span style="font: 600 13px/18px var(--font-sans); color: var(--s1-blue);">{{t.change}}</span>
+        </button>
+        <nav style="display: flex; flex-direction: column; gap: 4px;">
+          <button class="s1-navitem" type="button" aria-pressed="{{navCheckin}}" onClick="{{goCheckin}}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 12h10"/></svg><span style="flex: 1;">{{t.checkIn}}</span><sc-if value="{{hasQueue}}" hint-placeholder-val="{{ true }}"><span class="s1-pill" style="height: 22px; color: var(--on-blue); background: var(--s1-blue);">{{queueCount}}</span></sc-if></button>
+          <button class="s1-navitem" type="button" aria-pressed="{{navMembers}}" onClick="{{goMembers}}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span style="flex: 1;">{{t.members}}</span></button>
+        </nav>
+        <div style="margin-top: auto; display: flex; flex-direction: column; gap: 10px;">
+          <button class="s1-btn s1-btn--block" type="button" onClick="{{messagePete}}" style="background: var(--s1-yellow); color: #000;"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>{{t.messagePete}}</button>
+          <div class="s1-seg" style="display: flex;"><sc-for list="{{langs}}" as="l" hint-placeholder-count="2"><button type="button" aria-pressed="{{l.pressed}}" onClick="{{l.pick}}" lang="{{l.code}}" style="flex: 1;">{{l.label}}</button></sc-for></div>
+          <button class="s1-btn s1-btn--plain" type="button" onClick="{{logOut}}" style="align-self: flex-start; color: var(--text-secondary);">{{t.logOut}}</button>
+        </div>
+      </aside>
+
+      <main style="flex: 999 1 560px; min-width: 0; box-sizing: border-box; padding: 36px 44px 56px; display: flex; flex-direction: column; gap: 28px; max-width: 1140px;">
+
+        <sc-if value="{{base.checkin}}" hint-placeholder-val="{{ true }}">
+          <div class="s1-tab-in" style="display: flex; flex-direction: column; gap: 28px;">
+            <header style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px;">
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                <h1 class="s1-largetitle">{{t.checkIn}}</h1>
+                <span style="display: inline-flex; align-items: center; gap: 8px; font: 500 15px/20px var(--font-sans); color: var(--text-secondary);"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true" style="color: var(--s1-blue); width: 18px; height: 18px;"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 12h10"/></svg>{{t.scanAnywhere}}</span>
+              </div>
+              <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px;">
+                <div style="display: flex; align-items: center; gap: 6px; padding: 4px 6px 4px 12px; border-radius: 12px; box-shadow: inset 0 0 0 1px rgba(255,230,0,0.35); font: 600 12px/16px var(--font-sans); color: var(--s1-yellow);">{{t.tryScan}}<button class="s1-btn s1-btn--sm s1-btn--secondary" type="button" onClick="{{scanOk}}" style="height: 30px;">003909</button><button class="s1-btn s1-btn--sm s1-btn--secondary" type="button" onClick="{{scanNo}}" style="height: 30px;">001877</button></div>
+                <button class="s1-btn" type="button" onClick="{{openPt}}" style="color: var(--s1-pink); background: var(--s1-pink-tint);">{{t.logPt}}</button>
+              </div>
+            </header>
+
+            <sc-if value="{{hasQueue}}" hint-placeholder-val="{{ true }}">
+              <section style="display: flex; flex-direction: column; gap: 12px;">
+                <div style="display: flex; align-items: center; gap: 10px;"><h2 class="s1-section" style="margin: 0 0 0 4px;">{{t.waiting}}</h2><span class="s1-pill" style="color: var(--s1-blue); background: var(--s1-blue-tint);">{{queueCount}} QR</span></div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px;">
+                  <sc-for list="{{queue}}" as="q" hint-placeholder-count="3">
+                    <div class="s1-card s1-slide-down" style="padding: 18px; display: flex; flex-direction: column; gap: 14px; box-shadow: inset 0 0 0 1px rgba(0,180,255,0.35);">
+                      <div style="display: flex; align-items: center; gap: 12px;">
+                        <span class="s1-avatar">{{q.initials}}</span>
+                        <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px;"><span class="s1-row__title">{{q.name}}</span><span style="font: 500 13px/18px var(--font-sans); color: var(--text-secondary);">{{q.lang}} · {{q.ago}}</span></div>
+                        <sc-if value="{{q.coach}}" hint-placeholder-val="{{ false }}"><span class="s1-pill s1-pill--pt">{{q.coach}}</span></sc-if>
+                      </div>
+                      <button class="s1-btn s1-btn--primary s1-btn--block" type="button" onClick="{{q.open}}">{{t.finishSignup}}</button>
+                    </div>
+                  </sc-for>
+                </div>
+              </section>
+            </sc-if>
+
+            <section style="display: flex; flex-direction: column; gap: 12px;">
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;"><h2 class="s1-section" style="margin: 0 0 0 4px;">{{t.today}}</h2><span class="s1-num" style="font: 500 14px/19px var(--font-sans); color: var(--text-tertiary);">Mon 12 Oct · 63 check-ins · 14 in the last hour</span></div>
+              <div class="s1-group">
+                <sc-for list="{{feed}}" as="r" hint-placeholder-count="6">
+                  <div class="s1-row">
+                    <span class="{{r.disc}}">
+                      <sc-if value="{{r.isOk}}" hint-placeholder-val="{{ true }}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></sc-if>
+                      <sc-if value="{{r.isNo}}" hint-placeholder-val="{{ false }}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></sc-if>
+                      <sc-if value="{{r.isNew}}" hint-placeholder-val="{{ false }}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg></sc-if>
+                      <sc-if value="{{r.isPt}}" hint-placeholder-val="{{ false }}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.4 14.4 9.6 9.6"/><path d="M18.657 21.485a2 2 0 1 1-2.829-2.828l-1.767 1.768a2 2 0 1 1-2.829-2.829l6.364-6.364a2 2 0 1 1 2.829 2.829l-1.768 1.767a2 2 0 1 1 2.828 2.829z"/><path d="m21.5 21.5-1.4-1.4"/><path d="M3.9 3.9 2.5 2.5"/><path d="M6.404 12.768a2 2 0 1 1-2.829-2.829l1.768-1.767a2 2 0 1 1-2.828-2.829l2.828-2.828a2 2 0 1 1 2.829 2.828l1.767-1.768a2 2 0 1 1 2.829 2.829z"/></svg></sc-if>
+                      <sc-if value="{{r.isSale}}" hint-placeholder-val="{{ false }}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2"/><path d="M13 17v2"/><path d="M13 11v2"/></svg></sc-if>
+                    </span>
+                    <div class="s1-row__main"><div class="s1-row__title">{{r.name}}</div><div class="s1-row__sub" style="color: {{r.subColor}};">{{r.sub}}</div></div>
+                    <sc-if value="{{r.by}}" hint-placeholder-val="{{ false }}"><span class="s1-by"><i>{{r.byInitial}}</i>{{r.by}}</span></sc-if>
+                    <span class="s1-row__meta">{{r.time}}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </section>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{base.members}}" hint-placeholder-val="{{ false }}">
+          <div class="s1-tab-in" style="display: flex; flex-direction: column; gap: 20px;">
+            <header style="display: flex; align-items: center; justify-content: space-between; gap: 16px;"><h1 class="s1-largetitle">{{t.members}}</h1><button class="s1-btn s1-btn--primary" type="button" onClick="{{openNew}}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg>{{t.newMember}}</button></header>
+            <div style="position: relative;"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true" style="position: absolute; left: 16px; top: 14px; color: var(--text-secondary);"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg><label for="d-q" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0);">{{t.search}}</label><input class="s1-input" id="d-q" placeholder="{{t.search}}" value="{{q}}" onChange="{{onQ}}" style="height: 48px; padding-left: 48px;"></div>
+            <div class="s1-seg" style="display: flex; flex-wrap: wrap; align-self: flex-start;"><sc-for list="{{filters}}" as="f" hint-placeholder-count="7"><button type="button" aria-pressed="{{f.pressed}}" onClick="{{f.pick}}">{{f.label}}</button></sc-for></div>
+            <div class="s1-group s1-stagger">
+              <sc-for list="{{memberRows}}" as="m" hint-placeholder-count="8">
+                <button type="button" onClick="{{m.open}}" class="s1-row" style="width: 100%; border: 0; background: transparent; text-align: left; cursor: pointer; color: #ffffff;">
+                  <span class="s1-avatar">{{m.initials}}</span>
+                  <span class="s1-row__main"><span class="s1-row__title" style="display: block;">{{m.name}}</span><span class="s1-row__sub" style="display: block;">{{m.sub}}</span></span>
+                  <span class="s1-num" style="width: 80px; font: 500 14px/19px var(--font-sans); color: var(--text-tertiary); letter-spacing: 0.08em;">{{m.tag}}</span>
+                  <span class="{{m.pill}}">{{m.status}}</span>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{base.profile}}" hint-placeholder-val="{{ false }}">
+          <div class="s1-tab-in" style="display: flex; flex-direction: column; gap: 20px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+              <button class="s1-btn s1-btn--plain" type="button" onClick="{{goMembers}}" style="padding: 0; color: var(--text-secondary);"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>{{t.members}}</button>
+              <button class="s1-btn s1-btn--secondary s1-btn--sm" type="button" onClick="{{openArchive}}">{{t.archiveOrMerge}}</button>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); gap: 20px; align-items: start;">
+              <div style="display: flex; flex-direction: column; gap: 16px;">
+                <section class="s1-card" style="padding: 24px; display: flex; flex-direction: column; gap: 14px; box-shadow: inset 0 0 0 1px var(--hairline);">
+                  <div style="display: flex; align-items: center; gap: 14px;"><span class="s1-avatar" style="width: 56px; height: 56px; font-size: 18px;">{{p.initials}}</span><div style="display: flex; flex-direction: column; gap: 3px;"><h1 class="s1-title2" style="font-size: 26px;">{{p.name}}</h1><span style="font: 500 14px/19px var(--font-sans); color: var(--text-secondary);">{{p.meta}}</span></div></div>
+                  <span class="{{p.pill}}" style="align-self: flex-start;">{{p.status}}</span>
+                  <div style="display: flex; align-items: baseline; gap: 10px;"><span class="s1-num" style="font: 700 72px/72px var(--font-sans); letter-spacing: -0.04em; color: {{p.bigColor}};">{{p.big}}</span><span style="font: 600 17px/22px var(--font-sans); color: var(--text-secondary);">{{p.bigLabel}}</span></div>
+                  <span style="font: 500 15px/20px var(--font-sans); color: var(--text-secondary);">{{p.planLine}}</span>
+                  <button class="s1-btn s1-btn--primary s1-btn--lg s1-btn--block" type="button" onClick="{{openSell}}">{{t.sellRenew}}</button>
+                </section>
+                <sc-if value="{{p.hasPt}}" hint-placeholder-val="{{ true }}">
+                  <section class="s1-card" style="padding: 18px; display: flex; align-items: center; gap: 14px;">
+                    <span class="s1-disc s1-disc--pt"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.4 14.4 9.6 9.6"/><path d="M18.657 21.485a2 2 0 1 1-2.829-2.828l-1.767 1.768a2 2 0 1 1-2.829-2.829l6.364-6.364a2 2 0 1 1 2.829 2.829l-1.768 1.767a2 2 0 1 1 2.828 2.829z"/><path d="m21.5 21.5-1.4-1.4"/><path d="M3.9 3.9 2.5 2.5"/><path d="M6.404 12.768a2 2 0 1 1-2.829-2.829l1.768-1.767a2 2 0 1 1-2.828-2.829l2.828-2.828a2 2 0 1 1 2.829 2.828l1.767-1.768a2 2 0 1 1 2.829 2.829z"/></svg></span>
+                    <div style="flex: 1; display: flex; flex-direction: column; gap: 3px;"><span class="s1-headline" style="font-size: 16px;">10 PT · {{ptLeft}} of 10 left</span><span style="font: 500 13px/18px var(--font-sans); color: var(--text-secondary);">Sunman · bought Thu 1 Oct · valid until Sun 31 Jan</span></div>
+                    <button class="s1-btn s1-btn--sm" type="button" onClick="{{useEmmaPt}}" style="background: var(--s1-pink); color: #000;">{{t.useSession}}</button>
+                  </section>
+                </sc-if>
+                <section class="s1-card" style="padding: 18px; display: flex; flex-direction: column; gap: 10px;">
+                  <span style="font: 600 13px/18px var(--font-sans); color: var(--text-secondary);">{{t.history}}</span>
+                  <sc-for list="{{p.history}}" as="h" hint-placeholder-count="3"><div style="display: flex; justify-content: space-between; gap: 12px; font: 500 14px/20px var(--font-sans);"><span>{{h.what}}</span><span class="s1-num" style="color: var(--text-secondary); white-space: nowrap;">{{h.when}}</span></div></sc-for>
+                </section>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 16px;">
+                <section class="s1-card" style="padding: 18px; display: flex; flex-direction: column; gap: 6px;"><span style="font: 600 13px/18px var(--font-sans); color: var(--text-secondary);">{{t.tag}}</span><span class="s1-num" style="font: 700 26px/32px var(--font-sans); letter-spacing: 0.12em;">{{p.tag}}</span></section>
+                <section class="s1-group">
+                  <div class="s1-row" style="min-height: 56px;"><span class="s1-row__main"><span style="font: 500 15px/20px var(--font-sans);">{{t.app}}</span></span><span style="font: 500 14px/19px var(--font-sans); color: {{p.appColor}};">{{p.app}}</span></div>
+                  <div class="s1-row" style="min-height: 56px;"><span class="s1-row__main"><span style="font: 500 15px/20px var(--font-sans);">{{t.waiver}}</span></span><span style="font: 500 14px/19px var(--font-sans); color: var(--text-secondary);">{{p.waiver}}</span></div>
+                  <div class="s1-row" style="min-height: 56px;"><span class="s1-row__main"><span style="font: 500 15px/20px var(--font-sans);">{{t.phone}}</span></span><span class="s1-num" style="font: 500 14px/19px var(--font-sans); color: var(--text-secondary);">{{p.phone}}</span></div>
+                  <div class="s1-row" style="min-height: 56px;"><span class="s1-row__main"><span style="font: 500 15px/20px var(--font-sans);">{{t.email}}</span></span><span style="font: 500 14px/19px var(--font-sans); color: var(--text-secondary);">{{p.email}}</span></div>
+                  <div class="s1-row" style="min-height: 56px;"><span class="s1-row__main"><span style="font: 500 15px/20px var(--font-sans);">{{t.language}}</span></span><span style="font: 500 14px/19px var(--font-sans); color: var(--text-secondary);">{{p.lang}}</span></div>
+                </section>
+                <section class="s1-card" style="padding: 18px; display: flex; flex-direction: column; gap: 10px;">
+                  <span style="font: 600 13px/18px var(--font-sans); color: var(--text-secondary);">{{t.visits}}</span>
+                  <sc-for list="{{p.visits}}" as="v" hint-placeholder-count="3"><div style="display: flex; align-items: center; justify-content: space-between; font: 500 14px/20px var(--font-sans);"><span style="display: inline-flex; align-items: center; gap: 8px;"><span style="width: 8px; height: 8px; border-radius: 50%; background: {{v.dot}};"></span>{{v.day}}</span><span class="s1-num" style="color: var(--text-secondary);">{{v.time}}</span></div></sc-for>
+                </section>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+      </main>
+    </div>
+
+    <sc-if value="{{popupOk}}" hint-placeholder-val="{{ false }}">
+      <div style="position: fixed; inset: 0; z-index: 30; display: grid; place-items: center; padding: 24px;">
+        <button type="button" aria-label="{{t.close}}" onClick="{{closeOverlay}}" class="s1-glass" style="position: absolute; inset: 0; border: 0; cursor: default;"></button>
+        <div class="s1-sheet s1-pop" role="status" style="position: relative; width: min(440px, 100%); padding: 32px 28px 0; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; overflow: hidden; box-shadow: var(--shadow-sheet), inset 0 0 0 1px rgba(43,212,106,0.35), 0 0 90px -20px rgba(43,212,106,0.55);">
+          <span class="s1-disc s1-disc--go" style="width: 72px; height: 72px;"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true" style="width: 34px; height: 34px; stroke-width: 2.6;"><path class="s1-draw" d="M20 6 9 17l-5-5"/></svg></span>
+          <span class="s1-rise-2" style="margin-top: 6px; font: 700 13px/18px var(--font-sans); color: var(--s1-green);">{{t.welcomeIn}}</span>
+          <span class="s1-rise-2" style="font: 700 28px/34px var(--font-sans); letter-spacing: -0.02em;">Emma Wilson</span>
+          <span class="s1-num s1-rise-2" style="font: 700 88px/88px var(--font-sans); letter-spacing: -0.04em;">19</span>
+          <span class="s1-rise-3" style="font: 500 15px/20px var(--font-sans); color: var(--text-secondary);">{{t.daysLeftPlan}}</span>
+          <div class="s1-rise-3" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 10px 0 24px;"><span class="s1-pill s1-pill--pt">PT · 6 left · Sunman</span><span class="s1-pill s1-pill--none">11 visits this month</span></div>
+          <span class="s1-autoclose" style="align-self: stretch; height: 3px; margin: 0 -28px; background: var(--s1-green);"></span>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{popupNo}}" hint-placeholder-val="{{ false }}">
+      <div style="position: fixed; inset: 0; z-index: 30; display: grid; place-items: center; padding: 24px;">
+        <button type="button" aria-label="{{t.close}}" onClick="{{closeOverlay}}" class="s1-glass" style="position: absolute; inset: 0; border: 0; cursor: default;"></button>
+        <div class="s1-sheet s1-shake" role="alert" style="position: relative; width: min(440px, 100%); padding: 32px 28px 28px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; box-shadow: var(--shadow-sheet), inset 0 0 0 1px rgba(255,77,94,0.4), 0 0 90px -20px rgba(255,77,94,0.55);">
+          <span class="s1-disc s1-disc--stop" style="width: 72px; height: 72px;"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true" style="width: 34px; height: 34px; stroke-width: 2.6;"><path class="s1-draw" d="M18 6 6 18"/><path class="s1-draw" d="m6 6 12 12"/></svg></span>
+          <span style="margin-top: 6px; font: 700 28px/34px var(--font-sans); letter-spacing: -0.02em;">Natalia Orlova</span>
+          <span class="s1-pill s1-pill--expired">{{t.expiredOn}}</span>
+          <span style="font: 500 15px/20px var(--font-sans); color: var(--text-secondary);">1 Week · tag 001877</span>
+          <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; align-self: stretch; margin-top: 14px;">
+            <button class="s1-btn s1-btn--secondary" type="button" onClick="{{closeOverlay}}">{{t.close}}</button>
+            <button class="s1-btn s1-btn--primary" type="button" onClick="{{renewNatalia}}">{{t.renewNow}}</button>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{sheetOpen}}" hint-placeholder-val="{{ false }}">
+      <div style="position: fixed; inset: 0; z-index: 20; display: flex; justify-content: flex-end;">
+        <button type="button" aria-label="{{t.close}}" onClick="{{closeOverlay}}" class="s1-glass" style="position: absolute; inset: 0; border: 0; cursor: default;"></button>
+        <div class="s1-sheet" style="position: relative; width: min(600px, 100%); height: 100%; border-radius: 28px 0 0 28px; padding: 28px; box-sizing: border-box; overflow-y: auto; display: flex; flex-direction: column; gap: 22px; animation: s1-rise 360ms var(--ease-ios) both;">
+
+          <sc-if value="{{is.newmember}}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; flex-direction: column; gap: 20px;">
+              <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;">
+                <div style="display: flex; flex-direction: column; gap: 4px;"><h2 class="s1-title2">{{cur.name}}</h2><span style="font: 500 14px/19px var(--font-sans); color: var(--text-secondary);">{{cur.lang}} · {{cur.phone}} · {{cur.email}}</span></div>
+                <button class="s1-btn s1-btn--secondary s1-btn--icon" type="button" aria-label="{{t.close}}" onClick="{{closeOverlay}}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+              </div>
+              <div class="s1-card" style="padding: 14px 16px; display: flex; align-items: center; gap: 14px; background: var(--surface-2);">
+                <svg viewBox="0 0 342 150" width="120" height="52" aria-label="Signature" role="img" style="flex: none; background: var(--surface-3); border-radius: 10px;"><path d="M24 104 C 40 60, 58 52, 66 92 S 92 120, 104 70 S 130 40, 142 96 L 160 82 C 176 70, 190 64, 204 90 S 236 110, 254 74 L 300 66" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round"/></svg>
+                <span style="flex: 1; display: flex; flex-direction: column; gap: 2px;"><span style="font: 600 15px/20px var(--font-sans);">{{t.waiverSigned}}</span><span style="font: 500 13px/18px var(--font-sans); color: var(--text-secondary);">{{cur.ago}}</span></span>
+                <sc-if value="{{cur.coach}}" hint-placeholder-val="{{ false }}"><span class="s1-pill s1-pill--pt">{{cur.coach}}</span></sc-if>
+              </div>
+              <div><label class="s1-label" for="d-tag">1 · {{t.scanTag}}</label><input class="s1-input s1-num" id="d-tag" inputmode="numeric" placeholder="{{t.scanTagPh}}" value="{{tag}}" onChange="{{onTag}}" style="height: 56px; font-size: 22px; letter-spacing: 0.12em;"></div>
+              <div style="display: flex; flex-direction: column; gap: 10px;">
+                <p class="s1-label" style="margin-bottom: 0;">2 · {{t.plan}}</p>
+                <div class="s1-seg" style="display: flex;"><sc-for list="{{planTabs}}" as="pt" hint-placeholder-count="4"><button type="button" aria-pressed="{{pt.pressed}}" onClick="{{pt.pick}}" style="flex: 1;">{{pt.label}}</button></sc-for></div>
+                <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px;"><sc-for list="{{plans}}" as="pl" hint-placeholder-count="6"><button class="{{pl.cls}}" type="button" aria-pressed="{{pl.pressed}}" onClick="{{pl.pick}}" style="min-height: 72px; padding: 12px 14px;"><span class="s1-tile__name" style="font-size: 15px;">{{pl.name}}</span><span class="s1-tile__price">{{pl.price}}</span></button></sc-for></div>
+              </div>
+              <div><p class="s1-label">3 · {{t.paidBy}}</p><div class="s1-seg" style="display: flex;"><sc-for list="{{methods}}" as="m" hint-placeholder-count="5"><button type="button" aria-pressed="{{m.pressed}}" onClick="{{m.pick}}" style="flex: 1;">{{m.label}}</button></sc-for></div></div>
+              <div class="s1-card" style="padding: 14px 16px; background: var(--surface-2); font: 500 14px/20px var(--font-sans); color: var(--text-secondary);">{{summaryNew}}</div>
+              <button class="s1-btn s1-btn--primary s1-btn--lg s1-btn--block {{newOff}}" type="button" onClick="{{confirmNew}}">{{confirmNewLabel}}</button>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{is.sell}}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; flex-direction: column; gap: 20px;">
+              <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;">
+                <div style="display: flex; flex-direction: column; gap: 4px;"><h2 class="s1-title2">{{t.sellRenew}}</h2><span style="font: 500 14px/19px var(--font-sans); color: var(--text-secondary);">{{p.name}} · {{p.planLine}}</span></div>
+                <button class="s1-btn s1-btn--secondary s1-btn--icon" type="button" aria-label="{{t.close}}" onClick="{{closeOverlay}}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+              </div>
+              <div class="s1-seg" style="display: flex;"><sc-for list="{{planTabs}}" as="pt" hint-placeholder-count="4"><button type="button" aria-pressed="{{pt.pressed}}" onClick="{{pt.pick}}" style="flex: 1;">{{pt.label}}</button></sc-for></div>
+              <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px;"><sc-for list="{{plans}}" as="pl" hint-placeholder-count="6"><button class="{{pl.cls}}" type="button" aria-pressed="{{pl.pressed}}" onClick="{{pl.pick}}" style="min-height: 72px; padding: 12px 14px;"><span class="s1-tile__name" style="font-size: 15px;">{{pl.name}}</span><span class="s1-tile__price">{{pl.price}}</span></button></sc-for></div>
+              <sc-if value="{{isPtTab}}" hint-placeholder-val="{{ false }}">
+                <div><p class="s1-label">{{t.coach}}</p><div style="display: flex; flex-wrap: wrap; gap: 8px;"><sc-for list="{{coaches}}" as="c" hint-placeholder-count="7"><button type="button" class="{{c.cls}}" onClick="{{c.pick}}" style="height: 40px; padding: 0 14px; border: 0; border-radius: 999px; font: 600 14px/1 var(--font-sans); cursor: pointer;">{{c.name}}</button></sc-for></div></div>
+              </sc-if>
+              <div class="s1-card" style="padding: 16px; background: var(--surface-2); display: flex; flex-direction: column; gap: 6px;">
+                <span class="s1-headline" style="font-size: 16px;">{{dates.title}}</span>
+                <span class="s1-num" style="font: 500 15px/20px var(--font-sans); color: var(--text-secondary);">{{dates.range}}</span>
+                <span style="font: 500 13px/18px var(--font-sans); color: var(--text-tertiary);">{{dates.note}}</span>
+              </div>
+              <div><p class="s1-label">{{t.paidBy}}</p><div class="s1-seg" style="display: flex;"><sc-for list="{{methods}}" as="m" hint-placeholder-count="5"><button type="button" aria-pressed="{{m.pressed}}" onClick="{{m.pick}}" style="flex: 1;">{{m.label}}</button></sc-for></div></div>
+              <button class="s1-btn s1-btn--primary s1-btn--lg s1-btn--block {{sellOff}}" type="button" onClick="{{confirmSell}}">{{confirmSellLabel}}</button>
+              <span style="font: 500 13px/18px var(--font-sans); color: var(--text-tertiary); text-align: center;">{{t.ringQashier}} · {{t.soldBy}} {{shift}}</span>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{is.pt}}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; flex-direction: column; gap: 18px;">
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;"><h2 class="s1-title2">{{t.logPt}}</h2><button class="s1-btn s1-btn--secondary s1-btn--icon" type="button" aria-label="{{t.close}}" onClick="{{closeOverlay}}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></div>
+              <label class="s1-label" for="d-ptq" style="margin-bottom: -10px;">{{t.clientName}}</label>
+              <input class="s1-input" id="d-ptq" placeholder="{{t.searchPt}}" value="{{ptQ}}" onChange="{{onPtQ}}">
+              <div class="s1-group">
+                <sc-for list="{{ptList}}" as="c" hint-placeholder-count="3">
+                  <div class="s1-row">
+                    <span class="s1-disc s1-disc--pt"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.4 14.4 9.6 9.6"/><path d="M18.657 21.485a2 2 0 1 1-2.829-2.828l-1.767 1.768a2 2 0 1 1-2.829-2.829l6.364-6.364a2 2 0 1 1 2.829 2.829l-1.768 1.767a2 2 0 1 1 2.828 2.829z"/><path d="m21.5 21.5-1.4-1.4"/><path d="M3.9 3.9 2.5 2.5"/><path d="M6.404 12.768a2 2 0 1 1-2.829-2.829l1.768-1.767a2 2 0 1 1-2.828-2.829l2.828-2.828a2 2 0 1 1 2.829 2.828l1.767-1.768a2 2 0 1 1 2.829 2.829z"/></svg></span>
+                    <div class="s1-row__main"><div class="s1-row__title">{{c.name}}</div><div class="s1-row__sub">{{c.coach}} · {{c.left}} of {{c.total}} left</div></div>
+                    <button class="s1-btn s1-btn--sm" type="button" onClick="{{c.use}}" style="background: var(--s1-pink); color: #000;">{{t.useSession}}</button>
+                  </div>
+                </sc-for>
+              </div>
+              <p style="margin: 0; font: 500 14px/20px var(--font-sans); color: var(--text-secondary);">{{t.ptNote}}</p>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{is.archive}}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; flex-direction: column; gap: 18px;">
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;"><h2 class="s1-title2">{{t.archiveTitle}}</h2><button class="s1-btn s1-btn--secondary s1-btn--icon" type="button" aria-label="{{t.close}}" onClick="{{closeOverlay}}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></div>
+              <div class="s1-card" style="padding: 18px; background: var(--surface-2); display: flex; flex-direction: column; gap: 10px;">
+                <span class="s1-headline">{{t.archive}}</span>
+                <span style="font: 400 15px/22px var(--font-sans); color: var(--text-secondary);">{{t.archiveBody}}</span>
+                <button class="s1-btn s1-btn--danger" type="button" onClick="{{doArchive}}" style="align-self: flex-start;">{{t.archiveBtn}}</button>
+              </div>
+              <div class="s1-card" style="padding: 18px; background: var(--surface-2); display: flex; flex-direction: column; gap: 10px; box-shadow: inset 0 0 0 1px rgba(0,180,255,0.3);">
+                <div style="display: flex; align-items: center; gap: 10px;"><span class="s1-headline">{{t.merge}}</span><span class="s1-pill" style="height: 22px; color: var(--on-blue); background: var(--s1-blue); font-size: 11px;">Pete</span></div>
+                <span style="font: 400 15px/22px var(--font-sans); color: var(--text-secondary);">{{t.mergeBody}}</span>
+                <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px;">
+                  <div style="padding: 12px; border-radius: 14px; background: var(--surface-3); display: flex; flex-direction: column; gap: 2px;"><span style="font: 600 14px/19px var(--font-sans);">#0957 · keep</span><span style="font: 500 13px/18px var(--font-sans); color: var(--text-secondary);">Joined Mar 2025 · 64 visits</span></div>
+                  <div style="padding: 12px; border-radius: 14px; background: var(--surface-3); display: flex; flex-direction: column; gap: 2px;"><span style="font: 600 14px/19px var(--font-sans);">#1188 · duplicate</span><span style="font: 500 13px/18px var(--font-sans); color: var(--text-secondary);">Made Sat 3 Oct · 4 visits</span></div>
+                </div>
+                <button class="s1-btn s1-btn--tinted" type="button" onClick="{{askMerge}}" style="align-self: flex-start;">{{mergeLabel}}</button>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{toast}}" hint-placeholder-val="{{ false }}">
+      <div class="s1-slide-down" role="status" style="position: fixed; left: 50%; top: 24px; transform: translateX(-50%); z-index: 40; padding: 14px 18px; border-radius: 16px; background: var(--surface-2); box-shadow: var(--shadow-sheet), inset 0 0 0 1px var(--hairline); display: flex; align-items: center; gap: 12px; font: 600 15px/20px var(--font-sans);">
+        <span class="s1-disc s1-disc--go" style="width: 28px; height: 28px;"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true" style="width: 15px; height: 15px; stroke-width: 3;"><path d="M20 6 9 17l-5-5"/></svg></span>{{toast}}
+      </div>
+    </sc-if>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"start":{"editor":"enum","options":["login","checkin","scanok","scanno","members","profile","newmember","sell","pt","archive"],"default":"checkin"},"$preview":{"width":1440,"height":940}}'>
+var T = {
+  en: { deskTitle: "Front desk", email: "Email", passcode: "Passcode", signIn: "Sign in", whoOnShift: "Who's on shift?", shiftNote: "Every sale and change today is saved under this name. Change it when shifts swap.",
+    startShift: "Start shift as", onShift: "On shift", change: "Change", checkIn: "Check-in", members: "Members", messagePete: "Message Pete", logOut: "Log out",
+    scanAnywhere: "Scan a tag or type a name anywhere", tryScan: "Try a scan", logPt: "Log PT session", waiting: "Waiting at the counter", finishSignup: "Attach tag and sell plan", today: "Today",
+    newMember: "New member", search: "Search name, phone or tag", archiveOrMerge: "Archive or merge", sellRenew: "Sell or renew", useSession: "Use 1 session", history: "History", tag: "Check-in tag",
+    app: "SUPER1 app", waiver: "Waiver", phone: "Phone", language: "Language", visits: "Recent visits", close: "Close", welcomeIn: "WELCOME IN", daysLeftPlan: "days left on 1 Month",
+    expiredOn: "Expired Fri 9 Oct", renewNow: "Renew now", waiverSigned: "Waiver signed at the counter QR", scanTag: "Scan their new tag", scanTagPh: "Scan or type the tag number", plan: "Plan",
+    paidBy: "Paid on Qashier by", coach: "Coach", ringQashier: "Ring it on Qashier", soldBy: "sold by", clientName: "Client name", searchPt: "Search a PT client",
+    ptNote: "Coaches can do this on their phone too. Shows on the client's app and the coach's portal straight away.",
+    archiveTitle: "Natalia Orlova #1188", archive: "Archive", archiveBody: "Keeps every visit, plan and payment. Her tag stops working and she moves to Archived. Restore her any time.", archiveBtn: "Archive Natalia",
+    merge: "Merge duplicate", mergeBody: "Same phone as #0957 Natalia Orlova. Merging moves this account's plan and 4 visits into #0957, then hides #1188. Nothing is deleted.", askMerge: "Ask Pete to merge", mergeSent: "Sent to Pete" },
+  th: { deskTitle: "ฟรอนต์เดสก์", email: "อีเมล", passcode: "รหัสผ่าน", signIn: "เข้าสู่ระบบ", whoOnShift: "ใครเข้ากะ?", shiftNote: "ทุกการขายและการแก้ไขวันนี้จะบันทึกในชื่อนี้ เปลี่ยนเมื่อสลับกะ",
+    startShift: "เริ่มกะในชื่อ", onShift: "เข้ากะ", change: "เปลี่ยน", checkIn: "เช็กอิน", members: "สมาชิก", messagePete: "ส่งข้อความถึง Pete", logOut: "ออกจากระบบ",
+    scanAnywhere: "สแกนแท็กหรือพิมพ์ชื่อได้ทุกที่", tryScan: "ลองสแกน", logPt: "บันทึก PT", waiting: "รอที่เคาน์เตอร์", finishSignup: "ผูกแท็กและขายแพ็กเกจ", today: "วันนี้",
+    newMember: "สมาชิกใหม่", search: "ค้นหาชื่อ เบอร์ หรือแท็ก", archiveOrMerge: "เก็บถาวรหรือรวมบัญชี", sellRenew: "ขายหรือต่ออายุ", useSession: "ใช้ 1 ครั้ง", history: "ประวัติ", tag: "แท็กเช็กอิน",
+    app: "แอป SUPER1", waiver: "หนังสือยินยอม", phone: "เบอร์โทร", language: "ภาษา", visits: "การเข้าใช้ล่าสุด", close: "ปิด", welcomeIn: "ยินดีต้อนรับ", daysLeftPlan: "วันที่เหลือของ 1 เดือน",
+    expiredOn: "หมดอายุ ศ. 9 ต.ค.", renewNow: "ต่ออายุเลย", waiverSigned: "เซ็นหนังสือยินยอมผ่าน QR แล้ว", scanTag: "สแกนแท็กใหม่", scanTagPh: "สแกนหรือพิมพ์หมายเลขแท็ก", plan: "แพ็กเกจ",
+    paidBy: "ชำระผ่าน Qashier ด้วย", coach: "โค้ช", ringQashier: "คิดเงินใน Qashier", soldBy: "ขายโดย", clientName: "ชื่อลูกค้า", searchPt: "ค้นหาลูกค้า PT",
+    ptNote: "โค้ชทำได้จากมือถือเช่นกัน แสดงในแอปลูกค้าและพอร์ทัลโค้ชทันที",
+    archiveTitle: "Natalia Orlova #1188", archive: "เก็บถาวร", archiveBody: "เก็บทุกการเข้าใช้ แพ็กเกจ และการชำระเงิน แท็กจะใช้ไม่ได้และย้ายไปที่เก็บถาวร กู้คืนได้ทุกเมื่อ", archiveBtn: "เก็บถาวร Natalia",
+    merge: "รวมบัญชีซ้ำ", mergeBody: "เบอร์เดียวกับ #0957 Natalia Orlova การรวมจะย้ายแพ็กเกจและการเข้าใช้ 4 ครั้งไปที่ #0957 แล้วซ่อน #1188 ไม่มีการลบข้อมูล", askMerge: "ขอให้ Pete รวมบัญชี", mergeSent: "ส่งถึง Pete แล้ว" }
+};
+var STAFF = ["Joy", "Jeab", "Tee", "Bonnie", "Fai", "Ning"];
+var PLANS = {
+  member: [{ id: "day", name: "Day Pass", price: 250, d: 1 }, { id: "1w", name: "1 Week", price: 1200, d: 7 }, { id: "2w", name: "2 Weeks", price: 1800, d: 14 }, { id: "1m", name: "1 Month", price: 2200, m: 1 }, { id: "3m", name: "3 Months", price: 5400, m: 3 }, { id: "6m", name: "6 Months", price: 9000, m: 6 }, { id: "12m", name: "12 Months", price: 12000, m: 12 }],
+  thai: [{ id: "th1m", name: "Thai 1 Month", price: 1200, m: 1 }, { id: "th3m", name: "Thai 3 Months", price: 2900, m: 3 }, { id: "th6m", name: "Thai 6 Months", price: 6000, m: 6 }, { id: "th12m", name: "Thai 12 Months", price: 10900, m: 12 }],
+  pt: [{ id: "pt1", name: "1 PT session", price: 1700, m: 1, pt: true }, { id: "pt3", name: "3 PT sessions", price: 5000, m: 2, pt: true }, { id: "pt10", name: "10 PT sessions", price: 15000, m: 4, pt: true }, { id: "pt20", name: "20 PT sessions", price: 27000, m: 6, pt: true }],
+  packs: [{ id: "10v", name: "10 Visits", price: 2000, m: 6, pack: true }, { id: "inbody", name: "InBody scan", price: 400, d: 1, extra: true }, { id: "inbody3", name: "InBody 3 pack", price: 750, m: 3, extra: true }]
+};
+var TABS = [{ id: "member", label: "Memberships" }, { id: "thai", label: "Thai residents" }, { id: "pt", label: "PT" }, { id: "packs", label: "Packs & extras" }];
+var METHODS = [{ id: "card", label: "Card" }, { id: "cash", label: "Cash" }, { id: "pp", label: "PromptPay" }, { id: "tr", label: "Transfer" }, { id: "comp", label: "Comp" }];
+var COACHES = ["Sunman", "Aun", "Bella", "Bonnie", "Nicha", "Poom", "Orn"];
+var DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+var MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+function utc(y, m, d) { return new Date(Date.UTC(y, m, d)); }
+function addDays(dt, n) { return new Date(dt.getTime() + n * 86400000); }
+function addMonths(dt, n) { var y = dt.getUTCFullYear(), m = dt.getUTCMonth() + n, d = dt.getUTCDate(); var last = new Date(Date.UTC(y, m + 1, 0)).getUTCDate(); return utc(y, m, Math.min(d, last)); }
+function fmt(dt) { return DAYS[dt.getUTCDay()] + " " + dt.getUTCDate() + " " + MONTHS[dt.getUTCMonth()]; }
+function endOf(start, plan) { return plan.d ? addDays(start, plan.d - 1) : addDays(addMonths(start, plan.m), -1); }
+function baht(n) { return "฿" + n.toLocaleString("en-US"); }
+function initials(n) { return n.split(" ").map(function (w) { return w.charAt(0); }).join("").slice(0, 2).toUpperCase(); }
+var PEOPLE = {
+  emma: { name: "Emma Wilson", initials: "EW", meta: "Member #1043 · joined Thu 1 Oct via the counter QR", status: "Active", pill: "s1-pill s1-pill--active", big: "19", bigLabel: "days left", bigColor: "#ffffff",
+    planLine: "1 Month · Thu 1 Oct → Sat 31 Oct · ฿2,200 · card · sold by Joy", hasPt: true, tag: "003909", app: "Signed in Mon 12 Oct", appColor: "var(--s1-green)", waiver: "Signed Thu 1 Oct",
+    phone: "+44 7700 900456", email: "emma.wilson@gmail.com", lang: "English", currentEnd: utc(2026, 9, 31),
+    history: [{ what: "PT session with Sunman · 6 left", when: "Mon 12 Oct 20:30" }, { what: "Workout logged in the app · Day A", when: "Mon 12 Oct 19:40" }, { what: "1 Month sold · ฿2,200 · Joy", when: "Thu 1 Oct 09:12" }],
+    visits: [{ day: "Today", time: "19:05", dot: "#2bd46a" }, { day: "Sat 10 Oct", time: "08:41", dot: "#2bd46a" }, { day: "Fri 9 Oct", time: "18:20", dot: "#2bd46a" }] },
+  natalia: { name: "Natalia Orlova", initials: "NO", meta: "Member #1188 · made Sat 3 Oct at the desk", status: "Expired", pill: "s1-pill s1-pill--expired", big: "0", bigLabel: "days · ended Fri 9 Oct", bigColor: "#ff4d5e",
+    planLine: "1 Week · Sat 3 Oct → Fri 9 Oct · ฿1,200 · cash · sold by Tee", hasPt: false, tag: "001877", app: "Not invited", appColor: "var(--text-secondary)", waiver: "Paper, 2025",
+    phone: "+7 999 555 0123", email: "—", lang: "Русский", currentEnd: null,
+    history: [{ what: "Declined at the door · expired", when: "Mon 12 Oct 20:51" }, { what: "1 Week sold · ฿1,200 · cash · Tee", when: "Sat 3 Oct 10:02" }, { what: "Account made at the desk · Tee", when: "Sat 3 Oct 10:01" }],
+    visits: [{ day: "Today", time: "20:51", dot: "#ff4d5e" }, { day: "Fri 9 Oct", time: "18:40", dot: "#2bd46a" }, { day: "Wed 7 Oct", time: "07:55", dot: "#2bd46a" }] }
+};
+var BASE = { login: "login", checkin: "checkin", scanok: "checkin", scanno: "checkin", newmember: "checkin", pt: "checkin", members: "members", profile: "profile", sell: "profile", archive: "profile" };
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    var start = this.props.start || "checkin";
+    this.state = {
+      screen: start, lang: "en", loginStep: 1, shift: "Joy", who: start === "archive" ? "natalia" : "emma",
+      queue: [
+        { id: 1, name: "Ivan Petrov", lang: "Русский", ago: "2 min ago", coach: "Sunman", phone: "+7 916 555 0142", email: "ivan.petrov@mail.ru" },
+        { id: 2, name: "Ploy Srisuk", lang: "ไทย", ago: "6 min ago", coach: "", phone: "081 234 5678", email: "ploy.s@gmail.com" },
+        { id: 3, name: "Liam Carter", lang: "English", ago: "11 min ago", coach: "", phone: "+61 412 555 019", email: "liam.c@outlook.com" }
+      ],
+      curId: 1, tag: start === "newmember" ? "004417" : "", tab: "member", plan: "1m", method: start === "sell" || start === "newmember" ? "card" : null, coach: "Sunman",
+      feed: [
+        { kind: "ok", name: "Mark Hughes", sub: "1 Month · 18 days left", time: "20:58" },
+        { kind: "no", name: "Natalia Orlova", sub: "Expired Fri 9 Oct", time: "20:51" },
+        { kind: "ok", name: "Somchai Kittisak", sub: "10 Visits · 4 left", time: "20:44" },
+        { kind: "pt", name: "Emma Wilson", sub: "PT session with Sunman · 6 of 10 left", time: "20:30", by: "Sunman" },
+        { kind: "sale", name: "Ben Taylor", sub: "1 Month sold · ฿2,200 · card", time: "20:12", by: "Joy" },
+        { kind: "ok", name: "Arthit Phrom", sub: "Thai 6 Months · 3 days left", time: "19:47" }
+      ],
+      pt: [{ name: "Emma Wilson", coach: "Sunman", left: 6, total: 10 }, { name: "Sarah Kim", coach: "Sunman", left: 9, total: 20 }, { name: "Arthit Phrom", coach: "Aun", left: 2, total: 10 }],
+      ptQ: "", q: "", filter: "all", toast: "", mergeSent: false, archived: false
+    };
+    this.timers = [];
+  }
+  componentWillUnmount() { this.timers.forEach(clearTimeout); }
+  flash(msg) { var self = this; this.setState({ toast: msg }); this.timers.push(setTimeout(function () { self.setState({ toast: "" }); }, 2600)); }
+  renderVals() {
+    var s = this.state, self = this, t = T[s.lang];
+    var names = ["login", "checkin", "scanok", "scanno", "members", "profile", "newmember", "sell", "pt", "archive"];
+    var is = {}; names.forEach(function (n) { is[n] = s.screen === n; });
+    var baseName = BASE[s.screen] || "checkin";
+    var base = { checkin: baseName === "checkin", members: baseName === "members", profile: baseName === "profile" };
+    var person = PEOPLE[s.who];
+    var cur = s.queue.filter(function (q) { return q.id === s.curId; })[0] || { name: "Ivan Petrov", lang: "", phone: "", email: "", ago: "", coach: "" };
+    var list = PLANS[s.tab];
+    var plan = list.filter(function (p) { return p.id === s.plan; })[0] || null;
+    var today = utc(2026, 9, 12);
+    var start = (s.screen === "sell" && person.currentEnd && plan && !plan.pt && !plan.extra) ? addDays(person.currentEnd, 1) : today;
+    var end = plan ? endOf(start, plan) : null;
+    var datesTitle = plan ? (start.getTime() === today.getTime() ? "Starts today" : "Starts " + fmt(start) + ", after the current plan") : "Pick a plan";
+    var q = s.ptQ.trim().toLowerCase();
+    var go = function (n) { return function () { self.setState({ screen: n }); }; };
+    var rows = [
+      { name: "Emma Wilson", sub: "1 Month · 19 days left · PT 6 left", tag: "003909", status: "Active", pill: "s1-pill s1-pill--active", f: "active", who: "emma" },
+      { name: "Mark Hughes", sub: "1 Month · 18 days left", tag: "002231", status: "Active", pill: "s1-pill s1-pill--active", f: "active" },
+      { name: "Somchai Kittisak", sub: "10 Visits · 4 left", tag: "004102", status: "Active", pill: "s1-pill s1-pill--active", f: "active" },
+      { name: "Arthit Phrom", sub: "Thai 6 Months · 3 days left", tag: "000871", status: "Expiring", pill: "s1-pill s1-pill--expiring", f: "expiring" },
+      s.archived
+        ? { name: "Natalia Orlova", sub: "#1188 · archived today by " + s.shift + " · history kept", tag: "001877", status: "Archived", pill: "s1-pill s1-pill--none", f: "archived", who: "natalia" }
+        : { name: "Natalia Orlova", sub: "1 Week · ended Fri 9 Oct", tag: "001877", status: "Expired", pill: "s1-pill s1-pill--expired", f: "expired", who: "natalia" },
+      { name: "Sarah Kim", sub: "3 Months · 41 days left · PT 9 left", tag: "003355", status: "Active", pill: "s1-pill s1-pill--active", f: "active" },
+      { name: "Kate Morgan", sub: "2 Weeks · starts Sat 17 Oct", tag: "004390", status: "Starts soon", pill: "s1-pill", f: "upcoming" },
+      { name: "Daniel Ross", sub: "12 Months · paused until Mon 26 Oct", tag: "000233", status: "Paused", pill: "s1-pill s1-pill--none", f: "paused" },
+      { name: "Tom Reid", sub: "No plan · last visit Mon 5 Oct", tag: "003018", status: "No plan", pill: "s1-pill s1-pill--none", f: "none" },
+      { name: "Lena Fischer", sub: "Archived Tue 1 Sep by Pete · left Phuket", tag: "000412", status: "Archived", pill: "s1-pill s1-pill--none", f: "archived" }
+    ];
+    var mq = s.q.trim().toLowerCase();
+    return {
+      is: is, base: base, lang: s.lang, t: t, inApp: s.screen !== "login",
+      loginStep1: s.loginStep === 1, loginStep2: s.loginStep === 2,
+      signIn: function (ev) { ev.preventDefault(); self.setState({ loginStep: 2 }); },
+      staff: STAFF.map(function (n) { return { name: n, initial: n.charAt(0), pressed: s.shift === n, pick: function () { self.setState({ shift: n }); } }; }),
+      startShiftLabel: t.startShift + " " + s.shift,
+      startShift: function () { self.setState({ screen: "checkin", loginStep: 1 }); },
+      shift: s.shift, shiftInitial: s.shift.charAt(0),
+      nextShift: function () { var i = STAFF.indexOf(self.state.shift); self.setState({ shift: STAFF[(i + 1) % STAFF.length] }); },
+      langs: [{ code: "en", label: "English" }, { code: "th", label: "ไทย" }].map(function (l) { return { code: l.code, label: l.label, pressed: s.lang === l.code, pick: function () { self.setState({ lang: l.code }); } }; }),
+      logOut: function () { self.setState({ screen: "login", loginStep: 1 }); },
+      navCheckin: base.checkin, navMembers: base.members || base.profile,
+      goCheckin: go("checkin"), goMembers: go("members"),
+      hasQueue: s.queue.length > 0, queueCount: s.queue.length,
+      queue: s.queue.map(function (x) { return Object.assign({}, x, { initials: initials(x.name), open: function () { self.setState({ screen: "newmember", curId: x.id, tag: "", tab: "member", plan: "1m", method: null }); } }); }),
+      feed: s.feed.map(function (r) {
+        var discs = { ok: "s1-disc s1-disc--go", no: "s1-disc s1-disc--stop", new: "s1-disc s1-disc--money", pt: "s1-disc s1-disc--pt", sale: "s1-disc s1-disc--money" };
+        var colors = { ok: "var(--text-secondary)", no: "var(--s1-red)", new: "var(--s1-blue)", pt: "var(--s1-pink)", sale: "var(--text-secondary)" };
+        return Object.assign({}, r, { isOk: r.kind === "ok", isNo: r.kind === "no", isNew: r.kind === "new", isPt: r.kind === "pt", isSale: r.kind === "sale", disc: discs[r.kind], subColor: colors[r.kind], by: r.by || "", byInitial: (r.by || " ").charAt(0) });
+      }),
+      scanOk: go("scanok"), scanNo: go("scanno"),
+      popupOk: is.scanok, popupNo: is.scanno,
+      sheetOpen: is.newmember || is.sell || is.pt || is.archive,
+      closeOverlay: function () { self.setState({ screen: baseName }); },
+      renewNatalia: function () { self.setState({ screen: "sell", who: "natalia", tab: "member", plan: "1w", method: null }); },
+      openPt: function () { self.setState({ screen: "pt", ptQ: "" }); },
+      openNew: function () { self.setState({ screen: "newmember", curId: 1, tag: "", plan: "1m", method: null }); },
+      q: s.q, onQ: function (ev) { self.setState({ q: ev.target.value }); },
+      filters: [{ id: "all", label: "All" }, { id: "active", label: "Active" }, { id: "expiring", label: "Expiring" }, { id: "expired", label: "Expired" }, { id: "paused", label: "Paused" }, { id: "none", label: "No plan" }, { id: "archived", label: "Archived" }].map(function (f) {
+        return { label: f.label, pressed: s.filter === f.id, pick: function () { self.setState({ filter: f.id }); } };
+      }),
+      memberRows: rows.filter(function (r) { return ((s.filter === "all" && r.f !== "archived") || r.f === s.filter) && (!mq || (r.name + " " + r.tag).toLowerCase().indexOf(mq) >= 0); }).map(function (r) {
+        return Object.assign({}, r, { initials: initials(r.name), open: function () { self.setState({ screen: "profile", who: r.who || "emma" }); } });
+      }),
+      p: person, ptLeft: s.pt[0].left,
+      useEmmaPt: function () { var l = self.state.pt.map(function (x, i) { return i === 0 ? Object.assign({}, x, { left: Math.max(0, x.left - 1) }) : x; }); self.setState({ pt: l }); self.flash("Emma Wilson · " + l[0].left + " of 10 left · logged for Sunman"); },
+      openSell: function () { self.setState({ screen: "sell", tab: "member", plan: "1m", method: null }); },
+      openArchive: function () { self.setState({ screen: "archive", who: "natalia" }); },
+      cur: cur, tag: s.tag, onTag: function (ev) { self.setState({ tag: ev.target.value.replace(/[^0-9A-Za-z]/g, "").slice(0, 12) }); },
+      planTabs: TABS.map(function (x) { return { label: x.label, pressed: s.tab === x.id, pick: function () { self.setState({ tab: x.id, plan: PLANS[x.id][0].id }); } }; }),
+      plans: list.map(function (p) { return { name: p.name, price: baht(p.price), pressed: s.plan === p.id, cls: p.pt ? "s1-tile s1-tile--pt" : "s1-tile", pick: function () { self.setState({ plan: p.id }); } }; }),
+      isPtTab: s.tab === "pt",
+      coaches: COACHES.map(function (c) { return { name: c, cls: s.coach === c ? "s1-chip-pt" : "s1-chip-off", pick: function () { self.setState({ coach: c }); } }; }),
+      methods: METHODS.map(function (m) { return { label: m.label, pressed: s.method === m.id, pick: function () { self.setState({ method: m.id }); } }; }),
+      dates: { title: datesTitle, range: plan ? fmt(start) + " → " + fmt(end) : "", note: plan && plan.pt ? "Sessions stay valid until the end date. Coach: " + s.coach : (plan && plan.pack ? "Each check-in uses one visit." : "Dates are inclusive. Pausing pushes every queued plan back too.") },
+      sellOff: plan && s.method ? "" : "s1-off",
+      confirmSellLabel: plan ? "Sell " + plan.name + " · " + baht(plan.price) : "Sell",
+      confirmSell: function () { if (!plan || !s.method) return; self.setState({ screen: "profile" }); self.flash(plan.name + " sold. Ring " + baht(plan.price) + " on Qashier."); },
+      summaryNew: plan ? "Creates " + cur.name + " with tag " + (s.tag || "—") + ", sells " + plan.name + " from today to " + fmt(endOf(today, plan)) + ", emails the SUPER1 app invite" + (cur.coach ? " and sends the lead to " + cur.coach : "") + "." : "",
+      newOff: s.tag.length >= 3 && plan && s.method ? "" : "s1-off",
+      confirmNewLabel: plan ? "Create member and sell " + plan.name + " · " + baht(plan.price) : "Create member",
+      confirmNew: function () {
+        if (!(s.tag.length >= 3 && plan && s.method)) return;
+        var row = { kind: "new", name: cur.name, sub: "New member · " + plan.name + " · " + baht(plan.price) + " · tag " + s.tag + (cur.coach ? " · lead for " + cur.coach : ""), time: "21:10", by: s.shift };
+        self.setState({ queue: s.queue.filter(function (x) { return x.id !== s.curId; }), feed: [row].concat(s.feed), screen: "checkin" });
+        self.flash("Invite sent to " + (cur.email || "their email") + ". Ring " + baht(plan.price) + " on Qashier.");
+      },
+      ptQ: s.ptQ, onPtQ: function (ev) { self.setState({ ptQ: ev.target.value }); },
+      ptList: s.pt.filter(function (c) { return !q || c.name.toLowerCase().indexOf(q) >= 0; }).map(function (c) {
+        return Object.assign({}, c, { use: function () {
+          var l = self.state.pt.map(function (x) { return x.name === c.name ? Object.assign({}, x, { left: Math.max(0, x.left - 1) }) : x; });
+          var row = { kind: "pt", name: c.name, sub: "PT session with " + c.coach + " · " + Math.max(0, c.left - 1) + " of " + c.total + " left", time: "21:10", by: c.coach };
+          self.setState({ pt: l, feed: [row].concat(self.state.feed), screen: "checkin" });
+          self.flash(c.name + " · " + Math.max(0, c.left - 1) + " of " + c.total + " left");
+        } });
+      }),
+      doArchive: function () { self.setState({ screen: "members", filter: "archived", archived: true }); self.flash("Natalia Orlova archived. History kept."); },
+      messagePete: function () { self.flash("Chat with Pete opens here. Replies also arrive by email."); },
+      mergeLabel: s.mergeSent ? t.mergeSent : t.askMerge,
+      askMerge: function () { self.setState({ mergeSent: true }); },
+      toast: s.toast
+    };
+  }
+}
+</script>
+</body>
+</html>

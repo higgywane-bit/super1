@@ -1,0 +1,104 @@
+/* super1 kit. Each class maps to a kit.tsx primitive: Btn .s1-btn, Pill/StatusBadge .s1-pill,
+   Input .s1-input, Panel .s1-card/.s1-group, Modal .s1-sheet. Tokens come from tokens.css. */
+.s1, .s1 *, .s1 *::before, .s1 *::after { box-sizing: border-box; }
+.s1 { font-family: var(--font-sans); color: var(--foreground); background: var(--background);
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
+.s1 :lang(th), .s1-th { line-height: 1.5; }
+.s1-num { font-variant-numeric: tabular-nums; }
+.s1-icon { width: 20px; height: 20px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Type */
+.s1-largetitle { font: 700 34px/40px var(--font-sans); letter-spacing: -0.022em; margin: 0; }
+.s1-title2 { font: 700 22px/28px var(--font-sans); letter-spacing: -0.016em; margin: 0; }
+.s1-headline { font: 600 17px/22px var(--font-sans); letter-spacing: -0.01em; }
+.s1-section { font: 600 13px/18px var(--font-sans); color: var(--text-secondary); margin: 0 0 8px 4px; }
+.s1-secondary { color: var(--text-secondary); }
+.s1-tertiary { color: var(--text-tertiary); }
+
+/* Buttons */
+.s1-btn { appearance: none; border: 0; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  height: 48px; padding: 0 20px; border-radius: var(--radius-control); font: 600 16px/1 var(--font-sans);
+  letter-spacing: -0.01em; cursor: pointer; white-space: nowrap; text-decoration: none;
+  transition: transform 160ms cubic-bezier(.32,.72,0,1), filter 160ms ease; }
+.s1-btn:active { transform: scale(.97); filter: brightness(.9); }
+.s1-btn:focus-visible, .s1-tile:focus-visible, .s1-seg button:focus-visible, .s1-chip:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--focus-ring); }
+.s1-btn--primary { background: var(--s1-blue); color: var(--on-blue); }
+.s1-btn--secondary { background: var(--surface-2); color: var(--foreground); }
+.s1-btn--tinted { background: var(--s1-blue-tint); color: var(--s1-blue); }
+.s1-btn--danger { background: var(--s1-red-tint); color: var(--s1-red); }
+.s1-btn--plain { background: transparent; color: var(--s1-blue); padding: 0 8px; }
+.s1-btn--lg { height: 56px; font-size: 17px; border-radius: 14px; padding: 0 24px; }
+.s1-btn--sm { height: 36px; padding: 0 14px; font-size: 14px; border-radius: 10px; }
+.s1-btn--block { width: 100%; }
+.s1-btn--icon { width: 44px; padding: 0; border-radius: 999px; }
+
+/* Status pills */
+.s1-pill { display: inline-flex; align-items: center; gap: 6px; height: 26px; padding: 0 10px 0 9px; border-radius: 999px;
+  font: 600 13px/1 var(--font-sans); white-space: nowrap; }
+.s1-pill::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.s1-pill--active { color: var(--s1-green); background: var(--s1-green-tint); }
+.s1-pill--expiring { color: var(--s1-yellow); background: var(--s1-yellow-tint); }
+.s1-pill--expired { color: var(--s1-red); background: var(--s1-red-tint); }
+.s1-pill--pt { color: var(--s1-pink); background: var(--s1-pink-tint); }
+.s1-pill--none { color: var(--text-secondary); background: var(--surface-3); }
+
+/* Icon discs: colour carries the event type, the row text stays neutral */
+.s1-disc { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; flex: none; }
+.s1-disc--go { background: var(--s1-green-tint); color: var(--s1-green); }
+.s1-disc--stop { background: var(--s1-red-tint); color: var(--s1-red); }
+.s1-disc--money { background: var(--s1-blue-tint); color: var(--s1-blue); }
+.s1-disc--pt { background: var(--s1-pink-tint); color: var(--s1-pink); }
+.s1-disc--warn { background: var(--s1-yellow-tint); color: var(--s1-yellow); }
+.s1-disc--neutral { background: var(--surface-3); color: var(--text-secondary); }
+.s1-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--surface-3); color: var(--foreground);
+  display: grid; place-items: center; font: 600 14px/1 var(--font-sans); flex: none; letter-spacing: 0; }
+
+/* Cards and grouped lists */
+.s1-card { background: var(--surface-2); border-radius: var(--radius-card); }
+.s1-group { background: var(--surface-2); border-radius: var(--radius-card); overflow: hidden; }
+.s1-row { display: flex; align-items: center; gap: 14px; min-height: 68px; padding: 12px 18px; position: relative; color: inherit; text-decoration: none; }
+.s1-row + .s1-row::before { content: ""; position: absolute; top: 0; left: 72px; right: 0; height: 1px; background: var(--hairline); }
+.s1-row__main { flex: 1; min-width: 0; }
+.s1-row__title { font: 600 16px/21px var(--font-sans); letter-spacing: -0.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.s1-row__sub { font: 400 14px/19px var(--font-sans); color: var(--text-secondary); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.s1-row__meta { font: 500 15px/1 var(--font-sans); color: var(--text-tertiary); font-variant-numeric: tabular-nums; flex: none; }
+.s1-by { display: inline-flex; align-items: center; gap: 6px; font: 500 13px/1 var(--font-sans); color: var(--text-secondary); flex: none; }
+.s1-by i { width: 20px; height: 20px; border-radius: 50%; background: var(--surface-3); display: grid; place-items: center; font: 600 10px/1 var(--font-sans); font-style: normal; color: var(--foreground); }
+
+/* Fields */
+.s1-label { display: block; font: 600 13px/18px var(--font-sans); color: var(--text-secondary); margin: 0 0 8px 4px; }
+.s1-input { width: 100%; height: 48px; padding: 0 16px; border-radius: var(--radius-control); background: var(--surface-2);
+  border: 1px solid var(--hairline); color: var(--foreground); font: 400 16px/1 var(--font-sans); outline: none; }
+.s1-input::placeholder { color: var(--text-secondary); }
+.s1-input:focus, .s1-input.is-focus { border-color: var(--s1-blue); box-shadow: 0 0 0 3px var(--focus-ring); }
+.s1-kbd { display: inline-grid; place-items: center; min-width: 24px; height: 24px; padding: 0 6px; border-radius: var(--radius-sm);
+  background: var(--surface-3); color: var(--text-secondary); font: 600 12px/1 var(--font-sans); }
+
+/* Segmented control */
+.s1-seg { display: inline-flex; padding: 3px; gap: 2px; background: var(--surface-2); border-radius: 11px; }
+.s1-seg button { appearance: none; border: 0; background: transparent; color: var(--text-secondary); height: 32px; padding: 0 14px;
+  border-radius: var(--radius-sm); font: 600 14px/1 var(--font-sans); cursor: pointer; white-space: nowrap; }
+.s1-seg button[aria-pressed="true"] { background: var(--surface-4); color: var(--foreground); box-shadow: var(--shadow-thumb); }
+
+/* Plan tiles and staff chips */
+.s1-tile { appearance: none; border: 0; text-align: left; background: var(--surface-2); color: var(--foreground); border-radius: var(--radius-tile);
+  padding: 14px 16px; min-height: 80px; display: flex; flex-direction: column; justify-content: space-between; gap: 8px;
+  box-shadow: inset 0 0 0 1px var(--hairline); cursor: pointer; font-family: var(--font-sans); }
+.s1-tile__name { font: 600 16px/20px var(--font-sans); letter-spacing: -0.01em; }
+.s1-tile__price { font: 500 15px/1 var(--font-sans); color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+.s1-tile[aria-pressed="true"] { background: var(--s1-blue-tint); box-shadow: inset 0 0 0 2px var(--s1-blue); }
+.s1-tile[aria-pressed="true"] .s1-tile__price { color: var(--s1-blue); }
+.s1-tile--pt[aria-pressed="true"] { background: var(--s1-pink-tint); box-shadow: inset 0 0 0 2px var(--s1-pink); }
+.s1-tile--pt[aria-pressed="true"] .s1-tile__price { color: var(--s1-pink); }
+.s1-chip { appearance: none; border: 0; display: inline-flex; align-items: center; gap: 10px; height: 52px; padding: 0 16px 0 8px;
+  border-radius: var(--radius-tile); background: var(--surface-2); color: var(--foreground); font: 600 16px/1 var(--font-sans); cursor: pointer;
+  box-shadow: inset 0 0 0 1px var(--hairline); }
+.s1-chip .s1-avatar { width: 36px; height: 36px; font-size: 13px; }
+.s1-chip[aria-pressed="true"] { background: var(--s1-blue-tint); box-shadow: inset 0 0 0 2px var(--s1-blue); }
+
+/* Sheets and glass */
+.s1-sheet { background: var(--surface-1); border-radius: var(--radius-sheet); box-shadow: var(--shadow-sheet), inset 0 0 0 1px var(--hairline); }
+.s1-glass { background: rgba(15,17,21,0.72); -webkit-backdrop-filter: blur(24px) saturate(180%); backdrop-filter: blur(24px) saturate(180%); }
+.s1-grabber { width: 40px; height: 5px; border-radius: 999px; background: var(--surface-4); margin: 8px auto 0; }
+
+@media (prefers-reduced-motion: reduce) { .s1-btn { transition: none; } .s1-btn:active { transform: none; } }

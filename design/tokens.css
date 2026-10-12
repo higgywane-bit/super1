@@ -1,0 +1,81 @@
+/* SUPER1 design tokens as a Tailwind v4 theme. Import once in the app's main CSS:
+     @import "tailwindcss";
+     @import "../design/tokens.css";
+   Values match design/mockup/s1.css (the mock-up) and docs/05-DESIGN.md. */
+
+@theme {
+  --color-bg: #000000;
+  --color-surface-1: #0f1115;
+  --color-surface-2: #1e2228;
+  --color-surface-3: #2a2f37;
+  --color-surface-4: #3a404a;
+  --color-hairline: rgb(255 255 255 / 0.08);
+  --color-fg: #ffffff;
+  --color-text-2: #9ca3af;
+  --color-text-3: #7c838f;
+  --color-blue: #00b4ff;
+  --color-on-blue: #000000;
+  --color-blue-tint: rgb(0 180 255 / 0.14);
+  --color-pink: #ff4edb;
+  --color-pink-tint: rgb(255 78 219 / 0.14);
+  --color-yellow: #ffe600;
+  --color-yellow-tint: rgb(255 230 0 / 0.12);
+  --color-green: #2bd46a;
+  --color-green-tint: rgb(43 212 106 / 0.14);
+  --color-red: #ff4d5e;
+  --color-red-tint: rgb(255 77 94 / 0.14);
+  --color-grad-top: #00e0ff;
+  --color-grad-bottom: #0045fb;
+
+  --font-sans: "Inter", "Noto Sans Thai", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+
+  --radius-sm: 8px;
+  --radius-control: 12px;
+  --radius-tile: 16px;
+  --radius-card: 20px;
+  --radius-sheet: 28px;
+
+  --shadow-sheet: 0 30px 80px rgb(0 0 0 / 0.6);
+
+  --ease-ios: cubic-bezier(0.32, 0.72, 0, 1);
+
+  --animate-rise: rise 480ms var(--ease-ios) both;
+  --animate-pop: pop 700ms var(--ease-ios) both;
+  --animate-draw: draw 450ms 300ms ease-out both;
+  --animate-wipe: wipe 700ms 120ms var(--ease-ios) both;
+  --animate-bloom: bloom 900ms 650ms ease-out both;
+  --animate-breathe: breathe 2.4s ease-in-out infinite;
+  --animate-shake: shake 420ms 380ms ease-in-out both;
+  --animate-autoclose: autoclose 4s linear both;
+  --animate-slide-down: slide-down 420ms var(--ease-ios) both;
+  --animate-sheet-up: sheet-up 360ms var(--ease-ios) both;
+  --animate-tab-in: tab-in 260ms var(--ease-ios) both;
+  --animate-ring-fill: ring-fill 1100ms 200ms var(--ease-ios) both;
+  --animate-bar-grow: bar-grow 700ms var(--ease-ios) both;
+  --animate-width-grow: width-grow 800ms 150ms var(--ease-ios) both;
+  --animate-ping: ping 1.6s ease-out infinite;
+
+  @keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+  @keyframes pop { 0% { opacity: 0; transform: scale(0.6); } 60% { opacity: 1; transform: scale(1.06); } 100% { opacity: 1; transform: scale(1); } }
+  @keyframes draw { from { stroke-dashoffset: 48; } to { stroke-dashoffset: 0; } }
+  @keyframes wipe { from { clip-path: inset(0 100% 0 0); transform: translateX(-12px); } to { clip-path: inset(0 0 0 0); transform: none; } }
+  @keyframes bloom { 0% { opacity: 0; transform: scale(0.5); } 55% { opacity: 0.95; } 100% { opacity: 0.5; transform: scale(1); } }
+  @keyframes breathe { 0%, 100% { opacity: 0.35; transform: scale(1); } 50% { opacity: 0.7; transform: scale(1.08); } }
+  @keyframes shake { 0%, 100% { transform: translateX(0); } 20% { transform: translateX(-10px); } 40% { transform: translateX(9px); } 60% { transform: translateX(-6px); } 80% { transform: translateX(4px); } }
+  @keyframes autoclose { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+  @keyframes slide-down { from { opacity: 0; transform: translateY(-14px); } to { opacity: 1; transform: none; } }
+  @keyframes sheet-up { from { transform: translateY(100%); } to { transform: none; } }
+  @keyframes tab-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  @keyframes ring-fill { from { stroke-dashoffset: var(--len, 377); } to { stroke-dashoffset: var(--to, 0); } }
+  @keyframes bar-grow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+  @keyframes width-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  @keyframes ping { 0% { transform: scale(1); opacity: 0.7; } 100% { transform: scale(2.6); opacity: 0; } }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 150ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0ms !important;
+  }
+}

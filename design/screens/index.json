@@ -1,0 +1,314 @@
+[
+ {
+  "board": "Main",
+  "title": "Ecosystem map — who logs in where",
+  "page": "map",
+  "size": "1440×1240"
+ },
+ {
+  "board": "Connections",
+  "title": "Connections — how data moves",
+  "page": "map",
+  "size": "1440×1780"
+ },
+ {
+  "board": "Motion",
+  "title": "Motion library — press Replay",
+  "page": "motion",
+  "size": "1440×1360"
+ },
+ {
+  "board": "QRStand",
+  "title": "Counter QR stand",
+  "page": "customers",
+  "size": "560×780"
+ },
+ {
+  "board": "Join",
+  "title": "super1.app/join — customer phone",
+  "page": "customers",
+  "size": "390×844"
+ },
+ {
+  "board": "Invite",
+  "title": "App invite email",
+  "page": "customers",
+  "size": "600×860"
+ },
+ {
+  "board": "App",
+  "title": "Member app — interactive, start here",
+  "page": "app",
+  "size": "390×844"
+ },
+ {
+  "board": "M01-Signin",
+  "title": "M01 · Splash and sign in",
+  "page": "app",
+  "size": "390×844"
+ },
+ {
+  "board": "M02-Code",
+  "title": "M02 · Email code",
+  "page": "app",
+  "size": "390×844"
+ },
+ {
+  "board": "M03-Home",
+  "title": "M03 · Home",
+  "page": "app",
+  "size": "390×844"
+ },
+ {
+  "board": "M04-Train",
+  "title": "M04 · Train",
+  "page": "app",
+  "size": "390×844"
+ },
+ {
+  "board": "M05-Live",
+  "title": "M05 · Live workout",
+  "page": "app",
+  "size": "390×844"
+ },
+ {
+  "board": "M06-Done",
+  "title": "M06 · Workout done",
+  "page": "app",
+  "size": "390×844"
+ },
+ {
+  "board": "M07-Progress",
+  "title": "M07 · Progress",
+  "page": "app",
+  "size": "390×844"
+ },
+ {
+  "board": "M08-Fuel",
+  "title": "M08 · Fuel and café menu",
+  "page": "app",
+  "size": "390×844"
+ },
+ {
+  "board": "M09-Item",
+  "title": "M09 · Menu item",
+  "page": "app",
+  "size": "390×844"
+ },
+ {
+  "board": "M10-Counter",
+  "title": "M10 · Show at the counter",
+  "page": "app",
+  "size": "390×844"
+ },
+ {
+  "board": "M11-Checkin",
+  "title": "M11 · Daily check-in",
+  "page": "app",
+  "size": "390×844"
+ },
+ {
+  "board": "M12-Me",
+  "title": "M12 · Me and membership",
+  "page": "app",
+  "size": "390×844"
+ },
+ {
+  "board": "M13-Settings",
+  "title": "M13 · Settings and language",
+  "page": "app",
+  "size": "390×844"
+ },
+ {
+  "board": "Desk",
+  "title": "Front desk — interactive, start here",
+  "page": "desk",
+  "size": "1440×940"
+ },
+ {
+  "board": "D01-Login",
+  "title": "D01 · Desk sign in",
+  "page": "desk",
+  "size": "1440×940"
+ },
+ {
+  "board": "D02-Checkin",
+  "title": "D02 · Check-in and counter queue",
+  "page": "desk",
+  "size": "1440×940"
+ },
+ {
+  "board": "D03-ScanOK",
+  "title": "D03 · Scan allowed",
+  "page": "desk",
+  "size": "1440×940"
+ },
+ {
+  "board": "D04-ScanNo",
+  "title": "D04 · Scan declined",
+  "page": "desk",
+  "size": "1440×940"
+ },
+ {
+  "board": "D05-Members",
+  "title": "D05 · Members",
+  "page": "desk",
+  "size": "1440×940"
+ },
+ {
+  "board": "D06-Profile",
+  "title": "D06 · Member profile",
+  "page": "desk",
+  "size": "1440×940"
+ },
+ {
+  "board": "D07-NewMember",
+  "title": "D07 · Finish a counter sign-up",
+  "page": "desk",
+  "size": "1440×940"
+ },
+ {
+  "board": "D08-Sell",
+  "title": "D08 · Sell or renew",
+  "page": "desk",
+  "size": "1440×940"
+ },
+ {
+  "board": "D09-PT",
+  "title": "D09 · Log a PT session",
+  "page": "desk",
+  "size": "1440×940"
+ },
+ {
+  "board": "D10-Archive",
+  "title": "D10 · Archive or merge",
+  "page": "desk",
+  "size": "1440×940"
+ },
+ {
+  "board": "Coach",
+  "title": "Coach portal — interactive, start here",
+  "page": "coach",
+  "size": "1440×940"
+ },
+ {
+  "board": "C01-Login",
+  "title": "C01 · Coach sign in",
+  "page": "coach",
+  "size": "1440×940"
+ },
+ {
+  "board": "C02-Leads",
+  "title": "C02 · Leads",
+  "page": "coach",
+  "size": "1440×940"
+ },
+ {
+  "board": "C03-Workout",
+  "title": "C03 · Client workout builder",
+  "page": "coach",
+  "size": "1440×940"
+ },
+ {
+  "board": "C04-Nutrition",
+  "title": "C04 · Client nutrition",
+  "page": "coach",
+  "size": "1440×940"
+ },
+ {
+  "board": "C05-Checkins",
+  "title": "C05 · Client daily check-ins",
+  "page": "coach",
+  "size": "1440×940"
+ },
+ {
+  "board": "C06-Library",
+  "title": "C06 · Exercise library",
+  "page": "coach",
+  "size": "1440×940"
+ },
+ {
+  "board": "C07-Counter",
+  "title": "C07 · Counter mode on the coach's phone",
+  "page": "coach",
+  "size": "390×844"
+ },
+ {
+  "board": "Owner",
+  "title": "Andy — interactive, start here",
+  "page": "owner",
+  "size": "390×844"
+ },
+ {
+  "board": "O01-Login",
+  "title": "O01 · Owner sign in",
+  "page": "owner",
+  "size": "390×844"
+ },
+ {
+  "board": "O02-Today",
+  "title": "O02 · Today (real Qashier day)",
+  "page": "owner",
+  "size": "390×844"
+ },
+ {
+  "board": "O03-Week",
+  "title": "O03 · Week",
+  "page": "owner",
+  "size": "390×844"
+ },
+ {
+  "board": "O04-Members",
+  "title": "O04 · Members",
+  "page": "owner",
+  "size": "390×844"
+ },
+ {
+  "board": "O05-Cafe",
+  "title": "O05 · Café",
+  "page": "owner",
+  "size": "390×844"
+ },
+ {
+  "board": "Admin",
+  "title": "Pete — interactive, start here",
+  "page": "admin",
+  "size": "1280×900"
+ },
+ {
+  "board": "A01-Import",
+  "title": "A01 · Qashier import",
+  "page": "admin",
+  "size": "1280×900"
+ },
+ {
+  "board": "A02-Plans",
+  "title": "A02 · Plans and prices",
+  "page": "admin",
+  "size": "1280×900"
+ },
+ {
+  "board": "A03-Menu",
+  "title": "A03 · Café menu manager",
+  "page": "admin",
+  "size": "1280×900"
+ },
+ {
+  "board": "A04-People",
+  "title": "A04 · Staff and coaches",
+  "page": "admin",
+  "size": "1280×900"
+ },
+ {
+  "board": "A05-Logins",
+  "title": "A05 · Logins and roles",
+  "page": "admin",
+  "size": "1280×900"
+ },
+ {
+  "board": "A06-Settings",
+  "title": "A06 · Settings and waiver",
+  "page": "admin",
+  "size": "1280×900"
+ }
+]

@@ -1,0 +1,133 @@
+/* super1.world tokens as CSS variables (values from the super1.world design system's tokens.json),
+   the new SUPER1 logo gradient, motion tokens, and the helpers these mock-ups share.
+   bundle.css (the system's kit) reads these variables. */
+:root {
+  --background: #000000;
+  --surface-1: #0f1115;
+  --surface-2: #1e2228;
+  --surface-3: #2a2f37;
+  --surface-4: #3a404a;
+  --hairline: rgba(255,255,255,0.08);
+  --foreground: #ffffff;
+  --text-secondary: #9ca3af;
+  --text-tertiary: #7c838f;
+  --s1-blue: #00b4ff;
+  --on-blue: #000000;
+  --s1-blue-tint: rgba(0,180,255,0.14);
+  --s1-pink: #ff4edb;
+  --s1-pink-tint: rgba(255,78,219,0.14);
+  --s1-yellow: #ffe600;
+  --s1-yellow-tint: rgba(255,230,0,0.12);
+  --s1-green: #2bd46a;
+  --s1-green-tint: rgba(43,212,106,0.14);
+  --s1-red: #ff4d5e;
+  --s1-red-tint: rgba(255,77,94,0.14);
+  --focus-ring: rgba(0,180,255,0.45);
+  /* The 1 in the new SUPER1 wordmark, sampled top to bottom. Logo, splash and success moments only. */
+  --s1-grad-top: #00e0ff;
+  --s1-grad-bottom: #0045fb;
+  --font-sans: "Inter", "Noto Sans Thai", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --radius-sm: 8px;
+  --radius-control: 12px;
+  --radius-tile: 16px;
+  --radius-card: 20px;
+  --radius-sheet: 28px;
+  --shadow-sheet: 0 30px 80px rgba(0,0,0,0.6);
+  --shadow-thumb: 0 1px 3px rgba(0,0,0,0.5);
+  /* Motion tokens */
+  --ease-ios: cubic-bezier(0.32,0.72,0,1);
+  --dur-tap: 160ms;
+  --dur-sheet: 360ms;
+  --dur-draw: 450ms;
+}
+
+.s1-screen { position: relative; width: 390px; height: 844px; overflow: hidden; background: var(--background); color: var(--foreground); font-family: var(--font-sans); }
+.s1-scrollbox { position: absolute; inset: 0; overflow-y: auto; scrollbar-width: none; }
+.s1-scrollbox::-webkit-scrollbar { display: none; }
+.s1-hscroll { display: flex; gap: 12px; overflow-x: auto; scrollbar-width: none; scroll-snap-type: x mandatory; }
+.s1-hscroll::-webkit-scrollbar { display: none; }
+.s1-hscroll > * { scroll-snap-align: start; flex: none; }
+.s1-kpi { font: 700 34px/40px var(--font-sans); letter-spacing: -0.022em; font-variant-numeric: tabular-nums; }
+.s1-off { opacity: 0.4; pointer-events: none; }
+.s1-link { appearance: none; border: 0; background: transparent; padding: 0; color: var(--s1-blue); font: 600 15px/20px var(--font-sans); cursor: pointer; }
+.s1-photo { display: block; width: 100%; height: 100%; object-fit: cover; }
+.s1-grad-text { background: linear-gradient(180deg, var(--s1-grad-top), var(--s1-grad-bottom)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.s1-tabbar { position: absolute; left: 12px; right: 12px; bottom: 20px; height: 64px; border-radius: 999px; display: flex; padding: 6px; gap: 4px;
+  background: rgba(15,17,21,0.72); -webkit-backdrop-filter: blur(24px) saturate(180%); backdrop-filter: blur(24px) saturate(180%); box-shadow: inset 0 0 0 1px var(--hairline); z-index: 5; }
+.s1-tab { flex: 1; border: 0; background: transparent; color: var(--text-secondary); border-radius: 999px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font: 500 11px/1 var(--font-sans); cursor: pointer; }
+.s1-tab[aria-pressed="true"] { background: var(--surface-3); color: var(--foreground); }
+.s1-navitem { appearance: none; border: 0; width: 100%; display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 14px; border-radius: var(--radius-tile);
+  background: transparent; color: var(--text-secondary); font: 600 15px/1 var(--font-sans); cursor: pointer; text-align: left; }
+.s1-navitem[aria-pressed="true"] { background: var(--s1-blue-tint); color: var(--foreground); }
+.s1-navitem[aria-pressed="true"] .s1-icon { color: var(--s1-blue); }
+.s1-check { width: 22px; height: 22px; border-radius: 7px; flex: none; display: grid; place-items: center; background: var(--surface-3); color: var(--on-blue); box-shadow: inset 0 0 0 1px var(--hairline); }
+.s1-check[aria-checked="true"] { background: var(--s1-blue); }
+.s1-switch { appearance: none; border: 0; width: 51px; height: 31px; border-radius: 999px; background: var(--surface-4); position: relative; cursor: pointer; flex: none; transition: background var(--dur-tap) ease; }
+.s1-switch::after { content: ""; position: absolute; top: 2px; left: 2px; width: 27px; height: 27px; border-radius: 50%; background: #ffffff; box-shadow: var(--shadow-thumb); transition: transform 240ms var(--ease-ios); }
+.s1-switch[aria-checked="true"] { background: var(--s1-green); }
+.s1-switch[aria-checked="true"]::after { transform: translateX(20px); }
+.s1-ring { width: 120px; height: 120px; border-radius: 50%; display: grid; place-items: center; }
+.s1-chip-off { background: var(--surface-2); color: var(--text-secondary); box-shadow: inset 0 0 0 1px var(--hairline); }
+.s1-chip-on { background: var(--surface-4); color: var(--foreground); }
+.s1-chip-pt { background: var(--s1-pink-tint); color: var(--s1-pink); box-shadow: inset 0 0 0 2px var(--s1-pink); }
+.s1-chip-blue { background: var(--s1-blue-tint); color: var(--s1-blue); box-shadow: inset 0 0 0 2px var(--s1-blue); }
+.s1-sample { display: inline-flex; align-items: center; height: 22px; padding: 0 8px; border-radius: 999px; background: var(--s1-yellow-tint); color: var(--s1-yellow); font: 700 11px/1 var(--font-sans); letter-spacing: 0.02em; }
+.s1-table { width: 100%; border-collapse: collapse; font: 500 14px/19px var(--font-sans); }
+.s1-table th { text-align: left; font-weight: 600; color: var(--text-secondary); padding: 12px 16px; white-space: nowrap; }
+.s1-table td { padding: 12px 16px; box-shadow: inset 0 1px 0 var(--hairline); vertical-align: middle; }
+
+/* Motion */
+@keyframes s1-rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@keyframes s1-pop { 0% { opacity: 0; transform: scale(0.6); } 60% { opacity: 1; transform: scale(1.06); } 100% { opacity: 1; transform: scale(1); } }
+@keyframes s1-draw { from { stroke-dashoffset: 48; } to { stroke-dashoffset: 0; } }
+@keyframes s1-breathe { 0%, 100% { opacity: 0.35; transform: scale(1); } 50% { opacity: 0.7; transform: scale(1.08); } }
+@keyframes s1-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes s1-wipe { from { clip-path: inset(0 100% 0 0); transform: translateX(-12px); } to { clip-path: inset(0 0 0 0); transform: none; } }
+@keyframes s1-bloom { 0% { opacity: 0; transform: scale(0.5); } 55% { opacity: 0.95; } 100% { opacity: 0.5; transform: scale(1); } }
+@keyframes s1-shake { 0%, 100% { transform: translateX(0); } 20% { transform: translateX(-10px); } 40% { transform: translateX(9px); } 60% { transform: translateX(-6px); } 80% { transform: translateX(3px); } }
+@keyframes s1-autoclose { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+@keyframes s1-slide-down { from { opacity: 0; transform: translateY(-14px); } to { opacity: 1; transform: none; } }
+@keyframes s1-sheet-up { from { transform: translateY(100%); } to { transform: none; } }
+@keyframes s1-tab-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes s1-ring-fill { from { stroke-dashoffset: var(--len, 377); } to { stroke-dashoffset: var(--to, 0); } }
+@keyframes s1-ping { 0% { transform: scale(1); opacity: 0.7; } 100% { transform: scale(2.6); opacity: 0; } }
+@keyframes s1-bar-grow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@keyframes s1-width-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+.s1-rise { animation: s1-rise 480ms var(--ease-ios) both; }
+.s1-rise-2 { animation: s1-rise 480ms 120ms var(--ease-ios) both; }
+.s1-rise-3 { animation: s1-rise 480ms 240ms var(--ease-ios) both; }
+.s1-pop { animation: s1-pop 700ms var(--ease-ios) both; }
+.s1-draw { stroke-dasharray: 48; animation: s1-draw var(--dur-draw) 300ms ease-out both; }
+.s1-breathe { animation: s1-breathe 2.4s ease-in-out infinite; }
+.s1-wipe { animation: s1-wipe 700ms 120ms var(--ease-ios) both; }
+.s1-bloom { animation: s1-bloom 900ms 650ms ease-out both; }
+.s1-shake { animation: s1-shake 420ms 380ms ease-in-out both; }
+.s1-autoclose { transform-origin: left center; animation: s1-autoclose 4s linear both; }
+.s1-slide-down { animation: s1-slide-down 420ms var(--ease-ios) both; }
+.s1-sheet-up { animation: s1-sheet-up var(--dur-sheet) var(--ease-ios) both; }
+.s1-tab-in { animation: s1-tab-in 260ms var(--ease-ios) both; }
+.s1-ring-fill { animation: s1-ring-fill 1100ms 200ms var(--ease-ios) both; }
+.s1-bar-grow { transform-origin: bottom center; animation: s1-bar-grow 700ms var(--ease-ios) both; }
+.s1-width-grow { transform-origin: left center; animation: s1-width-grow 800ms 150ms var(--ease-ios) both; }
+.s1-ping { position: relative; }
+.s1-ping::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: inherit; animation: s1-ping 1.6s ease-out infinite; }
+.s1-tap { transition: transform var(--dur-tap) var(--ease-ios); }
+.s1-tap:active { transform: scale(0.97); }
+.s1-stagger > * { animation: s1-rise 420ms var(--ease-ios) both; }
+.s1-stagger > *:nth-child(2) { animation-delay: 40ms; }
+.s1-stagger > *:nth-child(3) { animation-delay: 80ms; }
+.s1-stagger > *:nth-child(4) { animation-delay: 120ms; }
+.s1-stagger > *:nth-child(5) { animation-delay: 160ms; }
+.s1-stagger > *:nth-child(6) { animation-delay: 200ms; }
+.s1-stagger > *:nth-child(7) { animation-delay: 240ms; }
+.s1-stagger > *:nth-child(8) { animation-delay: 280ms; }
+.s1-stagger > *:nth-child(9) { animation-delay: 320ms; }
+.s1-stagger > *:nth-child(n+10) { animation-delay: 360ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .s1-rise, .s1-rise-2, .s1-rise-3, .s1-pop, .s1-wipe, .s1-bloom, .s1-slide-down, .s1-tab-in, .s1-stagger > * { animation: s1-fade 150ms both; }
+  .s1-draw { animation: none; stroke-dasharray: none; }
+  .s1-breathe, .s1-shake, .s1-ping::after { animation: none; }
+  .s1-sheet-up, .s1-ring-fill, .s1-bar-grow, .s1-width-grow { animation-duration: 1ms; }
+}

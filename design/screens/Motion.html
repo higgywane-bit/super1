@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Motion</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../mockup/s1.css">
+<link rel="stylesheet" href="../mockup/ds/super1/components/bundle.css">
+<style>body{margin:0;background:#000}</style>
+</head><body><div id="root">
+
+<div class="s1" style="width: 1440px; height: 1360px; box-sizing: border-box; padding: 56px; display: flex; flex-direction: column; gap: 28px; background: #000000;">
+  <header style="display: flex; align-items: flex-end; justify-content: space-between; gap: 24px;">
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <h1 class="s1-largetitle" style="font-size: 40px; line-height: 46px;">Motion library</h1>
+      <p style="margin: 0; font: 500 16px/24px var(--font-sans); color: var(--text-secondary); max-width: 760px;">Every animation the apps use, with the timings Claude Code should copy. Press Replay on any card. Motion is for moments that matter; lists and forms stay calm.</p>
+    </div>
+    <button class="s1-btn s1-btn--primary" type="button">Replay all</button>
+  </header>
+
+  <div class="s1-card" style="padding: 14px 18px; display: flex; flex-wrap: wrap; gap: 10px 24px; background: var(--surface-1); box-shadow: inset 0 0 0 1px var(--hairline); font: 500 14px/19px var(--font-sans); color: var(--text-secondary);">
+    <span><b style="color: var(--foreground);">Ease</b> cubic-bezier(0.32, 0.72, 0, 1)</span>
+    <span><b style="color: var(--foreground);">Tap</b> 160 ms, scale 0.97</span>
+    <span><b style="color: var(--foreground);">Sheet</b> 360 ms</span>
+    <span><b style="color: var(--foreground);">Tick or cross</b> 450 ms</span>
+    <span><b style="color: var(--foreground);">Screen change</b> 260 ms fade + 8 px</span>
+    <span><b style="color: var(--foreground);">Reduced motion</b> everything becomes a 150 ms fade</span>
+    <span><b style="color: var(--foreground);">Only animate</b> transform and opacity</span>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px;">
+
+    <section style="display: flex; flex-direction: column; gap: 12px;">
+      <div style="height: 260px; border-radius: 20px; background: #000; box-shadow: inset 0 0 0 1px var(--hairline); position: relative; overflow: hidden; display: grid; place-items: center;">
+        
+          <div style="position: relative; display: flex; flex-direction: column; align-items: center; gap: 16px;">
+            <span class="s1-bloom" style="position: absolute; right: -36px; top: -40px; width: 140px; height: 140px; border-radius: 50%; background: radial-gradient(circle, rgba(0,160,255,0.75) 0%, rgba(0,69,251,0) 70%);"></span>
+            <img class="s1-wipe" src="../brand/super1-wordmark.png" alt="SUPER1" style="position: relative; height: 46px; width: auto;">
+            <span class="s1-rise-3" style="font: 600 13px/18px var(--font-sans); color: var(--text-secondary); letter-spacing: 0.02em;">Superfit · Phuket</span>
+          </div>
+        
+      </div>
+      <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;">
+        <div style="display: flex; flex-direction: column; gap: 4px;"><span class="s1-headline">1 · App launch</span><span style="font: 400 14px/20px var(--font-sans); color: var(--text-secondary);">Wordmark wipes in 700 ms, then a blue glow blooms behind the 1 for 900 ms. Once per launch, never on resume.</span></div>
+        <button class="s1-btn s1-btn--secondary s1-btn--sm" type="button">Replay</button>
+      </div>
+    </section>
+
+    <section style="display: flex; flex-direction: column; gap: 12px;">
+      <div style="height: 260px; border-radius: 20px; background: #000; box-shadow: inset 0 0 0 1px var(--hairline); position: relative; overflow: hidden; display: grid; place-items: center;">
+        
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center;">
+            <div class="s1-pop" style="position: relative; width: 112px; height: 112px; display: grid; place-items: center;">
+              <span class="s1-breathe" style="position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(circle, rgba(0,180,255,0.55) 0%, rgba(0,180,255,0) 70%);"></span>
+              <img src="../brand/super1-one.png" alt="" style="position: relative; height: 70px; width: auto;">
+            </div>
+            <span class="s1-rise-2" style="font: 700 26px/32px var(--font-sans); letter-spacing: -0.02em;">Welcome, Ivan</span>
+          </div>
+        
+      </div>
+      <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;">
+        <div style="display: flex; flex-direction: column; gap: 4px;"><span class="s1-headline">2 · Welcome to Superfit</span><span style="font: 400 14px/20px var(--font-sans); color: var(--text-secondary);">After the QR sign-up. The 1 pops in 700 ms, the glow breathes, the name rises 120 ms later.</span></div>
+        <button class="s1-btn s1-btn--secondary s1-btn--sm" type="button">Replay</button>
+      </div>
+    </section>
+
+    <section style="display: flex; flex-direction: column; gap: 12px;">
+      <div style="height: 260px; border-radius: 20px; background: #000; box-shadow: inset 0 0 0 1px var(--hairline); position: relative; overflow: hidden; display: grid; place-items: center;">
+        
+          <div class="s1-pop" style="width: 300px; border-radius: 24px; background: var(--surface-1); box-shadow: inset 0 0 0 1px rgba(43,212,106,0.35), 0 0 60px -20px rgba(43,212,106,0.6); padding: 22px 20px 0; display: flex; flex-direction: column; align-items: center; gap: 6px; overflow: hidden;">
+            <span class="s1-disc s1-disc--go" style="width: 56px; height: 56px;"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true" style="width: 28px; height: 28px; stroke-width: 2.6;"><path class="s1-draw" d="M20 6 9 17l-5-5"></path></svg></span>
+            <span class="s1-rise-2" style="font: 600 18px/24px var(--font-sans);">Mark Hughes</span>
+            <span class="s1-rise-2 s1-num" style="font: 700 44px/46px var(--font-sans); letter-spacing: -0.04em;">18</span>
+            <span class="s1-rise-3" style="font: 500 13px/18px var(--font-sans); color: var(--text-secondary); margin-bottom: 16px;">days left · 1 Month</span>
+            <span class="s1-autoclose" style="align-self: stretch; height: 3px; background: var(--s1-green);"></span>
+          </div>
+        
+      </div>
+      <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;">
+        <div style="display: flex; flex-direction: column; gap: 4px;"><span class="s1-headline">3 · Scan allowed</span><span style="font: 400 14px/20px var(--font-sans); color: var(--text-secondary);">Tick draws in 450 ms with the bell ding. Closes itself after 4 s; the green line shows the time left.</span></div>
+        <button class="s1-btn s1-btn--secondary s1-btn--sm" type="button">Replay</button>
+      </div>
+    </section>
+
+    <section style="display: flex; flex-direction: column; gap: 12px;">
+      <div style="height: 260px; border-radius: 20px; background: #000; box-shadow: inset 0 0 0 1px var(--hairline); position: relative; overflow: hidden; display: grid; place-items: center;">
+        
+          <div class="s1-shake" style="width: 300px; border-radius: 24px; background: var(--surface-1); box-shadow: inset 0 0 0 1px rgba(255,77,94,0.4), 0 0 60px -20px rgba(255,77,94,0.6); padding: 22px 20px; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+            <span class="s1-disc s1-disc--stop" style="width: 56px; height: 56px;"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true" style="width: 28px; height: 28px; stroke-width: 2.6;"><path class="s1-draw" d="M18 6 6 18"></path><path class="s1-draw" d="m6 6 12 12"></path></svg></span>
+            <span style="font: 600 18px/24px var(--font-sans);">Natalia Orlova</span>
+            <span class="s1-pill s1-pill--expired">Expired Fri 9 Oct</span>
+            <span style="font: 500 13px/18px var(--font-sans); color: var(--text-secondary);">Renew at the desk</span>
+          </div>
+        
+      </div>
+      <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;">
+        <div style="display: flex; flex-direction: column; gap: 4px;"><span class="s1-headline">4 · Scan declined</span><span style="font: 400 14px/20px var(--font-sans); color: var(--text-secondary);">Cross draws, then the card shakes for 420 ms with a low buzz. Stays until the desk taps it.</span></div>
+        <button class="s1-btn s1-btn--secondary s1-btn--sm" type="button">Replay</button>
+      </div>
+    </section>
+
+    <section style="display: flex; flex-direction: column; gap: 12px;">
+      <div style="height: 260px; border-radius: 20px; background: #000; box-shadow: inset 0 0 0 1px var(--hairline); position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center; gap: 14px; padding: 0 32px;">
+        <span style="font: 600 13px/18px var(--font-sans); color: var(--text-secondary);">Sales today</span>
+        <span class="s1-num" style="font: 700 48px/52px var(--font-sans); letter-spacing: -0.035em;">฿50,222</span>
+        
+          <div style="display: flex; height: 12px; gap: 2px; border-radius: 999px; overflow: hidden;">
+            <span class="s1-width-grow" style="width: 73.8%; background: var(--s1-blue);"></span>
+            <span class="s1-width-grow" style="width: 21.2%; background: #8fdcff; animation-delay: 300ms;"></span>
+            <span class="s1-width-grow" style="width: 5%; background: var(--surface-4); animation-delay: 450ms;"></span>
+          </div>
+        
+      </div>
+      <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;">
+        <div style="display: flex; flex-direction: column; gap: 4px;"><span class="s1-headline">5 · Numbers count up</span><span style="font: 400 14px/20px var(--font-sans); color: var(--text-secondary);">Andy's headline numbers count from zero in 900 ms, ease-out; bars grow after. First view of the day only.</span></div>
+        <button class="s1-btn s1-btn--secondary s1-btn--sm" type="button">Replay</button>
+      </div>
+    </section>
+
+    <section style="display: flex; flex-direction: column; gap: 12px;">
+      <div style="height: 260px; border-radius: 20px; background: #000; box-shadow: inset 0 0 0 1px var(--hairline); position: relative; overflow: hidden; display: grid; place-items: center;">
+        
+          <div style="position: relative; width: 150px; height: 150px; display: grid; place-items: center;">
+            <svg viewBox="0 0 120 120" width="150" height="150" aria-hidden="true" style="position: absolute; inset: 0; transform: rotate(-90deg);">
+              <circle cx="60" cy="60" r="54" fill="none" stroke="#2a2f37" stroke-width="8"></circle>
+              <circle class="s1-ring-fill" cx="60" cy="60" r="54" fill="none" stroke="#00b4ff" stroke-width="8" stroke-linecap="round" stroke-dasharray="339.3" style="--len: 339.3; --to: 0;"></circle>
+            </svg>
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
+              <span class="s1-num" style="font: 700 34px/36px var(--font-sans);">16</span>
+              <span style="font: 500 12px/16px var(--font-sans); color: var(--text-secondary);">sets</span>
+            </div>
+            <span class="s1-pop" style="position: absolute; right: -18px; top: 6px; animation-delay: 1200ms; height: 28px; padding: 0 12px; border-radius: 999px; background: var(--s1-yellow); color: #000; font: 800 13px/28px var(--font-sans);">PR</span>
+          </div>
+        
+      </div>
+      <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;">
+        <div style="display: flex; flex-direction: column; gap: 4px;"><span class="s1-headline">6 · Workout done</span><span style="font: 400 14px/20px var(--font-sans); color: var(--text-secondary);">Ring fills in 1.1 s; a new personal best pops a yellow PR badge after it. No confetti.</span></div>
+        <button class="s1-btn s1-btn--secondary s1-btn--sm" type="button">Replay</button>
+      </div>
+    </section>
+
+    <section style="display: flex; flex-direction: column; gap: 12px;">
+      <div style="height: 260px; border-radius: 20px; background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--hairline); position: relative; overflow: hidden;">
+        <div style="padding: 20px; display: flex; flex-direction: column; gap: 10px;">
+          <span style="height: 14px; width: 60%; border-radius: 7px; background: var(--surface-4);"></span>
+          <span style="height: 14px; width: 40%; border-radius: 7px; background: var(--surface-3);"></span>
+        </div>
+        
+          <span style="position: absolute; inset: 0; background: rgba(0,0,0,0.55); animation: s1-fade 200ms both;"></span>
+          <div class="s1-sheet-up" style="position: absolute; left: 0; right: 0; bottom: 0; height: 170px; border-radius: 24px 24px 0 0; background: var(--surface-1); box-shadow: var(--shadow-sheet); padding: 8px 20px 20px; display: flex; flex-direction: column; gap: 12px;">
+            <span class="s1-grabber"></span>
+            <span class="s1-headline">Sell or renew</span>
+            <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px;">
+              <span class="s1-tile" aria-pressed="true" style="min-height: 64px; padding: 10px 12px;"><span class="s1-tile__name" style="font-size: 14px;">1 Month</span><span class="s1-tile__price" style="font-size: 13px;">฿2,200</span></span>
+              <span class="s1-tile" style="min-height: 64px; padding: 10px 12px;"><span class="s1-tile__name" style="font-size: 14px;">3 Months</span><span class="s1-tile__price" style="font-size: 13px;">฿5,400</span></span>
+              <span class="s1-tile" style="min-height: 64px; padding: 10px 12px;"><span class="s1-tile__name" style="font-size: 14px;">Day Pass</span><span class="s1-tile__price" style="font-size: 13px;">฿250</span></span>
+            </div>
+          </div>
+        
+      </div>
+      <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;">
+        <div style="display: flex; flex-direction: column; gap: 4px;"><span class="s1-headline">7 · Sheets</span><span style="font: 400 14px/20px var(--font-sans); color: var(--text-secondary);">Every sheet rises in 360 ms over a 200 ms dim. Swipe down or tap outside to close; desk sheets slide in from the right.</span></div>
+        <button class="s1-btn s1-btn--secondary s1-btn--sm" type="button">Replay</button>
+      </div>
+    </section>
+
+    <section style="display: flex; flex-direction: column; gap: 12px;">
+      <div style="height: 260px; border-radius: 20px; background: #000; box-shadow: inset 0 0 0 1px var(--hairline); position: relative; overflow: hidden; padding: 20px; box-sizing: border-box;">
+        <div class="s1-group">
+          
+            <div class="s1-row s1-slide-down" style="min-height: 64px; background: var(--s1-pink-tint);">
+              <span class="s1-avatar" style="position: relative;">IP<span class="s1-ping" style="position: absolute; right: -2px; top: -2px; width: 10px; height: 10px; border-radius: 50%; background: var(--s1-pink);"></span></span>
+              <div class="s1-row__main"><div class="s1-row__title" style="font-size: 15px;">Ivan Petrov</div><div class="s1-row__sub" style="font-size: 13px;">New lead · counter QR · just now</div></div>
+            </div>
+          
+          <div class="s1-row" style="min-height: 64px;"><span class="s1-avatar">KM</span><div class="s1-row__main"><div class="s1-row__title" style="font-size: 15px;">Kate Morgan</div><div class="s1-row__sub" style="font-size: 13px;">Desk enquiry · Sat 10 Oct</div></div></div>
+        </div>
+      </div>
+      <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;">
+        <div style="display: flex; flex-direction: column; gap: 4px;"><span class="s1-headline">8 · Something new arrives</span><span style="font: 400 14px/20px var(--font-sans); color: var(--text-secondary);">Live rows (a lead, a counter sign-up, a coach note) slide in from the top in 420 ms; a ping marks them until seen.</span></div>
+        <button class="s1-btn s1-btn--secondary s1-btn--sm" type="button">Replay</button>
+      </div>
+    </section>
+
+    <section style="display: flex; flex-direction: column; gap: 12px;">
+      <div style="height: 260px; border-radius: 20px; background: #000; box-shadow: inset 0 0 0 1px var(--hairline); position: relative; overflow: hidden; padding: 20px; box-sizing: border-box;">
+        
+          <div class="s1-stagger" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px;">
+            <div style="aspect-ratio: 1; border-radius: 16px; overflow: hidden; background: var(--surface-2);"><img class="s1-photo" src="../photos/cappuccino.jpg" alt="Cappuccino"></div>
+            <div style="aspect-ratio: 1; border-radius: 16px; overflow: hidden; background: var(--surface-2);"><img class="s1-photo" src="../photos/flat-white.jpg" alt="Flat white"></div>
+            <div style="aspect-ratio: 1; border-radius: 16px; overflow: hidden; background: var(--surface-2);"><img class="s1-photo" src="../photos/espresso.jpg" alt="Espresso"></div>
+            <div style="aspect-ratio: 1; border-radius: 16px; overflow: hidden; background: var(--surface-2);"><img class="s1-photo" src="../photos/bulletproof-bruce.jpg" alt="Bulletproof Bruce"></div>
+            <div style="aspect-ratio: 1; border-radius: 16px; background: var(--surface-2); display: grid; place-items: center; font: 700 14px/18px var(--font-sans); text-align: center; padding: 8px;">Strong Vibes</div>
+            <div style="aspect-ratio: 1; border-radius: 16px; background: var(--surface-2); display: grid; place-items: center; font: 700 14px/18px var(--font-sans); text-align: center; padding: 8px;">Berry Hype</div>
+          </div>
+        
+      </div>
+      <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;">
+        <div style="display: flex; flex-direction: column; gap: 4px;"><span class="s1-headline">9 · Sections open</span><span style="font: 400 14px/20px var(--font-sans); color: var(--text-secondary);">Menu grids and lists rise 40 ms apart, capped at 360 ms so long lists never feel slow. Tabs cross-fade in 260 ms.</span></div>
+        <button class="s1-btn s1-btn--secondary s1-btn--sm" type="button">Replay</button>
+      </div>
+    </section>
+
+  </div>
+</div>
+</div></body></html>

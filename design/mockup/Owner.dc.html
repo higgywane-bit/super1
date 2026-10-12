@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SUPER1 owner app</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="s1.css">
+<link rel="stylesheet" href="ds/super1/components/bundle.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Noto+Sans+Thai:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#000}
+</style>
+</helmet>
+<div class="s1 s1-screen" lang="{{lang}}" style="font-family: var(--font-sans); color: #ffffff; background: #000000;">
+
+  <!-- ===================== SIGN IN ===================== -->
+  <sc-if value="{{is.login}}" hint-placeholder-val="{{ false }}">
+    <div class="s1-tab-in" style="position: absolute; inset: 0; padding: 96px 24px 40px; box-sizing: border-box; display: flex; flex-direction: column; gap: 22px;">
+      <div style="position: relative; align-self: flex-start;">
+        <span class="s1-bloom" style="position: absolute; right: -40px; top: -44px; width: 140px; height: 140px; border-radius: 50%; background: radial-gradient(circle, rgba(0,160,255,0.7) 0%, rgba(0,69,251,0) 70%);"></span>
+        <img class="s1-wipe" src="/_blob/398b8f14610abf876aef8dbb1e7417d2" alt="SUPER1" style="position: relative; height: 34px; width: auto; display: block;">
+      </div>
+      <span class="s1-pill" style="align-self: flex-start; color: var(--s1-blue); background: var(--s1-blue-tint);">{{t.owner}}</span>
+      <sc-if value="{{loginStep1}}" hint-placeholder-val="{{ true }}">
+        <form class="s1-rise" onSubmit="{{sendCode}}" style="display: flex; flex-direction: column; gap: 14px;">
+          <h1 class="s1-largetitle" style="font-size: 30px; line-height: 36px;">{{t.signInTitle}}</h1>
+          <p style="margin: 0; font: 400 15px/22px var(--font-sans); color: var(--text-secondary);">{{t.signInNote}}</p>
+          <div><label class="s1-label" for="o-email">{{t.email}}</label><input class="s1-input" id="o-email" type="email" value="andy@superfitphuket.com" readonly></div>
+          <button class="s1-btn s1-btn--primary s1-btn--lg s1-btn--block" type="submit">{{t.emailCode}}</button>
+        </form>
+      </sc-if>
+      <sc-if value="{{loginStep2}}" hint-placeholder-val="{{ false }}">
+        <form class="s1-rise" onSubmit="{{signIn}}" style="display: flex; flex-direction: column; gap: 14px;">
+          <h1 class="s1-largetitle" style="font-size: 30px; line-height: 36px;">{{t.checkEmail}}</h1>
+          <p style="margin: 0; font: 400 15px/22px var(--font-sans); color: var(--text-secondary);">{{t.codeSent}}</p>
+          <div style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px;">
+            <sc-for list="{{codeDigits}}" as="d" hint-placeholder-count="6"><span class="s1-num s1-pop" style="height: 56px; border-radius: 14px; background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--hairline); display: grid; place-items: center; font: 700 24px/1 var(--font-sans); animation-delay: {{d.delay}};">{{d.n}}</span></sc-for>
+          </div>
+          <button class="s1-btn s1-btn--primary s1-btn--lg s1-btn--block" type="submit">{{t.signIn}}</button>
+        </form>
+      </sc-if>
+      <div class="s1-seg" style="display: flex; align-self: flex-start; margin-top: auto;"><sc-for list="{{langs}}" as="l" hint-placeholder-count="2"><button type="button" aria-pressed="{{l.pressed}}" onClick="{{l.pick}}" lang="{{l.code}}">{{l.label}}</button></sc-for></div>
+    </div>
+  </sc-if>
+
+  <!-- ===================== APP ===================== -->
+  <sc-if value="{{inApp}}" hint-placeholder-val="{{ true }}">
+    <div class="s1-scrollbox" style="padding: 56px 20px 112px; box-sizing: border-box; display: flex; flex-direction: column; gap: 18px;">
+      <header style="position: relative; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 0 52px;">
+        <span style="font: 600 13px/18px var(--font-sans); color: var(--text-secondary); text-align: center;">{{dateLine}}</span>
+        <h1 class="s1-largetitle" style="text-align: center">{{title}}</h1>
+        <button type="button" onClick="{{toggleLang}}" class="s1-avatar s1-tap" aria-label="{{t.switchLang}}" style="position: absolute; right: 0; top: 6px; border: 0; cursor: pointer; width: 44px; height: 44px; background: var(--s1-blue-tint); color: var(--s1-blue); font: 700 13px/1 var(--font-sans);">{{langShort}}</button>
+      </header>
+
+      <!-- TODAY -->
+      <sc-if value="{{is.today}}" hint-placeholder-val="{{ true }}">
+        <div class="s1-tab-in" style="display: flex; flex-direction: column; gap: 18px;">
+          <section class="s1-card" style="padding: 20px; display: flex; flex-direction: column; gap: 14px; box-shadow: inset 0 1px 0 rgba(0,180,255,0.35);">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;"><span style="font: 600 13px/18px var(--font-sans); color: var(--text-secondary);">{{t.sales}}</span><span style="font: 500 12px/16px var(--font-sans); color: var(--text-tertiary);">{{t.fromQashier}}</span></div>
+            <div style="display: flex; flex-direction: column; gap: 2px;">
+              <span class="s1-num" style="font: 700 52px/56px var(--font-sans); letter-spacing: -0.035em;">{{salesLabel}}</span>
+              <span class="s1-num" style="font: 500 15px/20px var(--font-sans); color: var(--text-secondary);">{{t.salesSub}}</span>
+            </div>
+            <div style="display: flex; height: 12px; border-radius: 999px; overflow: hidden; gap: 2px;" role="img" aria-label="{{t.splitAria}}">
+              <sc-for list="{{split}}" as="sp" hint-placeholder-count="3"><span class="s1-width-grow" style="width: {{sp.pct}}%; background: {{sp.color}};"></span></sc-for>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <sc-for list="{{split}}" as="sp" hint-placeholder-count="3">
+                <div style="display: flex; align-items: center; gap: 10px;"><span style="width: 10px; height: 10px; border-radius: 3px; background: {{sp.color}};"></span><span style="flex: 1; font: 500 15px/20px var(--font-sans);">{{sp.label}}</span><span class="s1-num" style="font: 500 13px/18px var(--font-sans); color: var(--text-tertiary);">{{sp.pct}}%</span><span class="s1-num" style="width: 78px; text-align: right; font: 600 15px/20px var(--font-sans);">{{sp.amount}}</span></div>
+              </sc-for>
+            </div>
+          </section>
+
+          <section style="display: flex; flex-direction: column; gap: 10px;">
+            <h2 class="s1-section" style="margin: 0 0 0 4px;">{{t.visits}}</h2>
+            <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px;">
+              <div class="s1-card" style="padding: 16px; display: flex; flex-direction: column; gap: 4px;"><span style="font: 600 13px/18px var(--font-sans); color: var(--text-secondary);">{{t.checkins}}</span><span class="s1-kpi s1-pop">63</span><span style="font: 500 13px/18px var(--font-sans); color: var(--s1-green);">{{t.vsYesterday}}</span></div>
+              <div class="s1-card" style="padding: 16px; display: flex; flex-direction: column; gap: 4px;"><span style="font: 600 13px/18px var(--font-sans); color: var(--text-secondary);">{{t.dayPasses}}</span><span class="s1-kpi s1-pop" style="animation-delay: 90ms;">45</span><span class="s1-num" style="font: 500 13px/18px var(--font-sans); color: var(--text-secondary);">฿11,250</span></div>
+            </div>
+            <div class="s1-card" style="padding: 14px 16px; display: flex; flex-direction: column; gap: 10px;">
+              <div style="display: flex; height: 8px; border-radius: 999px; overflow: hidden; gap: 2px;"><span class="s1-width-grow" style="width: 58%; background: var(--s1-green);"></span><span class="s1-width-grow" style="width: 42%; background: var(--s1-yellow);"></span></div>
+              <span class="s1-num" style="font: 500 13px/18px var(--font-sans); color: var(--text-secondary);">{{t.visitMix}}</span>
+            </div>
+            <div class="s1-card" style="padding: 14px 16px; display: flex; align-items: center; gap: 12px;">
+              <span class="s1-ping" style="width: 10px; height: 10px; border-radius: 50%; background: var(--s1-green); flex: none;"></span>
+              <span class="s1-num" style="flex: 1; font: 500 15px/20px var(--font-sans);">{{t.lastHour}}</span>
+            </div>
+          </section>
+
+          <section style="display: flex; flex-direction: column; gap: 10px;">
+            <div style="display: flex; align-items: baseline; justify-content: space-between; padding: 0 4px;"><h2 class="s1-section" style="margin: 0;">{{t.memberships}}</h2><span class="s1-num" style="font: 600 15px/20px var(--font-sans);">14 · ฿25,800</span></div>
+            <div class="s1-group s1-stagger">
+              <sc-for list="{{memberships}}" as="m" hint-placeholder-count="5">
+                <div class="s1-row" style="min-height: 56px; padding: 10px 16px;">
+                  <span class="s1-disc s1-disc--money" style="width: 32px; height: 32px; font: 700 13px/1 var(--font-sans);" aria-hidden="true">{{m.qty}}</span>
+                  <div class="s1-row__main"><div class="s1-row__title" style="font-size: 15px;">{{m.name}}</div><div class="s1-row__sub" style="font-size: 13px;">{{m.each}}</div></div>
+                  <span class="s1-num" style="font: 600 15px/20px var(--font-sans);">{{m.total}}</span>
+                </div>
+              </sc-for>
+            </div>
+            <span class="s1-pill s1-pill--active" style="align-self: flex-start; margin-left: 4px;">{{t.match}}</span>
+          </section>
+
+          <section style="display: flex; flex-direction: column; gap: 10px;">
+            <h2 class="s1-section" style="margin: 0 0 0 4px;">{{t.payments}}</h2>
+            <div class="s1-card" style="padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+              <sc-for list="{{pays}}" as="p" hint-placeholder-count="3">
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                  <div style="display: flex; justify-content: space-between; gap: 10px;"><span style="font: 500 15px/20px var(--font-sans);">{{p.label}}</span><span class="s1-num" style="font: 600 15px/20px var(--font-sans);">{{p.amount}}</span></div>
+                  <div style="height: 6px; border-radius: 999px; background: var(--surface-3); overflow: hidden;"><div class="s1-width-grow" style="height: 100%; width: {{p.pct}}%; background: {{p.color}}; border-radius: 999px;"></div></div>
+                </div>
+              </sc-for>
+            </div>
+            <div class="s1-card" style="padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+              <span style="font: 600 13px/18px var(--font-sans); color: var(--text-secondary);">{{t.byStaff}}</span>
+              <div style="display: flex; justify-content: space-between;"><span style="font: 500 15px/20px var(--font-sans);">Joy · 64</span><span class="s1-num" style="font: 600 15px/20px var(--font-sans);">฿30,139</span></div>
+              <div style="display: flex; justify-content: space-between;"><span style="font: 500 15px/20px var(--font-sans);">Hayatee Boonya · 59</span><span class="s1-num" style="font: 600 15px/20px var(--font-sans);">฿20,083</span></div>
+            </div>
+            <span class="s1-num" style="font: 500 12px/17px var(--font-sans); color: var(--text-tertiary); padding: 0 4px;">{{t.vatNote}}</span>
+          </section>
+        </div>
+      </sc-if>
+
+      <!-- WEEK -->
+      <sc-if value="{{is.week}}" hint-placeholder-val="{{ false }}">
+        <div class="s1-tab-in" style="display: flex; flex-direction: column; gap: 18px;">
+          <div class="s1-card" style="padding: 12px 14px; display: flex; align-items: center; gap: 10px; background: var(--s1-yellow-tint);"><span class="s1-sample">{{t.sample}}</span><span style="font: 500 13px/18px var(--font-sans); color: var(--s1-yellow);">{{t.sampleNote}}</span></div>
+          <section class="s1-card" style="padding: 20px; display: flex; flex-direction: column; gap: 14px;">
+            <div style="display: flex; align-items: baseline; justify-content: space-between;"><span style="font: 600 13px/18px var(--font-sans); color: var(--text-secondary);">{{t.salesWeek}}</span><span class="s1-num" style="font: 700 24px/28px var(--font-sans); letter-spacing: -0.02em;">฿310,452</span></div>
+            <div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; align-items: end; height: 150px;">
+              <sc-for list="{{weekBars}}" as="b" hint-placeholder-count="7">
+                <button type="button" onClick="{{b.pick}}" aria-label="{{b.aria}}" style="height: 100%; border: 0; padding: 0; background: transparent; cursor: pointer; display: flex; flex-direction: column; justify-content: flex-end; align-items: stretch;">
+                  <span class="s1-bar-grow" style="height: {{b.h}}%; border-radius: 8px 8px 4px 4px; background: {{b.color}}; animation-delay: {{b.delay}};"></span>
+                </button>
+              </sc-for>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px;"><sc-for list="{{weekBars}}" as="b" hint-placeholder-count="7"><span style="text-align: center; font: 600 12px/16px var(--font-sans); color: {{b.labelColor}};">{{b.label}}</span></sc-for></div>
+            <div class="s1-card" style="padding: 14px; background: var(--surface-3); display: flex; flex-direction: column; gap: 4px;">
+              <span style="font: 600 15px/20px var(--font-sans);">{{pickedDay.title}}</span>
+              <span class="s1-num" style="font: 500 14px/19px var(--font-sans); color: var(--text-secondary);">{{pickedDay.line}}</span>
+            </div>
+          </section>
+          <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px;">
+            <sc-for list="{{weekKpis}}" as="k" hint-placeholder-count="4">
+              <div class="s1-card" style="padding: 16px; display: flex; flex-direction: column; gap: 4px;"><span style="font: 600 13px/18px var(--font-sans); color: var(--text-secondary);">{{k.label}}</span><span class="s1-num" style="font: 700 28px/34px var(--font-sans); letter-spacing: -0.02em;">{{k.value}}</span><span style="font: 500 13px/18px var(--font-sans); color: {{k.subColor}};">{{k.sub}}</span></div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- MEMBERS -->
+      <sc-if value="{{is.members}}" hint-placeholder-val="{{ false }}">
+        <div class="s1-tab-in" style="display: flex; flex-direction: column; gap: 18px;">
+          <div class="s1-card" style="padding: 12px 14px; display: flex; align-items: center; gap: 10px; background: var(--s1-yellow-tint);"><span class="s1-sample">{{t.sample}}</span><span style="font: 500 13px/18px var(--font-sans); color: var(--s1-yellow);">{{t.sampleMembers}}</span></div>
+          <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px;">
+            <sc-for list="{{memberKpis}}" as="k" hint-placeholder-count="4">
+              <div class="s1-card" style="padding: 16px; display: flex; flex-direction: column; gap: 4px;"><span style="font: 600 13px/18px var(--font-sans); color: var(--text-secondary);">{{k.label}}</span><span class="s1-kpi" style="color: {{k.color}};">{{k.value}}</span></div>
+            </sc-for>
+          </div>
+          <section class="s1-card" style="padding: 18px; display: flex; flex-direction: column; gap: 12px;">
+            <span style="font: 600 13px/18px var(--font-sans); color: var(--text-secondary);">{{t.planMix}}</span>
+            <sc-for list="{{planMix}}" as="pm" hint-placeholder-count="8">
+              <div style="display: flex; flex-direction: column; gap: 5px;">
+                <div style="display: flex; justify-content: space-between;"><span style="font: 500 14px/19px var(--font-sans);">{{pm.name}}</span><span class="s1-num" style="font: 600 14px/19px var(--font-sans);">{{pm.count}}</span></div>
+                <div style="height: 6px; border-radius: 999px; background: var(--surface-3); overflow: hidden;"><div class="s1-width-grow" style="height: 100%; width: {{pm.pct}}%; background: var(--s1-blue); border-radius: 999px;"></div></div>
+              </div>
+            </sc-for>
+          </section>
+          <section style="display: flex; flex-direction: column; gap: 10px;">
+            <h2 class="s1-section" style="margin: 0 0 0 4px;">{{t.expiringSoon}}</h2>
+            <div class="s1-group">
+              <sc-for list="{{expiring}}" as="x" hint-placeholder-count="3">
+                <div class="s1-row" style="min-height: 58px; padding: 10px 16px;">
+                  <span class="s1-avatar" style="width: 34px; height: 34px; font-size: 12px;">{{x.initials}}</span>
+                  <div class="s1-row__main"><div class="s1-row__title" style="font-size: 15px;">{{x.name}}</div><div class="s1-row__sub" style="font-size: 13px;">{{x.plan}}</div></div>
+                  <span class="s1-pill s1-pill--expiring">{{x.left}}</span>
+                </div>
+              </sc-for>
+            </div>
+          </section>
+          <section class="s1-card" style="padding: 18px; display: flex; align-items: center; gap: 14px;">
+            <span class="s1-disc s1-disc--pt"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.4 14.4 9.6 9.6"/><path d="M18.657 21.485a2 2 0 1 1-2.829-2.828l-1.767 1.768a2 2 0 1 1-2.829-2.829l6.364-6.364a2 2 0 1 1 2.829 2.829l-1.768 1.767a2 2 0 1 1 2.828 2.829z"/><path d="m21.5 21.5-1.4-1.4"/><path d="M3.9 3.9 2.5 2.5"/><path d="M6.404 12.768a2 2 0 1 1-2.829-2.829l1.768-1.767a2 2 0 1 1-2.828-2.829l2.828-2.828a2 2 0 1 1 2.829 2.828l1.767-1.768a2 2 0 1 1 2.829 2.829z"/></svg></span>
+            <span style="flex: 1; display: flex; flex-direction: column; gap: 3px;"><span class="s1-headline" style="font-size: 16px;">{{t.ptTitle}}</span><span style="font: 500 13px/18px var(--font-sans); color: var(--text-secondary);">{{t.ptSub}}</span></span>
+          </section>
+        </div>
+      </sc-if>
+
+      <!-- CAFE -->
+      <sc-if value="{{is.cafe}}" hint-placeholder-val="{{ false }}">
+        <div class="s1-tab-in" style="display: flex; flex-direction: column; gap: 18px;">
+          <section class="s1-card" style="padding: 20px; display: flex; flex-direction: column; gap: 14px;">
+            <div style="display: flex; align-items: center; justify-content: space-between;"><span style="font: 600 13px/18px var(--font-sans); color: var(--text-secondary);">{{t.cafeToday}}</span><span style="font: 500 12px/16px var(--font-sans); color: var(--text-tertiary);">Qashier · Mon 12 Oct</span></div>
+            <div style="display: flex; align-items: baseline; gap: 10px;"><span class="s1-num" style="font: 700 44px/48px var(--font-sans); letter-spacing: -0.03em;">฿10,655</span><span class="s1-num" style="font: 500 14px/19px var(--font-sans); color: var(--text-secondary);">{{t.cafeItems}}</span></div>
+            <sc-for list="{{cafeCats}}" as="c" hint-placeholder-count="5">
+              <div style="display: flex; flex-direction: column; gap: 5px;">
+                <div style="display: flex; justify-content: space-between; gap: 10px;"><span style="font: 500 14px/19px var(--font-sans);">{{c.name}} <span class="s1-num" style="color: var(--text-tertiary);">· {{c.qty}}</span></span><span class="s1-num" style="font: 600 14px/19px var(--font-sans);">{{c.amount}}</span></div>
+                <div style="height: 6px; border-radius: 999px; background: var(--surface-3); overflow: hidden;"><div class="s1-width-grow" style="height: 100%; width: {{c.pct}}%; background: #8fdcff; border-radius: 999px;"></div></div>
+              </div>
+            </sc-for>
+          </section>
+          <section style="display: flex; flex-direction: column; gap: 10px;">
+            <h2 class="s1-section" style="margin: 0 0 0 4px;">{{t.topSellers}}</h2>
+            <div class="s1-group s1-stagger">
+              <sc-for list="{{top}}" as="p" hint-placeholder-count="8">
+                <div class="s1-row" style="min-height: 52px; padding: 10px 16px;">
+                  <span class="s1-num" style="width: 20px; font: 700 14px/1 var(--font-sans); color: var(--text-tertiary);">{{p.rank}}</span>
+                  <div class="s1-row__main"><div class="s1-row__title" style="font-size: 15px;">{{p.name}}</div></div>
+                  <span class="s1-num" style="font: 500 14px/19px var(--font-sans); color: var(--text-secondary);">{{p.qty}}×</span>
+                  <span class="s1-num" style="width: 64px; text-align: right; font: 600 15px/20px var(--font-sans);">{{p.amount}}</span>
+                </div>
+              </sc-for>
+            </div>
+          </section>
+          <section class="s1-card" style="padding: 18px; display: flex; flex-direction: column; gap: 10px;">
+            <span style="font: 600 13px/18px var(--font-sans); color: var(--text-secondary);">{{t.addOns}}</span>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;"><sc-for list="{{addOns}}" as="a" hint-placeholder-count="6"><span style="height: 32px; padding: 0 12px; border-radius: 999px; background: var(--surface-3); display: inline-flex; align-items: center; gap: 6px; font: 600 13px/1 var(--font-sans);">{{a.name}}<span class="s1-num" style="color: var(--text-secondary);">{{a.line}}</span></span></sc-for></div>
+          </section>
+          <section class="s1-card" style="padding: 16px 18px; display: flex; align-items: center; gap: 14px;">
+            <span class="s1-disc s1-disc--money"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg></span>
+            <span style="flex: 1; display: flex; flex-direction: column; gap: 3px;"><span style="display: flex; align-items: center; gap: 8px;"><span class="s1-headline" style="font-size: 16px;">{{t.appOrders}}</span><span class="s1-sample">{{t.sample}}</span></span><span style="font: 500 13px/18px var(--font-sans); color: var(--text-secondary);">{{t.appOrdersSub}}</span></span>
+          </section>
+        </div>
+      </sc-if>
+    </div>
+
+    <nav class="s1-tabbar" aria-label="Main">
+      <sc-for list="{{tabs}}" as="tb" hint-placeholder-count="4">
+        <button class="s1-tab" type="button" aria-pressed="{{tb.pressed}}" onClick="{{tb.pick}}">
+          <sc-if value="{{tb.isToday}}" hint-placeholder-val="{{ false }}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg></sc-if>
+          <sc-if value="{{tb.isWeek}}" hint-placeholder-val="{{ false }}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg></sc-if>
+          <sc-if value="{{tb.isMembers}}" hint-placeholder-val="{{ false }}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></sc-if>
+          <sc-if value="{{tb.isCafe}}" hint-placeholder-val="{{ false }}"><svg class="s1-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/></svg></sc-if>
+          {{tb.label}}
+        </button>
+      </sc-for>
+    </nav>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"start":{"editor":"enum","options":["login","today","week","members","cafe"],"default":"today"},"$preview":{"width":390,"height":844}}'>
+var T = {
+  en: { owner: "Owner", signInTitle: "Sign in", signInNote: "Your numbers from Qashier and the front desk, on your phone. We email you a code, no password.", email: "Email", emailCode: "Email me a code",
+    checkEmail: "Check your email", codeSent: "We sent a 6-digit code to andy@superfitphuket.com", signIn: "Sign in", switchLang: "Switch language",
+    hi: "Hi Andy", today: "Today", week: "Week", members: "Members", cafe: "Café",
+    sales: "Sales", fromQashier: "Qashier · imported 21:05 by Pete", salesSub: "123 sales · ฿408 average", splitAria: "Gym 74 percent, café 21 percent, shop 5 percent", gym: "Gym", shop: "Shop",
+    visits: "Visits", checkins: "Member check-ins", dayPasses: "Day passes", vsYesterday: "+6 vs yesterday", visitMix: "108 visits · 58% members · 42% day passes", lastHour: "14 in the last hour · 5 in the last 30 min",
+    memberships: "Memberships sold", match: "Desk and Qashier match", payments: "How people paid", cash: "Cash", card: "Card", byStaff: "Rung up on Qashier by",
+    vatNote: "Totals include 7% VAT as charged at the till · net ฿46,936 · VAT ฿3,286 · cost of goods ฿2,428",
+    sample: "Sample", sampleNote: "Only Mon 12 Oct is real so far. The rest fills in once Pete imports the Qashier history.", salesWeek: "Sales · Tue 6 – Mon 12 Oct",
+    kSales: "Average day", kCheckins: "Check-ins", kPasses: "Day passes", kNew: "New members",
+    sampleMembers: "Member counts are sample numbers until the member list moves to the new system.", planMix: "Active members by plan", expiringSoon: "Ending in the next 7 days",
+    ptTitle: "27 PT packs active", ptSub: "64 sessions logged in October · Sunman is the first coach on the portal",
+    cafeToday: "Café today", cafeItems: "124 items", topSellers: "Top sellers", addOns: "Shake add-ons", appOrders: "9 orders from the app", appOrdersSub: "Members built them in the app, then paid at the counter on Qashier" },
+  th: { owner: "เจ้าของ", signInTitle: "เข้าสู่ระบบ", signInNote: "ตัวเลขจาก Qashier และฟรอนต์เดสก์บนมือถือของคุณ เราส่งรหัสทางอีเมล ไม่ต้องใช้รหัสผ่าน", email: "อีเมล", emailCode: "ส่งรหัสทางอีเมล",
+    checkEmail: "ตรวจสอบอีเมลของคุณ", codeSent: "เราส่งรหัส 6 หลักไปที่ andy@superfitphuket.com", signIn: "เข้าสู่ระบบ", switchLang: "เปลี่ยนภาษา",
+    hi: "สวัสดี Andy", today: "วันนี้", week: "สัปดาห์", members: "สมาชิก", cafe: "คาเฟ่",
+    sales: "ยอดขาย", fromQashier: "Qashier · นำเข้า 21:05 โดย Pete", salesSub: "123 รายการ · เฉลี่ย ฿408", splitAria: "ยิม 74 เปอร์เซ็นต์ คาเฟ่ 21 เปอร์เซ็นต์ ร้านค้า 5 เปอร์เซ็นต์", gym: "ยิม", shop: "ร้านค้า",
+    visits: "การเข้าใช้", checkins: "สมาชิกเช็กอิน", dayPasses: "เดย์พาส", vsYesterday: "+6 จากเมื่อวาน", visitMix: "เข้าใช้ 108 ครั้ง · สมาชิก 58% · เดย์พาส 42%", lastHour: "14 คนในชั่วโมงที่ผ่านมา · 5 คนใน 30 นาที",
+    memberships: "สมาชิกภาพที่ขายได้", match: "ฟรอนต์เดสก์และ Qashier ตรงกัน", payments: "ช่องทางชำระเงิน", cash: "เงินสด", card: "บัตร", byStaff: "คิดเงินใน Qashier โดย",
+    vatNote: "ยอดรวมรวม VAT 7% ตามที่เก็บที่เคาน์เตอร์ · สุทธิ ฿46,936 · VAT ฿3,286 · ต้นทุนสินค้า ฿2,428",
+    sample: "ตัวอย่าง", sampleNote: "ตอนนี้มีข้อมูลจริงเฉพาะ จ. 12 ต.ค. วันอื่นจะเติมเมื่อ Pete นำเข้าประวัติ Qashier", salesWeek: "ยอดขาย · อ. 6 – จ. 12 ต.ค.",
+    kSales: "เฉลี่ยต่อวัน", kCheckins: "เช็กอิน", kPasses: "เดย์พาส", kNew: "สมาชิกใหม่",
+    sampleMembers: "จำนวนสมาชิกเป็นตัวเลขตัวอย่างจนกว่ารายชื่อสมาชิกจะย้ายมาระบบใหม่", planMix: "สมาชิกที่ใช้งานแยกตามแพ็กเกจ", expiringSoon: "หมดอายุใน 7 วันข้างหน้า",
+    ptTitle: "แพ็กเกจ PT ที่ใช้งานอยู่ 27", ptSub: "บันทึก 64 เซสชันในเดือนตุลาคม · Sunman เป็นโค้ชคนแรกบนพอร์ทัล",
+    cafeToday: "คาเฟ่วันนี้", cafeItems: "124 รายการ", topSellers: "ขายดี", addOns: "ท็อปปิ้งเชค", appOrders: "9 ออเดอร์จากแอป", appOrdersSub: "สมาชิกสั่งในแอป แล้วชำระที่เคาน์เตอร์ผ่าน Qashier" }
+};
+var TOTAL = 50222;
+var WEEK = [
+  { d: "Tue", day: "Tue 6 Oct", sales: 41380, checkins: 58, passes: 38 },
+  { d: "Wed", day: "Wed 7 Oct", sales: 38950, checkins: 54, passes: 35 },
+  { d: "Thu", day: "Thu 8 Oct", sales: 44120, checkins: 61, passes: 41 },
+  { d: "Fri", day: "Fri 9 Oct", sales: 47600, checkins: 66, passes: 44 },
+  { d: "Sat", day: "Sat 10 Oct", sales: 52310, checkins: 72, passes: 52 },
+  { d: "Sun", day: "Sun 11 Oct", sales: 35870, checkins: 49, passes: 40 },
+  { d: "Mon", day: "Mon 12 Oct", sales: 50222, checkins: 63, passes: 45, real: true }
+];
+var MEMBERSHIPS = [
+  { name: "1 Month", qty: 3, each: 2200 }, { name: "Thai · 1 Month", qty: 5, each: 1200 }, { name: "Thai · 6 Months", qty: 1, each: 6000 },
+  { name: "2 Weeks", qty: 2, each: 1800 }, { name: "1 Week", qty: 3, each: 1200 }
+];
+var CAFE_CATS = [{ name: "Protein shakes", qty: 37, amount: 6326 }, { name: "Water, electrolytes, pre-workout", qty: 64, amount: 2999 }, { name: "Coffee", qty: 7, amount: 670 }, { name: "Drinks", qty: 13, amount: 590 }, { name: "Snacks and fruit", qty: 3, amount: 70 }];
+var TOP = [
+  { name: "Create your own: Whey", qty: 12, amount: 1725 }, { name: "Strong Vibes", qty: 7, amount: 1193 }, { name: "C4 Pre Workout Scoop", qty: 11, amount: 1089 }, { name: "Banana Bam Bam", qty: 5, amount: 945 },
+  { name: "Berry Hype", qty: 5, amount: 865 }, { name: "Wilder Electrolyte Sachet", qty: 12, amount: 720 }, { name: "Espresso Max", qty: 4, amount: 696 }, { name: "Big Water 1500ml", qty: 17, amount: 680 }
+];
+var ADDONS = [{ name: "XL size", qty: 11, amount: 550 }, { name: "Extra scoop", qty: 5, amount: 300 }, { name: "Creatine 5g", qty: 3, amount: 150 }, { name: "Almond milk", qty: 6, amount: 120 }, { name: "Blueberry", qty: 5, amount: 100 }, { name: "Banana", qty: 6, amount: 90 }];
+var PLAN_MIX = [{ name: "1 Month", count: 142 }, { name: "Thai · 1 Month", count: 61 }, { name: "3 Months", count: 58 }, { name: "12 Months", count: 39 }, { name: "6 Months", count: 33 }, { name: "2 Weeks", count: 24 }, { name: "1 Week", count: 19 }, { name: "10 Visits", count: 10 }];
+var EXPIRING = [{ name: "Arthit Phrom", plan: "Thai 6 Months · ends Thu 15 Oct", left: "3 days" }, { name: "Nok Chaiyaporn", plan: "1 Month · ends Fri 16 Oct", left: "4 days" }, { name: "James O'Neill", plan: "3 Months · ends Sun 18 Oct", left: "6 days" }];
+function baht(n) { return "฿" + Math.round(n).toLocaleString("en-US"); }
+function initials(n) { return n.split(" ").map(function (w) { return w.charAt(0); }).join("").slice(0, 2).toUpperCase(); }
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    var start = this.props.start || "today";
+    this.state = { screen: start, lang: "en", loginStep: 1, count: start === "today" ? 0 : TOTAL, pick: 6 };
+    this.tick = null;
+  }
+  componentDidMount() { if (this.state.screen === "today") this.runCount(); }
+  componentWillUnmount() { if (this.tick) clearInterval(this.tick); }
+  runCount() {
+    var self = this, start = Date.now(), dur = 1000;
+    if (this.tick) clearInterval(this.tick);
+    this.setState({ count: 0 });
+    this.tick = setInterval(function () {
+      var t = Math.min(1, (Date.now() - start) / dur);
+      self.setState({ count: Math.round(TOTAL * (1 - Math.pow(1 - t, 3))) });
+      if (t >= 1) { clearInterval(self.tick); self.tick = null; }
+    }, 16);
+  }
+  renderVals() {
+    var s = this.state, self = this, t = T[s.lang];
+    var is = {}; ["login", "today", "week", "members", "cafe"].forEach(function (n) { is[n] = s.screen === n; });
+    var go = function (n) { return function () { self.setState({ screen: n }); if (n === "today") self.runCount(); }; };
+    var maxSales = Math.max.apply(null, WEEK.map(function (w) { return w.sales; }));
+    var picked = WEEK[s.pick];
+    var cafeMax = CAFE_CATS[0].amount;
+    var mixTotal = PLAN_MIX.reduce(function (a, p) { return a + p.count; }, 0);
+    var titles = { today: t.hi, week: t.week, members: t.members, cafe: t.cafe };
+    return {
+      is: is, t: t, lang: s.lang, inApp: s.screen !== "login",
+      loginStep1: s.loginStep === 1, loginStep2: s.loginStep === 2,
+      sendCode: function (ev) { ev.preventDefault(); self.setState({ loginStep: 2 }); },
+      signIn: function (ev) { ev.preventDefault(); self.setState({ loginStep: 1, screen: "today" }); self.runCount(); },
+      codeDigits: "250913".split("").map(function (n, k) { return { n: n, delay: (k * 60) + "ms" }; }),
+      langs: [{ code: "en", label: "English" }, { code: "th", label: "ไทย" }].map(function (l) { return { code: l.code, label: l.label, pressed: s.lang === l.code, pick: function () { self.setState({ lang: l.code }); } }; }),
+      toggleLang: function () { self.setState({ lang: self.state.lang === "en" ? "th" : "en" }); },
+      langShort: s.lang === "en" ? "EN" : "ไทย",
+      dateLine: s.lang === "en" ? "Mon 12 Oct · Superfit Chalong" : "จ. 12 ต.ค. · Superfit ฉลอง",
+      title: titles[s.screen] || t.hi,
+      salesLabel: baht(s.count),
+      split: [{ label: t.gym, amount: 37050, color: "var(--s1-blue)" }, { label: t.cafe, amount: 10655, color: "#8fdcff" }, { label: t.shop, amount: 2517, color: "var(--surface-4)" }].map(function (x) {
+        return { label: x.label, amount: baht(x.amount), color: x.color, pct: Math.round(x.amount / TOTAL * 1000) / 10 };
+      }),
+      memberships: MEMBERSHIPS.map(function (m) { return { name: m.name, qty: m.qty, each: baht(m.each) + " each", total: baht(m.qty * m.each) }; }),
+      pays: [{ label: t.cash, amount: 23688, color: "var(--s1-green)" }, { label: "PromptPay", amount: 14341, color: "var(--s1-blue)" }, { label: t.card + " · Visa ฿7,663 · Mastercard ฿4,530", amount: 12193, color: "#8fdcff" }].map(function (p) {
+        return { label: p.label + " · " + Math.round(p.amount / TOTAL * 100) + "%", amount: baht(p.amount), pct: Math.round(p.amount / TOTAL * 100), color: p.color };
+      }),
+      weekBars: WEEK.map(function (w, k) {
+        return { label: w.d, h: Math.round(w.sales / maxSales * 100), color: k === s.pick ? "var(--s1-blue)" : (w.real ? "rgba(0,180,255,0.45)" : "var(--surface-4)"),
+          labelColor: k === s.pick ? "#ffffff" : "var(--text-secondary)", delay: (k * 50) + "ms", aria: w.day + " " + baht(w.sales), pick: function () { self.setState({ pick: k }); } };
+      }),
+      pickedDay: { title: picked.day + (picked.real ? " · from Qashier" : " · sample"), line: baht(picked.sales) + " · " + picked.checkins + " check-ins · " + picked.passes + " day passes" },
+      weekKpis: [
+        { label: t.kSales, value: baht(310452 / 7), sub: "฿310,452 this week", subColor: "var(--text-secondary)" },
+        { label: t.kCheckins, value: "423", sub: "+5% on last week", subColor: "var(--s1-green)" },
+        { label: t.kPasses, value: "295", sub: "฿73,750", subColor: "var(--text-secondary)" },
+        { label: t.kNew, value: "23", sub: "9 from the counter QR", subColor: "var(--s1-blue)" }
+      ],
+      memberKpis: [{ label: "Active", value: "386", color: "#ffffff" }, { label: "Ending in 7 days", value: "31", color: "var(--s1-yellow)" }, { label: "New in October", value: "47", color: "var(--s1-blue)" }, { label: "Paused", value: "6", color: "var(--text-secondary)" }],
+      planMix: PLAN_MIX.map(function (p) { return { name: p.name, count: p.count, pct: Math.round(p.count / PLAN_MIX[0].count * 100) }; }),
+      expiring: EXPIRING.map(function (x) { return Object.assign({}, x, { initials: initials(x.name) }); }),
+      cafeCats: CAFE_CATS.map(function (c) { return { name: c.name, qty: c.qty, amount: baht(c.amount), pct: Math.max(2, Math.round(c.amount / cafeMax * 100)) }; }),
+      top: TOP.map(function (p, k) { return { rank: k + 1, name: p.name, qty: p.qty, amount: baht(p.amount) }; }),
+      addOns: ADDONS.map(function (a) { return { name: a.name, line: a.qty + "× · " + baht(a.amount) }; }),
+      tabs: [{ id: "today", label: t.today }, { id: "week", label: t.week }, { id: "members", label: t.members }, { id: "cafe", label: t.cafe }].map(function (x) {
+        return { label: x.label, pressed: s.screen === x.id, pick: go(x.id), isToday: x.id === "today", isWeek: x.id === "week", isMembers: x.id === "members", isCafe: x.id === "cafe" };
+      })
+    };
+  }
+}
+</script>
+</body>
+</html>

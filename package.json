@@ -1,0 +1,17 @@
+{
+  "name": "super1",
+  "private": true,
+  "type": "module",
+  "description": "SUPER1: the Superfit operating system. Desk, owner and admin on super1.world; members, coaches and sign-up on super1.app.",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "db:test": "bash scripts/db-test.sh"
+  },
+  "devDependencies": {
+    "@types/node": "^22.16.5",
+    "typescript": "^5.8.3",
+    "vitest": "4.1.11"
+  }
+}
