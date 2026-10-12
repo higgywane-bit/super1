@@ -45,3 +45,12 @@ export function nudgeEmail(lang: Lang, name: string, coach: string, appOrigin: s
   const html = layout(lang, h1(t("email.nudge.subject")) + p(t("email.nudge.body")) + button(t("email.nudge.button"), `${appOrigin}/`), FOOTER, `${appOrigin}/brand/super1-wordmark.png`);
   return { subject: t("email.nudge.subject"), html, text: `${t("email.nudge.body")}\n\n${appOrigin}/` };
 }
+
+/** To Pete: a member removed their app login (outbox `login_removed`). */
+export function removedEmail(no: number, name: string, worldOrigin: string) {
+  const vars = { no: String(no).padStart(4, "0"), name };
+  const subject = translate("en", "email.removed.subject", vars);
+  const line = translate("en", "email.removed.body", vars);
+  const html = layout("en", h1(subject) + p(line), FOOTER, `${worldOrigin}/brand/super1-wordmark.png`);
+  return { subject, html, text: line };
+}

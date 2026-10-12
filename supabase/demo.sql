@@ -121,3 +121,12 @@ begin
   insert into public.leads (coach_id, name, phone, email, lang, source, stage, note, created_at) values
     (sunman, 'Kate Morgan', '+44 7700 900812', 'kate.morgan@icloud.com', 'en', 'desk', 'trial', 'free intro Sat 17 Oct 09:00 · glutes and core', '2026-10-09 17:00+07');
 end $$;
+
+-- Emma's app invite (the member app demo starts from this email). The outbox worker sends it.
+do $$
+begin
+  if not exists (select 1 from public.invites where member_id = 'd0000000-0000-4000-8000-000000001043') then
+    insert into public.invites (member_id, email) values ('d0000000-0000-4000-8000-000000001043', 'emma.wilson@gmail.com');
+    insert into public.outbox (kind, payload) values ('invite_email', '{"member_id":"d0000000-0000-4000-8000-000000001043","email":"emma.wilson@gmail.com","lang":"en"}');
+  end if;
+end $$;

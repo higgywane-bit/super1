@@ -78,3 +78,14 @@ export function formatTime(at: Date): string {
 export function minutesBetween(from: string, to: string): number {
   return Math.max(0, Math.round((Date.parse(to) - Date.parse(from)) / 60_000));
 }
+
+/** Did `at` happen within the last `hours` (e.g. a coach's send in the last 3 days)? */
+export function withinHours(at: string, hours: number, now: number = Date.now()): boolean {
+  const t = Date.parse(at);
+  return now - t >= 0 && now - t < hours * 3_600_000;
+}
+
+/** Is moment `a` later than moment `b`? */
+export function isAfter(a: string, b: string): boolean {
+  return Date.parse(a) > Date.parse(b);
+}

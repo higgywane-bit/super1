@@ -12,12 +12,20 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ARouteImport } from './routes/a'
 import { Route as WRouteImport } from './routes/w'
-import { Route as AIndexRouteImport } from './routes/a/index'
+import { Route as AMRouteImport } from './routes/a/_m'
 import { Route as ACoachRouteImport } from './routes/a/coach'
 import { Route as AJoinRouteImport } from './routes/a/join'
 import { Route as WDeskRouteImport } from './routes/w/_desk'
 import { Route as WAdminRouteImport } from './routes/w/admin'
 import { Route as WOwnerRouteImport } from './routes/w/owner'
+import { Route as AMIndexRouteImport } from './routes/a/_m/index'
+import { Route as AMCheckinRouteImport } from './routes/a/_m/checkin'
+import { Route as AMFuelRouteImport } from './routes/a/_m/fuel'
+import { Route as AMMeRouteImport } from './routes/a/_m/me'
+import { Route as AMProgressRouteImport } from './routes/a/_m/progress'
+import { Route as AMSettingsRouteImport } from './routes/a/_m/settings'
+import { Route as AMTrainRouteImport } from './routes/a/_m/train'
+import { Route as AMWorkoutRouteImport } from './routes/a/_m/workout'
 import { Route as ACoachIndexRouteImport } from './routes/a/coach/index'
 import { Route as ACoachLibraryRouteImport } from './routes/a/coach/library'
 import { Route as WDeskIndexRouteImport } from './routes/w/_desk/index'
@@ -48,9 +56,8 @@ const WRoute = WRouteImport.update({
   path: '/w',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AIndexRoute = AIndexRouteImport.update({
-  id: '/',
-  path: '/',
+const AMRoute = AMRouteImport.update({
+  id: '/_m',
   getParentRoute: () => ARoute,
 } as any)
 const ACoachRoute = ACoachRouteImport.update({
@@ -76,6 +83,46 @@ const WOwnerRoute = WOwnerRouteImport.update({
   id: '/owner',
   path: '/owner',
   getParentRoute: () => WRoute,
+} as any)
+const AMIndexRoute = AMIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AMRoute,
+} as any)
+const AMCheckinRoute = AMCheckinRouteImport.update({
+  id: '/checkin',
+  path: '/checkin',
+  getParentRoute: () => AMRoute,
+} as any)
+const AMFuelRoute = AMFuelRouteImport.update({
+  id: '/fuel',
+  path: '/fuel',
+  getParentRoute: () => AMRoute,
+} as any)
+const AMMeRoute = AMMeRouteImport.update({
+  id: '/me',
+  path: '/me',
+  getParentRoute: () => AMRoute,
+} as any)
+const AMProgressRoute = AMProgressRouteImport.update({
+  id: '/progress',
+  path: '/progress',
+  getParentRoute: () => AMRoute,
+} as any)
+const AMSettingsRoute = AMSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AMRoute,
+} as any)
+const AMTrainRoute = AMTrainRouteImport.update({
+  id: '/train',
+  path: '/train',
+  getParentRoute: () => AMRoute,
+} as any)
+const AMWorkoutRoute = AMWorkoutRouteImport.update({
+  id: '/workout',
+  path: '/workout',
+  getParentRoute: () => AMRoute,
 } as any)
 const ACoachIndexRoute = ACoachIndexRouteImport.update({
   id: '/',
@@ -156,7 +203,13 @@ export interface FileRoutesByFullPath {
   '/a/join': typeof AJoinRoute
   '/w/admin': typeof WAdminRouteWithChildren
   '/w/owner': typeof WOwnerRoute
-  '/a/': typeof AIndexRoute
+  '/a/checkin': typeof AMCheckinRoute
+  '/a/fuel': typeof AMFuelRoute
+  '/a/me': typeof AMMeRoute
+  '/a/progress': typeof AMProgressRoute
+  '/a/settings': typeof AMSettingsRoute
+  '/a/train': typeof AMTrainRoute
+  '/a/workout': typeof AMWorkoutRoute
   '/a/coach/library': typeof ACoachLibraryRoute
   '/w/admin/import': typeof WAdminImportRoute
   '/w/admin/logins': typeof WAdminLoginsRoute
@@ -165,6 +218,7 @@ export interface FileRoutesByFullPath {
   '/w/admin/plans': typeof WAdminPlansRoute
   '/w/admin/settings': typeof WAdminSettingsRoute
   '/w/admin/poster': typeof WAdminPosterRoute
+  '/a/': typeof AMIndexRoute
   '/a/coach/': typeof ACoachIndexRoute
   '/w/': typeof WDeskIndexRoute
   '/w/admin/': typeof WAdminIndexRoute
@@ -174,10 +228,17 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/a': typeof AMIndexRoute
   '/w': typeof WDeskIndexRoute
   '/a/join': typeof AJoinRoute
   '/w/owner': typeof WOwnerRoute
-  '/a': typeof AIndexRoute
+  '/a/checkin': typeof AMCheckinRoute
+  '/a/fuel': typeof AMFuelRoute
+  '/a/me': typeof AMMeRoute
+  '/a/progress': typeof AMProgressRoute
+  '/a/settings': typeof AMSettingsRoute
+  '/a/train': typeof AMTrainRoute
+  '/a/workout': typeof AMWorkoutRoute
   '/a/coach/library': typeof ACoachLibraryRoute
   '/w/admin/import': typeof WAdminImportRoute
   '/w/admin/logins': typeof WAdminLoginsRoute
@@ -197,12 +258,19 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/a': typeof ARouteWithChildren
   '/w': typeof WRouteWithChildren
+  '/a/_m': typeof AMRouteWithChildren
   '/a/coach': typeof ACoachRouteWithChildren
   '/a/join': typeof AJoinRoute
   '/w/_desk': typeof WDeskRouteWithChildren
   '/w/admin': typeof WAdminRouteWithChildren
   '/w/owner': typeof WOwnerRoute
-  '/a/': typeof AIndexRoute
+  '/a/_m/checkin': typeof AMCheckinRoute
+  '/a/_m/fuel': typeof AMFuelRoute
+  '/a/_m/me': typeof AMMeRoute
+  '/a/_m/progress': typeof AMProgressRoute
+  '/a/_m/settings': typeof AMSettingsRoute
+  '/a/_m/train': typeof AMTrainRoute
+  '/a/_m/workout': typeof AMWorkoutRoute
   '/a/coach/library': typeof ACoachLibraryRoute
   '/w/admin/import': typeof WAdminImportRoute
   '/w/admin/logins': typeof WAdminLoginsRoute
@@ -211,6 +279,7 @@ export interface FileRoutesById {
   '/w/admin/plans': typeof WAdminPlansRoute
   '/w/admin/settings': typeof WAdminSettingsRoute
   '/w/admin_/poster': typeof WAdminPosterRoute
+  '/a/_m/': typeof AMIndexRoute
   '/a/coach/': typeof ACoachIndexRoute
   '/w/_desk/': typeof WDeskIndexRoute
   '/w/admin/': typeof WAdminIndexRoute
@@ -228,7 +297,13 @@ export interface FileRouteTypes {
     | '/a/join'
     | '/w/admin'
     | '/w/owner'
-    | '/a/'
+    | '/a/checkin'
+    | '/a/fuel'
+    | '/a/me'
+    | '/a/progress'
+    | '/a/settings'
+    | '/a/train'
+    | '/a/workout'
     | '/a/coach/library'
     | '/w/admin/import'
     | '/w/admin/logins'
@@ -237,6 +312,7 @@ export interface FileRouteTypes {
     | '/w/admin/plans'
     | '/w/admin/settings'
     | '/w/admin/poster'
+    | '/a/'
     | '/a/coach/'
     | '/w/'
     | '/w/admin/'
@@ -246,10 +322,17 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/a'
     | '/w'
     | '/a/join'
     | '/w/owner'
-    | '/a'
+    | '/a/checkin'
+    | '/a/fuel'
+    | '/a/me'
+    | '/a/progress'
+    | '/a/settings'
+    | '/a/train'
+    | '/a/workout'
     | '/a/coach/library'
     | '/w/admin/import'
     | '/w/admin/logins'
@@ -268,12 +351,19 @@ export interface FileRouteTypes {
     | '/'
     | '/a'
     | '/w'
+    | '/a/_m'
     | '/a/coach'
     | '/a/join'
     | '/w/_desk'
     | '/w/admin'
     | '/w/owner'
-    | '/a/'
+    | '/a/_m/checkin'
+    | '/a/_m/fuel'
+    | '/a/_m/me'
+    | '/a/_m/progress'
+    | '/a/_m/settings'
+    | '/a/_m/train'
+    | '/a/_m/workout'
     | '/a/coach/library'
     | '/w/admin/import'
     | '/w/admin/logins'
@@ -282,6 +372,7 @@ export interface FileRouteTypes {
     | '/w/admin/plans'
     | '/w/admin/settings'
     | '/w/admin_/poster'
+    | '/a/_m/'
     | '/a/coach/'
     | '/w/_desk/'
     | '/w/admin/'
@@ -319,11 +410,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/a/': {
-      id: '/a/'
-      path: '/'
-      fullPath: '/a/'
-      preLoaderRoute: typeof AIndexRouteImport
+    '/a/_m': {
+      id: '/a/_m'
+      path: ''
+      fullPath: '/a'
+      preLoaderRoute: typeof AMRouteImport
       parentRoute: typeof ARoute
     }
     '/a/coach': {
@@ -360,6 +451,62 @@ declare module '@tanstack/react-router' {
       fullPath: '/w/owner'
       preLoaderRoute: typeof WOwnerRouteImport
       parentRoute: typeof WRoute
+    }
+    '/a/_m/': {
+      id: '/a/_m/'
+      path: '/'
+      fullPath: '/a/'
+      preLoaderRoute: typeof AMIndexRouteImport
+      parentRoute: typeof AMRoute
+    }
+    '/a/_m/checkin': {
+      id: '/a/_m/checkin'
+      path: '/checkin'
+      fullPath: '/a/checkin'
+      preLoaderRoute: typeof AMCheckinRouteImport
+      parentRoute: typeof AMRoute
+    }
+    '/a/_m/fuel': {
+      id: '/a/_m/fuel'
+      path: '/fuel'
+      fullPath: '/a/fuel'
+      preLoaderRoute: typeof AMFuelRouteImport
+      parentRoute: typeof AMRoute
+    }
+    '/a/_m/me': {
+      id: '/a/_m/me'
+      path: '/me'
+      fullPath: '/a/me'
+      preLoaderRoute: typeof AMMeRouteImport
+      parentRoute: typeof AMRoute
+    }
+    '/a/_m/progress': {
+      id: '/a/_m/progress'
+      path: '/progress'
+      fullPath: '/a/progress'
+      preLoaderRoute: typeof AMProgressRouteImport
+      parentRoute: typeof AMRoute
+    }
+    '/a/_m/settings': {
+      id: '/a/_m/settings'
+      path: '/settings'
+      fullPath: '/a/settings'
+      preLoaderRoute: typeof AMSettingsRouteImport
+      parentRoute: typeof AMRoute
+    }
+    '/a/_m/train': {
+      id: '/a/_m/train'
+      path: '/train'
+      fullPath: '/a/train'
+      preLoaderRoute: typeof AMTrainRouteImport
+      parentRoute: typeof AMRoute
+    }
+    '/a/_m/workout': {
+      id: '/a/_m/workout'
+      path: '/workout'
+      fullPath: '/a/workout'
+      preLoaderRoute: typeof AMWorkoutRouteImport
+      parentRoute: typeof AMRoute
     }
     '/a/coach/': {
       id: '/a/coach/'
@@ -462,6 +609,30 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AMRouteChildren {
+  AMCheckinRoute: typeof AMCheckinRoute
+  AMFuelRoute: typeof AMFuelRoute
+  AMMeRoute: typeof AMMeRoute
+  AMProgressRoute: typeof AMProgressRoute
+  AMSettingsRoute: typeof AMSettingsRoute
+  AMTrainRoute: typeof AMTrainRoute
+  AMWorkoutRoute: typeof AMWorkoutRoute
+  AMIndexRoute: typeof AMIndexRoute
+}
+
+const AMRouteChildren: AMRouteChildren = {
+  AMCheckinRoute: AMCheckinRoute,
+  AMFuelRoute: AMFuelRoute,
+  AMMeRoute: AMMeRoute,
+  AMProgressRoute: AMProgressRoute,
+  AMSettingsRoute: AMSettingsRoute,
+  AMTrainRoute: AMTrainRoute,
+  AMWorkoutRoute: AMWorkoutRoute,
+  AMIndexRoute: AMIndexRoute,
+}
+
+const AMRouteWithChildren = AMRoute._addFileChildren(AMRouteChildren)
+
 interface ACoachRouteChildren {
   ACoachLibraryRoute: typeof ACoachLibraryRoute
   ACoachIndexRoute: typeof ACoachIndexRoute
@@ -478,15 +649,15 @@ const ACoachRouteWithChildren =
   ACoachRoute._addFileChildren(ACoachRouteChildren)
 
 interface ARouteChildren {
+  AMRoute: typeof AMRouteWithChildren
   ACoachRoute: typeof ACoachRouteWithChildren
   AJoinRoute: typeof AJoinRoute
-  AIndexRoute: typeof AIndexRoute
 }
 
 const ARouteChildren: ARouteChildren = {
+  AMRoute: AMRouteWithChildren,
   ACoachRoute: ACoachRouteWithChildren,
   AJoinRoute: AJoinRoute,
-  AIndexRoute: AIndexRoute,
 }
 
 const ARouteWithChildren = ARoute._addFileChildren(ARouteChildren)

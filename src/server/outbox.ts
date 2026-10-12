@@ -9,7 +9,7 @@ import { localDate } from "../lib/dates";
 import type { Json } from "./db.types";
 import { sendEmail } from "./email";
 import { inviteEmail } from "./emails/invite";
-import { coachInviteEmail, nudgeEmail, programEmail, leadEmail, mergeEmail, supportEmail } from "./emails/staff";
+import { coachInviteEmail, nudgeEmail, programEmail, removedEmail, leadEmail, mergeEmail, supportEmail } from "./emails/staff";
 import { env } from "./env";
 import { supabaseAdmin, type DB } from "./supabase";
 
@@ -129,6 +129,12 @@ async function render(db: DB, row: Row): Promise<{ to: string; subject: string; 
       const lang: Lang = isLang(m.lang) ? m.lang : "en";
       const make = row.kind === "program_push" ? programEmail : nudgeEmail;
       return [{ to: m.email, ...make(lang, m.first_name, c?.name ?? "Your coach", origins().app) }];
+    }
+    case "login_removed": {
+      const { data: m } = await db.from("members").select("member_no, first_name, last_name").eq("id", p.member_id).single();
+      if (!m) return [];
+      const mail = removedEmail(m.member_no, `${m.first_name} ${m.last_name}`.trim(), origins().world);
+      return (await adminEmails(db)).map((to) => ({ to, ...mail }));
     }
     default:
       return null; // handled by a later phase

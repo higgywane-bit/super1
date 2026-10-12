@@ -1,5 +1,18 @@
 # Changelog
 
+## Phase 5 · Member app (super1.app)
+
+- Installable PWA (`manifest-app.webmanifest`), phone-first, the same minimal style: tab bar Home / Train / Fuel / Me.
+- Sign-in from the invite email by code; the first sign-in links the login to the member by the invited email (`member_link_me`).
+- Home: coach news (a new program or note), today's workout (the day after the last one trained), days left, PT left, daily check-in, today's targets.
+- Train: each program's days with last-time weights, "Start my own workout", Progress (top set per exercise over time, personal bests, recent workouts).
+- Live workout: kg / reps (or seconds) steppers pre-filled from last time, tick a set → rest timer (45–180 s), next exercise, note, finish. Kept on the phone as you go and queued if offline; saving is idempotent, so a retry never doubles it (`member_save_workout`). Done screen: ring, sets, PR badges ("+2.5 kg").
+- Fuel: the coach's targets and picks, the café by category with photos and prices; item sheet with add-ons, quantity, macros only when Pete has checked them ("Macros being verified" otherwise); "Show at the counter" order card priced by the server (`member_cafe_order` → `cafe_orders`).
+- Daily check-in (today, editable until tomorrow), Me (days left, plan and end date, tag, the member QR credential that scans at the desk, PT pack, visits), Settings (language EN/ไทย/Русский, sign out, Delete my app login: the login is unlinked and closed, the gym's records stay, Pete gets an email).
+- Live: program versions, targets, notes, picks and PT sessions refresh Home without a reload.
+- Database `0009_member.sql` (member read models and actions, a guard on logged workouts) with 22 new checks; pure rules in `src/lib/workout.ts` with tests; photos fall back to an icon tile when an image is missing.
+- Phase 5 Playwright demo: Emma's invite arrives → she signs in → days left and PT sessions → daily check-in → Day A with one more plate on the bench → PR badge → her member QR scans her in at the desk → Sunman sees "Trained today" and today's check-in.
+
 ## Phase 4 · Coach portal (super1.app/coach)
 
 - Minimal by design: people first, tap to open, one action per screen. Sidebar: Clients and leads (new-lead badge), Exercise library.

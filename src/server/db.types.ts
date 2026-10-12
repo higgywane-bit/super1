@@ -1096,14 +1096,38 @@ isOneToOne: false
 "mark_abandoned_signups":
 { Args: Record<PropertyKey, never>; Returns: number
                            },
+"member_cafe_order":
+{ Args: { "p_items": Json }; Returns: Json
+                           },
 "member_card":
 { Args: { "p_member": string,"p_today"?: string }; Returns: Json
+                           },
+"member_checkin":
+{ Args: { "p_date": string,"p_digestion": number,"p_energy": number,"p_note"?: string,"p_sleep": number,"p_steps": number,"p_water": number,"p_weight": number }; Returns: Json
                            },
 "member_checkin_streak":
 { Args: { "p_root": string,"p_today"?: string }; Returns: Json
                            },
+"member_home":
+{ Args: { "p_day"?: string }; Returns: Json
+                           },
+"member_link_me":
+{ Args: Record<PropertyKey, never>; Returns: Json
+                           },
+"member_progress":
+{ Args: Record<PropertyKey, never>; Returns: Json
+                           },
+"member_qr":
+{ Args: Record<PropertyKey, never>; Returns: string
+                           },
 "member_root":
 { Args: { "p_member": string }; Returns: string
+                           },
+"member_save_workout":
+{ Args: { "p_day_name": string,"p_finished": string,"p_id": string,"p_note"?: string,"p_program_version"?: string,"p_sets": Json,"p_started": string }; Returns: Json
+                           },
+"member_unlink_me":
+{ Args: Record<PropertyKey, never>; Returns: Json
                            },
 "merge_members":
 { Args: { "p_request": string }; Returns: Json

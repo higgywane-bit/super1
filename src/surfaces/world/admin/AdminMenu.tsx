@@ -1,13 +1,13 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Camera, Coffee } from "lucide-react";
+import { Camera } from "lucide-react";
 import { useRef, useState } from "react";
 import { admin, type MenuItem } from "../../../client/admin";
 import { toUiError } from "../../../client/errors";
-import { storageUrl } from "../../../client/supabase";
 import { Button, Card, Field, Icon, Label, Sheet, Switch, TextArea, useToast } from "../../../components/kit";
 import { useI18n } from "../../../i18n";
 import { baht } from "../../../i18n/format";
 import { useViewer } from "../../shared/Gate";
+import { Photo } from "../../shared/Photo";
 import { PageHeader } from "../StaffSidebar";
 
 const DRAFTS = "__drafts";
@@ -70,12 +70,9 @@ export function AdminMenu() {
         {shown.length === 0 && <p style={{ padding: 18, margin: 0, color: "var(--text-secondary)" }}>{t("admin.empty")}</p>}
         {shown.map((i, n) => {
           const sub = [(lang === "th" ? i.name_en : i.name_th) || null, i.desc_en || "—"].filter(Boolean).join(" · ");
-          const photo = storageUrl(i.photo_path);
           return (
             <div key={i.id} style={{ display: "flex", alignItems: "center", gap: 14, padding: "10px 16px", borderTop: n ? "1px solid var(--hairline)" : undefined, flexWrap: "wrap" }}>
-              <span style={{ width: 48, height: 48, borderRadius: "var(--radius-sm)", background: "var(--surface-3)", overflow: "hidden", display: "grid", placeItems: "center", flex: "none" }}>
-                {photo ? <img src={photo} alt="" width={48} height={48} style={{ objectFit: "cover", width: 48, height: 48 }} /> : <Icon icon={Coffee} size={20} />}
-              </span>
+              <Photo path={i.photo_path} size={48} />
               <div style={{ display: "flex", flexDirection: "column", gap: 2, minWidth: 0, flex: "1 1 220px" }}>
                 <span style={{ font: "600 16px/21px var(--font-sans)" }}>{(lang === "th" && i.name_th) || (lang === "ru" && i.name_ru) || i.name_en}</span>
                 <span style={{ font: "500 13px/18px var(--font-sans)", color: "var(--text-secondary)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{sub}</span>
@@ -208,7 +205,6 @@ function MenuEditor({ item, onClose, onSaved }: { item: MenuItem | null; onClose
     }
   }
 
-  const photo = storageUrl(d?.photo_path);
   return (
     <Sheet open={!!item} onClose={onClose} title={item ? t("menu.editTitle", { name: item.name_en }) : ""} width={560}>
       {item && d && (
@@ -217,9 +213,7 @@ function MenuEditor({ item, onClose, onSaved }: { item: MenuItem | null; onClose
             {t("menu.editTitle", { name: item.name_en })}
           </h2>
           <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
-            <span style={{ width: 88, height: 88, borderRadius: "var(--radius-tile)", background: "var(--surface-3)", overflow: "hidden", display: "grid", placeItems: "center" }}>
-              {photo ? <img src={photo} alt="" width={88} height={88} style={{ objectFit: "cover", width: 88, height: 88 }} /> : <Icon icon={Coffee} />}
-            </span>
+            <Photo path={d.photo_path} size={88} radius="var(--radius-tile)" />
             <input
               ref={file}
               type="file"
