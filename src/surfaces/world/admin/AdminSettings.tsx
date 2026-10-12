@@ -123,6 +123,9 @@ export function AdminSettings() {
               <Button size="sm" variant="plain" style={{ alignSelf: "flex-start", color: "var(--foreground)", paddingLeft: 0 }} onClick={() => void navigate({ to: "/w/admin/poster" })}>
                 {t("settings.poster")}
               </Button>
+              <Button size="sm" variant="plain" style={{ alignSelf: "flex-start", color: "var(--foreground)", paddingLeft: 0 }} onClick={() => void navigate({ to: "/w/admin/guide" })}>
+                {t("guide.download")}
+              </Button>
             </div>
           </Card>
           <Card style={{ padding: 0, overflow: "hidden" }}>

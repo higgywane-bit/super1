@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Push notifications (FCM via APNs). Xcode switches this to "production" for App Store builds. -->
+	<key>aps-environment</key>
+	<string>development</string>
+	<!-- Deep links: super1.app links open the app. Verified by /.well-known/apple-app-site-association. -->
+	<key>com.apple.developer.associated-domains</key>
+	<array>
+		<string>applinks:super1.app</string>
+	</array>
+</dict>
+</plist>

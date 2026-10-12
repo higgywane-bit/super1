@@ -13,6 +13,8 @@ export type Env = {
   CRON_SECRET?: string;
   /** "noreply" style sender, defaults to SUPER1 <hello@super1.app> (docs/11 #17). */
   EMAIL_FROM?: string;
+  /** Firebase service account JSON for push to the iOS / Android shells (FCM HTTP v1). Unset: no pushes. */
+  FCM_SERVICE_ACCOUNT?: string;
   /** Local development only: deliver email to Mailpit instead of Resend. */
   MAILPIT_URL?: string;
 };

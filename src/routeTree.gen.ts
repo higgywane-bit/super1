@@ -15,6 +15,7 @@ import { Route as WRouteImport } from './routes/w'
 import { Route as AMRouteImport } from './routes/a/_m'
 import { Route as ACoachRouteImport } from './routes/a/coach'
 import { Route as AJoinRouteImport } from './routes/a/join'
+import { Route as APrivacyRouteImport } from './routes/a/privacy'
 import { Route as WDeskRouteImport } from './routes/w/_desk'
 import { Route as WAdminRouteImport } from './routes/w/admin'
 import { Route as WOwnerRouteImport } from './routes/w/owner'
@@ -36,6 +37,7 @@ import { Route as WAdminMenuRouteImport } from './routes/w/admin/menu'
 import { Route as WAdminPeopleRouteImport } from './routes/w/admin/people'
 import { Route as WAdminPlansRouteImport } from './routes/w/admin/plans'
 import { Route as WAdminSettingsRouteImport } from './routes/w/admin/settings'
+import { Route as WAdminGuideRouteImport } from './routes/w/admin_.guide'
 import { Route as WAdminPosterRouteImport } from './routes/w/admin_.poster'
 import { Route as ACoachClientsMemberIdRouteImport } from './routes/a/coach/clients.$memberId'
 import { Route as WDeskMembersIndexRouteImport } from './routes/w/_desk/members.index'
@@ -68,6 +70,11 @@ const ACoachRoute = ACoachRouteImport.update({
 const AJoinRoute = AJoinRouteImport.update({
   id: '/join',
   path: '/join',
+  getParentRoute: () => ARoute,
+} as any)
+const APrivacyRoute = APrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => ARoute,
 } as any)
 const WDeskRoute = WDeskRouteImport.update({
@@ -174,6 +181,11 @@ const WAdminSettingsRoute = WAdminSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => WAdminRoute,
 } as any)
+const WAdminGuideRoute = WAdminGuideRouteImport.update({
+  id: '/admin_/guide',
+  path: '/admin/guide',
+  getParentRoute: () => WRoute,
+} as any)
 const WAdminPosterRoute = WAdminPosterRouteImport.update({
   id: '/admin_/poster',
   path: '/admin/poster',
@@ -201,6 +213,7 @@ export interface FileRoutesByFullPath {
   '/w': typeof WRouteWithChildren
   '/a/coach': typeof ACoachRouteWithChildren
   '/a/join': typeof AJoinRoute
+  '/a/privacy': typeof APrivacyRoute
   '/w/admin': typeof WAdminRouteWithChildren
   '/w/owner': typeof WOwnerRoute
   '/a/checkin': typeof AMCheckinRoute
@@ -217,6 +230,7 @@ export interface FileRoutesByFullPath {
   '/w/admin/people': typeof WAdminPeopleRoute
   '/w/admin/plans': typeof WAdminPlansRoute
   '/w/admin/settings': typeof WAdminSettingsRoute
+  '/w/admin/guide': typeof WAdminGuideRoute
   '/w/admin/poster': typeof WAdminPosterRoute
   '/a/': typeof AMIndexRoute
   '/a/coach/': typeof ACoachIndexRoute
@@ -231,6 +245,7 @@ export interface FileRoutesByTo {
   '/a': typeof AMIndexRoute
   '/w': typeof WDeskIndexRoute
   '/a/join': typeof AJoinRoute
+  '/a/privacy': typeof APrivacyRoute
   '/w/owner': typeof WOwnerRoute
   '/a/checkin': typeof AMCheckinRoute
   '/a/fuel': typeof AMFuelRoute
@@ -246,6 +261,7 @@ export interface FileRoutesByTo {
   '/w/admin/people': typeof WAdminPeopleRoute
   '/w/admin/plans': typeof WAdminPlansRoute
   '/w/admin/settings': typeof WAdminSettingsRoute
+  '/w/admin/guide': typeof WAdminGuideRoute
   '/w/admin/poster': typeof WAdminPosterRoute
   '/a/coach': typeof ACoachIndexRoute
   '/w/admin': typeof WAdminIndexRoute
@@ -261,6 +277,7 @@ export interface FileRoutesById {
   '/a/_m': typeof AMRouteWithChildren
   '/a/coach': typeof ACoachRouteWithChildren
   '/a/join': typeof AJoinRoute
+  '/a/privacy': typeof APrivacyRoute
   '/w/_desk': typeof WDeskRouteWithChildren
   '/w/admin': typeof WAdminRouteWithChildren
   '/w/owner': typeof WOwnerRoute
@@ -278,6 +295,7 @@ export interface FileRoutesById {
   '/w/admin/people': typeof WAdminPeopleRoute
   '/w/admin/plans': typeof WAdminPlansRoute
   '/w/admin/settings': typeof WAdminSettingsRoute
+  '/w/admin_/guide': typeof WAdminGuideRoute
   '/w/admin_/poster': typeof WAdminPosterRoute
   '/a/_m/': typeof AMIndexRoute
   '/a/coach/': typeof ACoachIndexRoute
@@ -295,6 +313,7 @@ export interface FileRouteTypes {
     | '/w'
     | '/a/coach'
     | '/a/join'
+    | '/a/privacy'
     | '/w/admin'
     | '/w/owner'
     | '/a/checkin'
@@ -311,6 +330,7 @@ export interface FileRouteTypes {
     | '/w/admin/people'
     | '/w/admin/plans'
     | '/w/admin/settings'
+    | '/w/admin/guide'
     | '/w/admin/poster'
     | '/a/'
     | '/a/coach/'
@@ -325,6 +345,7 @@ export interface FileRouteTypes {
     | '/a'
     | '/w'
     | '/a/join'
+    | '/a/privacy'
     | '/w/owner'
     | '/a/checkin'
     | '/a/fuel'
@@ -340,6 +361,7 @@ export interface FileRouteTypes {
     | '/w/admin/people'
     | '/w/admin/plans'
     | '/w/admin/settings'
+    | '/w/admin/guide'
     | '/w/admin/poster'
     | '/a/coach'
     | '/w/admin'
@@ -354,6 +376,7 @@ export interface FileRouteTypes {
     | '/a/_m'
     | '/a/coach'
     | '/a/join'
+    | '/a/privacy'
     | '/w/_desk'
     | '/w/admin'
     | '/w/owner'
@@ -371,6 +394,7 @@ export interface FileRouteTypes {
     | '/w/admin/people'
     | '/w/admin/plans'
     | '/w/admin/settings'
+    | '/w/admin_/guide'
     | '/w/admin_/poster'
     | '/a/_m/'
     | '/a/coach/'
@@ -429,6 +453,13 @@ declare module '@tanstack/react-router' {
       path: '/join'
       fullPath: '/a/join'
       preLoaderRoute: typeof AJoinRouteImport
+      parentRoute: typeof ARoute
+    }
+    '/a/privacy': {
+      id: '/a/privacy'
+      path: '/privacy'
+      fullPath: '/a/privacy'
+      preLoaderRoute: typeof APrivacyRouteImport
       parentRoute: typeof ARoute
     }
     '/w/_desk': {
@@ -578,6 +609,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WAdminSettingsRouteImport
       parentRoute: typeof WAdminRoute
     }
+    '/w/admin_/guide': {
+      id: '/w/admin_/guide'
+      path: '/admin/guide'
+      fullPath: '/w/admin/guide'
+      preLoaderRoute: typeof WAdminGuideRouteImport
+      parentRoute: typeof WRoute
+    }
     '/w/admin_/poster': {
       id: '/w/admin_/poster'
       path: '/admin/poster'
@@ -652,12 +690,14 @@ interface ARouteChildren {
   AMRoute: typeof AMRouteWithChildren
   ACoachRoute: typeof ACoachRouteWithChildren
   AJoinRoute: typeof AJoinRoute
+  APrivacyRoute: typeof APrivacyRoute
 }
 
 const ARouteChildren: ARouteChildren = {
   AMRoute: AMRouteWithChildren,
   ACoachRoute: ACoachRouteWithChildren,
   AJoinRoute: AJoinRoute,
+  APrivacyRoute: APrivacyRoute,
 }
 
 const ARouteWithChildren = ARoute._addFileChildren(ARouteChildren)
@@ -703,6 +743,7 @@ interface WRouteChildren {
   WDeskRoute: typeof WDeskRouteWithChildren
   WAdminRoute: typeof WAdminRouteWithChildren
   WOwnerRoute: typeof WOwnerRoute
+  WAdminGuideRoute: typeof WAdminGuideRoute
   WAdminPosterRoute: typeof WAdminPosterRoute
 }
 
@@ -710,6 +751,7 @@ const WRouteChildren: WRouteChildren = {
   WDeskRoute: WDeskRouteWithChildren,
   WAdminRoute: WAdminRouteWithChildren,
   WOwnerRoute: WOwnerRoute,
+  WAdminGuideRoute: WAdminGuideRoute,
   WAdminPosterRoute: WAdminPosterRoute,
 }
 

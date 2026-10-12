@@ -1,4 +1,5 @@
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { coach } from "../../../client/coach";
 import { useNavigate } from "@tanstack/react-router";
 import { Check, Plus, Timer, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
@@ -6,6 +7,7 @@ import { flushWorkouts, queueWorkout, queuedWorkouts, type SavedWorkout } from "
 import { Button, Icon, Input, Stepper } from "../../../components/kit";
 import { useI18n } from "../../../i18n";
 import { buildSession, gainText, REST_CHOICES, setsToSave, type LiveExercise } from "../../../lib/workout";
+import { ExerciseMedia } from "../../shared/ExerciseMedia";
 import { ExercisePicker } from "../coach/ProgramTab";
 import { useMemberHome } from "./useMember";
 
@@ -59,6 +61,8 @@ export function LivePage({ programId, day }: { programId?: string; day?: number 
   }, [rest]);
 
   const ex = live.ex[live.i];
+  const library = useQuery({ queryKey: ["coach", "exercises"], queryFn: coach.exercises, staleTime: 300_000 });
+  const media = new Map((library.data ?? []).filter((e) => e.media_path).map((e) => [e.id, e.media_path!]));
   const update = (f: (l: Live) => Live) => setLive((l) => f(structuredClone(l)));
   const last = ex ? h.last[ex.exercise_id ?? ""] ?? h.last[ex.name.toLowerCase()] : undefined;
 
@@ -138,6 +142,7 @@ export function LivePage({ programId, day }: { programId?: string; day?: number 
 
       {ex && (
         <>
+          <ExerciseMedia path={media.get(ex.exercise_id ?? "")} height={180} />
           <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
             <span style={{ font: "500 14px/19px var(--font-sans)", color: "var(--text-secondary)" }}>
               {live.i + 1} / {live.ex.length} · {ex.target}

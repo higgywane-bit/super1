@@ -236,14 +236,14 @@ isOneToOne: false
                   ]
                 },"exercises": {
                   Row: {
-                    "archived_at": string | null,"coach_id": string | null,"created_at": string,"cue": string | null,"default_minutes": number | null,"default_reps": number | null,"default_seconds": number | null,"default_sets": number,"equipment": string,"id": string,"legacy_id": string | null,"log_type": string,"muscle": string,"muscle_group": string,"name": string,"slug": string | null,"video_url": string | null
+                    "archived_at": string | null,"coach_id": string | null,"created_at": string,"cue": string | null,"default_minutes": number | null,"default_reps": number | null,"default_seconds": number | null,"default_sets": number,"equipment": string,"id": string,"legacy_id": string | null,"log_type": string,"media_path": string | null,"muscle": string,"muscle_group": string,"name": string,"slug": string | null,"video_url": string | null
                   }
                   ComputedFields: never
                   Insert: {
-                    "archived_at"?: string | null,"coach_id"?: string | null,"created_at"?: string,"cue"?: string | null,"default_minutes"?: number | null,"default_reps"?: number | null,"default_seconds"?: number | null,"default_sets"?: number,"equipment": string,"id"?: string,"legacy_id"?: string | null,"log_type": string,"muscle"?: string,"muscle_group": string,"name": string,"slug"?: string | null,"video_url"?: string | null
+                    "archived_at"?: string | null,"coach_id"?: string | null,"created_at"?: string,"cue"?: string | null,"default_minutes"?: number | null,"default_reps"?: number | null,"default_seconds"?: number | null,"default_sets"?: number,"equipment": string,"id"?: string,"legacy_id"?: string | null,"log_type": string,"media_path"?: string | null,"muscle"?: string,"muscle_group": string,"name": string,"slug"?: string | null,"video_url"?: string | null
                   }
                   Update: {
-                    "archived_at"?: string | null,"coach_id"?: string | null,"created_at"?: string,"cue"?: string | null,"default_minutes"?: number | null,"default_reps"?: number | null,"default_seconds"?: number | null,"default_sets"?: number,"equipment"?: string,"id"?: string,"legacy_id"?: string | null,"log_type"?: string,"muscle"?: string,"muscle_group"?: string,"name"?: string,"slug"?: string | null,"video_url"?: string | null
+                    "archived_at"?: string | null,"coach_id"?: string | null,"created_at"?: string,"cue"?: string | null,"default_minutes"?: number | null,"default_reps"?: number | null,"default_seconds"?: number | null,"default_sets"?: number,"equipment"?: string,"id"?: string,"legacy_id"?: string | null,"log_type"?: string,"media_path"?: string | null,"muscle"?: string,"muscle_group"?: string,"name"?: string,"slug"?: string | null,"video_url"?: string | null
                   }
                   Relationships: [
                     {
@@ -720,6 +720,20 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"push_tokens": {
+                  Row: {
+                    "created_at": string,"id": string,"last_seen_at": string,"platform": string,"revoked_at": string | null,"token": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"id"?: string,"last_seen_at"?: string,"platform": string,"revoked_at"?: string | null,"token": string,"user_id": string
+                  }
+                  Update: {
+                    "created_at"?: string,"id"?: string,"last_seen_at"?: string,"platform"?: string,"revoked_at"?: string | null,"token"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    
+                  ]
                 },"qashier_imports": {
                   Row: {
                     "business_date": string,"checks": NonNullable<Json>,"cost": number,"file_name": string,"file_sha256": string,"gross_profit": number | null,"id": string,"imported_at": string,"imported_by": string | null,"net_sales": number,"raw": NonNullable<Json>,"store": string,"superseded_at": string | null,"total_sales": number,"transactions": number,"vat": number,"version": number,"voided_transactions": number
@@ -1187,6 +1201,12 @@ isOneToOne: false
                            },
 "qashier_import":
 { Args: { "p_day": Json,"p_lines": Json,"p_user": string }; Returns: Json
+                           },
+"queue_renewal_reminders":
+{ Args: { "p_day"?: string }; Returns: number
+                           },
+"register_push":
+{ Args: { "p_platform": string,"p_token": string }; Returns: undefined
                            },
 "reject_merge":
 { Args: { "p_note"?: string,"p_request": string }; Returns: undefined

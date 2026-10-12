@@ -4,13 +4,15 @@
  * Rows are claimed with SKIP LOCKED, sent once (Resend idempotency key = outbox id), stamped sent_at;
  * failures keep last_error and are retried, up to 8 attempts.
  */
-import { isLang, type Lang } from "../i18n";
+import { isLang, translate, type Lang } from "../i18n";
+import { dayLabel } from "../i18n/format";
 import { localDate } from "../lib/dates";
 import type { Json } from "./db.types";
 import { sendEmail } from "./email";
 import { inviteEmail } from "./emails/invite";
-import { coachInviteEmail, nudgeEmail, programEmail, removedEmail, leadEmail, mergeEmail, supportEmail } from "./emails/staff";
+import { coachInviteEmail, nudgeEmail, programEmail, removedEmail, renewalEmail, leadEmail, mergeEmail, supportEmail } from "./emails/staff";
 import { env } from "./env";
+import { pushToMember } from "./push";
 import { supabaseAdmin, type DB } from "./supabase";
 
 type Row = { id: number; kind: string; payload: Json; attempts: number };
@@ -123,12 +125,36 @@ async function render(db: DB, row: Row): Promise<{ to: string; subject: string; 
     case "program_push":
     case "coach_nudge": {
       const { data: m } = await db.from("members").select("first_name, email, lang").eq("id", p.member_id).single();
-      if (!m?.email) return []; // no email yet: the app shows it when they sign in
+      if (!m) return [];
       const coachId = p.coach_id ?? (await db.from("programs").select("coach_id").eq("member_id", p.member_id).not("coach_id", "is", null).limit(1).maybeSingle()).data?.coach_id;
       const { data: c } = coachId ? await db.from("coaches").select("name").eq("id", coachId).maybeSingle() : { data: null };
       const lang: Lang = isLang(m.lang) ? m.lang : "en";
-      const make = row.kind === "program_push" ? programEmail : nudgeEmail;
-      return [{ to: m.email, ...make(lang, m.first_name, c?.name ?? "Your coach", origins().app) }];
+      const coach = c?.name ?? "Your coach";
+      const program = row.kind === "program_push";
+      await pushToMember(p.member_id, translate(lang, program ? "push.program" : "push.nudge", { coach }), translate(lang, program ? "push.programBody" : "push.nudgeBody"), program ? "/train" : "/checkin").catch(() => 0);
+      if (!m.email) return []; // no email yet: the app shows it when they sign in
+      const make = program ? programEmail : nudgeEmail;
+      return [{ to: m.email, ...make(lang, m.first_name, coach, origins().app) }];
+    }
+    case "pt_push": {
+      const { data: s } = await db.from("pt_sessions").select("member_id, undone_at, memberships(sessions_total, sessions_used), coaches(name)").eq("id", p.session_id).maybeSingle();
+      if (!s || s.undone_at) return [];
+      const { data: m } = await db.from("members").select("lang").eq("id", s.member_id).single();
+      const lang: Lang = isLang(m?.lang) ? m.lang : "en";
+      const pack = s.memberships as unknown as { sessions_total: number; sessions_used: number } | null;
+      const coach = (s.coaches as unknown as { name: string } | null)?.name ?? "";
+      if (pack) await pushToMember(s.member_id, translate(lang, "push.pt"), translate(lang, "push.ptBody", { left: pack.sessions_total - pack.sessions_used, total: pack.sessions_total, coach }), "/me").catch(() => 0);
+      return [];
+    }
+    case "renewal_reminder": {
+      const { data: m } = await db.from("members").select("first_name, email, lang").eq("id", p.member_id).single();
+      if (!m?.email) return [];
+      const lang: Lang = isLang(p.lang) ? p.lang : isLang(m.lang) ? m.lang : "en";
+      const { data: plan } = await db.from("memberships").select("plan_name").eq("kind", "membership").eq("ends_on", p.ends_on).is("voided_at", null).in("member_id", (await db.from("members").select("id").eq("root_id", p.member_id)).data?.map((x) => x.id) ?? []).limit(1).maybeSingle();
+      const when = (["before_7", "before_1", "after_3"] as const).find((w) => w === p.when) ?? "before_7";
+      const mail = renewalEmail(lang, when, { name: m.first_name, plan: plan?.plan_name ?? "", date: dayLabel(p.ends_on, lang) }, origins().app);
+      await pushToMember(p.member_id, mail.subject, mail.text.split("\n")[0], "/me").catch(() => 0);
+      return [{ to: m.email, ...mail }];
     }
     case "login_removed": {
       const { data: m } = await db.from("members").select("member_no, first_name, last_name").eq("id", p.member_id).single();

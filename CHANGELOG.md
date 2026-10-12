@@ -1,5 +1,17 @@
 # Changelog
 
+## Phase 6 · Launch
+
+- iOS and Android shells (Capacitor 7: `capacitor.config.ts`, `ios/`, `android/`) around super1.app, so a web deploy reaches every install. Push notifications through Firebase Cloud Messaging on both platforms (`register_push` → `push_tokens`; the worker sends with `FCM_SERVICE_ACCOUNT`, and without it skips push and still emails), full brightness while the member QR is open, deep links (`applinks:super1.app`, Android app links, `/.well-known/*`). In a browser the bridge (`src/client/native.ts`) does nothing.
+- Pushes: a new program, a coach's nudge, every PT session ("5 of 10 sessions left with Sunman"), renewal reminders. Tapping one opens the right screen.
+- Nightly renewal reminders: 7 and 1 days before the cover ends and a win-back 3 days after (skipped when the next plan is already queued), once each, in the member's language, by email and push (`queue_renewal_reminders`, outbox `renewal_reminder`).
+- Privacy policy at super1.app/privacy (PDPA) in EN/TH/RU, linked from Settings and the store listings. "Delete my app login" (phase 5) matches open question 21: the login is closed and unlinked, the gym's records stay, Pete is told.
+- Store listings in English and Thai, privacy labels, review notes and the one-time Firebase / Apple / Play setup in `docs/STORE.md`.
+- Counter onboarding kit: the QR stand poster and a printable staff one-pager in English and Thai (A06 → Staff one-pager), covering shift, scan, new customers, linking an existing member's tag, and PT.
+- Exercise media: `exercises.media_path`, short loops or stills in the `exercises` bucket, shown in the coach library and the live workout; `npm run exercise:media -- --dir <folder>` uploads files named by exercise slug.
+- Database `0010_launch.sql` with 9 new checks. Phase 6 Playwright demo: Somchai links his tag at the counter → the desk confirms → the invite arrives → he signs in → his app QR checks him in at the desk.
+- Still with Pete: the Apple / Google / Firebase accounts and keys (`docs/STORE.md`), the store submissions, replacing `APPLE_TEAM_ID` and `PLAY_APP_SIGNING_SHA256`, and recording the exercise loops.
+
 ## Phase 5 · Member app (super1.app)
 
 - Installable PWA (`manifest-app.webmanifest`), phone-first, the same minimal style: tab bar Home / Train / Fuel / Me.

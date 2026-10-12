@@ -102,6 +102,7 @@ export type Exercise = {
   default_seconds: number | null;
   coach_id: string | null;
   cue: string | null;
+  media_path?: string | null;
 };
 export type CafeItem = { id: string; category_id: string; name_en: string; name_th: string | null; desc_en: string | null; price_thb: number; sort: number };
 export type UseResult = { session_id: string; left: number; total: number; ends_on: string };
@@ -129,11 +130,11 @@ export const coach = {
     must(
       await sb()
         .from("exercises")
-        .select("id, name, muscle_group, muscle, equipment, log_type, default_sets, default_reps, default_seconds, coach_id, cue")
+        .select("id, name, muscle_group, muscle, equipment, log_type, default_sets, default_reps, default_seconds, coach_id, cue, media_path")
         .is("archived_at", null)
         .order("name"),
     ) as Exercise[],
-  addExercise: async (coachId: string, e: Omit<Exercise, "id" | "coach_id">) => must(await sb().from("exercises").insert({ ...e, coach_id: coachId }).select("id").single()),
+  addExercise: async (coachId: string, e: Omit<Exercise, "id" | "coach_id" | "media_path">) => must(await sb().from("exercises").insert({ ...e, coach_id: coachId }).select("id").single()),
   cafe: async (): Promise<CafeItem[]> =>
     must(await sb().from("menu_items").select("id, category_id, name_en, name_th, desc_en, price_thb, sort").is("archived_at", null).eq("in_app", true).eq("is_draft", false).order("sort")) as CafeItem[],
 };

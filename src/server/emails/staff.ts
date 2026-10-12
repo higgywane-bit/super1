@@ -54,3 +54,12 @@ export function removedEmail(no: number, name: string, worldOrigin: string) {
   const html = layout("en", h1(subject) + p(line), FOOTER, `${worldOrigin}/brand/super1-wordmark.png`);
   return { subject, html, text: line };
 }
+
+/** To a member: renewal reminder 7 / 1 days before the end, or the win-back 3 days after (outbox `renewal_reminder`). */
+export function renewalEmail(lang: Lang, when: "before_7" | "before_1" | "after_3", vars: { name: string; plan: string; date: string }, appOrigin: string) {
+  const t = (k: Parameters<typeof translate>[1]) => translate(lang, k, vars);
+  const subject = t(`email.renew.${when}.subject`);
+  const body = t(`email.renew.${when}.body`);
+  const html = layout(lang, h1(subject) + p(body) + button(t("email.renew.button"), `${appOrigin}/`), FOOTER, `${appOrigin}/brand/super1-wordmark.png`);
+  return { subject, html, text: `${body}\n\n${appOrigin}/` };
+}

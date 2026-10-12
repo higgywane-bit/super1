@@ -13,3 +13,6 @@ supabase/.temp
 test-results
 playwright-report
 migration-report.md
+# Capacitor: native build output and the Firebase config (added by Pete per docs/STORE.md)
+android/app/google-services.json
+ios/App/App/GoogleService-Info.plist

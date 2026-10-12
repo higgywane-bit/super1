@@ -33,6 +33,9 @@ export function SettingsPage() {
         <span style={{ font: "600 16px/21px var(--font-sans)" }}>{t("m.notifications")}</span>
         <span style={{ font: "500 14px/19px var(--font-sans)", color: "var(--text-secondary)" }}>{t("m.notificationsSub")}</span>
       </Card>
+      <a href="/privacy" className="s1-btn s1-btn--plain" style={{ alignSelf: "flex-start", paddingLeft: 0, color: "var(--text-secondary)", textDecoration: "none" }}>
+        {t("privacy.link")}
+      </a>
       <Button variant="secondary" size="lg" block onClick={() => void signOut(router)}>
         {t("m.signOut")}
       </Button>

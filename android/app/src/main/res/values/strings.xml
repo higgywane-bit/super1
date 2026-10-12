@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">SUPER1</string>
+    <string name="title_activity_main">SUPER1</string>
+    <string name="package_name">app.super1.member</string>
+    <string name="custom_url_scheme">app.super1.member</string>
+</resources>

@@ -22,7 +22,7 @@ export const SURFACE_PREFIX: Record<Surface, string> = { world: "/w", app: "/a" 
 /** Paths that belong to one surface only. "/" belongs to whichever host you're on. */
 const OWN_PATHS: Record<Surface, string[]> = {
   world: ["/owner", "/admin", "/desk"],
-  app: ["/join", "/coach"],
+  app: ["/join", "/coach", "/privacy"],
 };
 
 const PRODUCTION: Record<Surface, string> = { world: "super1.world", app: "super1.app" };

@@ -1,0 +1,10 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["APPLE_TEAM_ID.app.super1.member"],
+        "components": [{ "/": "/*", "comment": "Every super1.app link opens the app when it's installed" }]
+      }
+    ]
+  }
+}

@@ -5,6 +5,7 @@ import { coach, type Exercise } from "../../../client/coach";
 import { toUiError } from "../../../client/errors";
 import { Button, Card, Field, Icon, Input, Label, Segmented, Sheet, Stepper, useToast } from "../../../components/kit";
 import { useI18n } from "../../../i18n";
+import { ExerciseMedia } from "../../shared/ExerciseMedia";
 import { PageHeader } from "../../world/StaffSidebar";
 import { useCoachHome } from "./useCoach";
 
@@ -70,6 +71,7 @@ export function LibraryPage() {
         <Card style={{ padding: 0, overflow: "hidden" }}>
           {shown.map((e, i) => (
             <div key={e.id} data-testid="exercise-card" style={{ display: "flex", alignItems: "center", gap: 14, padding: "12px 16px", boxShadow: i ? "inset 0 1px 0 var(--hairline)" : undefined }}>
+              {e.media_path && <span style={{ width: 48, flex: "none" }}><ExerciseMedia path={e.media_path} height={48} radius="var(--radius-sm)" /></span>}
               <span style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", gap: 2 }}>
                 <span style={{ font: "600 15px/20px var(--font-sans)" }}>{e.name}</span>
                 <span style={{ font: "500 13px/18px var(--font-sans)", color: e.coach_id ? "var(--s1-pink)" : "var(--text-secondary)" }}>

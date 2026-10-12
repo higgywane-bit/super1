@@ -1,6 +1,7 @@
 import { useNavigate, useRouterState } from "@tanstack/react-router";
 import { Dumbbell, House, Salad, UserRound } from "lucide-react";
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
+import { setupNativeApp } from "../../../client/native";
 import { Card, Icon, TabBar } from "../../../components/kit";
 import { useT } from "../../../i18n";
 import { useMemberHome, useMemberLink, useMemberLive } from "./useMember";
@@ -16,6 +17,14 @@ export function MemberShell({ children }: { children: ReactNode }) {
   const link = useMemberLink();
   const home = useMemberHome();
   useMemberLive();
+  useEffect(() => {
+    // In the iOS / Android shell: push notifications and deep links ("/train" → /a/train inside the router).
+    void setupNativeApp((p) => {
+      const [path, search = ""] = p.split("?");
+      const internal = path.startsWith("/a") ? path : `/a${path === "/" ? "" : path}`;
+      void navigate({ href: `${internal}${search ? `?${search}` : ""}` });
+    }).catch(() => undefined);
+  }, [navigate]);
   const tab = (Object.entries(TABS).find(([, p]) => p === path)?.[0] ?? null) as MemberTab | null;
 
   if (link.isFetched && !link.data?.member_id) {

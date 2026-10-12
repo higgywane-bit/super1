@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { Settings } from "lucide-react";
+import { useEffect } from "react";
+import { brightForQr } from "../../../client/native";
 import { member } from "../../../client/member";
 import { Avatar, Card, Icon } from "../../../components/kit";
 import { useI18n } from "../../../i18n";
@@ -15,6 +17,12 @@ export function MePage() {
   const h = useMemberHome().data!;
   const qr = useQuery({ queryKey: ["member", "qr"], queryFn: member.qr, staleTime: Infinity });
   const c = h.card;
+  useEffect(() => {
+    // In the phone app: full brightness while the QR is on screen, so the desk scanner reads it first time.
+    let restore: (() => void) | undefined;
+    void brightForQr().then((r) => (restore = r)).catch(() => undefined);
+    return () => restore?.();
+  }, []);
   const active = c.status === "active" || c.status === "expiring";
   return (
     <div className="s1-tab-in" style={{ display: "flex", flexDirection: "column", gap: 14 }}>
