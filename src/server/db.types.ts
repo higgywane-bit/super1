@@ -274,6 +274,20 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"join_attempts": {
+                  Row: {
+                    "at": string,"id": number,"ip_hash": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "at"?: string,"id"?: never,"ip_hash": string
+                  }
+                  Update: {
+                    "at"?: string,"id"?: never,"ip_hash"?: string
+                  }
+                  Relationships: [
+                    
+                  ]
                 },"leads": {
                   Row: {
                     "coach_id": string,"created_at": string,"email": string | null,"id": string,"lang": string,"member_id": string | null,"name": string,"note": string | null,"phone": string | null,"signup_id": string | null,"source": string,"stage": string,"trial_at": string | null,"updated_at": string,"won_at": string | null
@@ -556,14 +570,14 @@ isOneToOne: false
                   ]
                 },"outbox": {
                   Row: {
-                    "attempts": number,"created_at": string,"id": number,"kind": string,"last_error": string | null,"payload": NonNullable<Json>,"sent_at": string | null
+                    "attempts": number,"claimed_at": string | null,"created_at": string,"id": number,"kind": string,"last_error": string | null,"payload": NonNullable<Json>,"sent_at": string | null
                   }
                   ComputedFields: never
                   Insert: {
-                    "attempts"?: number,"created_at"?: string,"id"?: never,"kind": string,"last_error"?: string | null,"payload": NonNullable<Json>,"sent_at"?: string | null
+                    "attempts"?: number,"claimed_at"?: string | null,"created_at"?: string,"id"?: never,"kind": string,"last_error"?: string | null,"payload": NonNullable<Json>,"sent_at"?: string | null
                   }
                   Update: {
-                    "attempts"?: number,"created_at"?: string,"id"?: never,"kind"?: string,"last_error"?: string | null,"payload"?: NonNullable<Json>,"sent_at"?: string | null
+                    "attempts"?: number,"claimed_at"?: string | null,"created_at"?: string,"id"?: never,"kind"?: string,"last_error"?: string | null,"payload"?: NonNullable<Json>,"sent_at"?: string | null
                   }
                   Relationships: [
                     
@@ -983,8 +997,14 @@ isOneToOne: false
 "create_signup":
 { Args: { "p": Json }; Returns: Json
                            },
+"desk_add_tag":
+{ Args: { "p_member": string,"p_staff": string,"p_tag": string }; Returns: Json
+                           },
 "desk_check_in":
 { Args: { "p_code": string,"p_device"?: string,"p_method"?: string,"p_staff"?: string }; Returns: Json
+                           },
+"desk_check_in_member":
+{ Args: { "p_device": string,"p_member": string,"p_staff": string }; Returns: Json
                            },
 "desk_complete_link":
 { Args: { "p_signup": string,"p_staff": string,"p_use_email"?: boolean }; Returns: Json
@@ -995,8 +1015,26 @@ isOneToOne: false
 "desk_day_pass":
 { Args: { "p_method": string,"p_qty"?: number,"p_staff": string }; Returns: Json
                            },
+"desk_feed":
+{ Args: { "p_day"?: string,"p_limit"?: number }; Returns: Json
+                           },
+"desk_member_detail":
+{ Args: { "p_member": string }; Returns: Json
+                           },
+"desk_members":
+{ Args: { "p_filter"?: string,"p_limit"?: number,"p_q"?: string }; Returns: Json
+                           },
+"desk_message_pete":
+{ Args: { "p_body": string,"p_staff": string }; Returns: string
+                           },
+"desk_pt_clients":
+{ Args: { "p_q"?: string }; Returns: Json
+                           },
 "desk_sell":
 { Args: { "p_coach"?: string,"p_member": string,"p_method": string,"p_note"?: string,"p_plan": string,"p_price"?: number,"p_staff": string }; Returns: Json
+                           },
+"desk_start_shift":
+{ Args: { "p_device": string,"p_staff": string }; Returns: string
                            },
 "end_pause":
 { Args: { "p_pause": string,"p_resume_on": string,"p_staff": string }; Returns: Json
@@ -1016,11 +1054,17 @@ isOneToOne: false
 "is_owner_or_admin":
 { Args: Record<PropertyKey, never>; Returns: boolean
                            },
+"join_attempt_ok":
+{ Args: { "p_ip_hash": string,"p_max"?: number,"p_window_minutes"?: number }; Returns: boolean
+                           },
 "join_options":
 { Args: Record<PropertyKey, never>; Returns: Json
                            },
 "log_activity":
 { Args: { "p_data": Json,"p_kind": string,"p_member": string,"p_message": string,"p_staff": string }; Returns: undefined
+                           },
+"mark_abandoned_signups":
+{ Args: Record<PropertyKey, never>; Returns: number
                            },
 "member_card":
 { Args: { "p_member": string,"p_today"?: string }; Returns: Json
@@ -1045,6 +1089,29 @@ isOneToOne: false
                            },
 "normalize_code":
 { Args: { "p": string }; Returns: string
+                           },
+"outbox_claim":
+{ Args: { "p_limit"?: number }; Returns: {
+              "attempts": number,
+"claimed_at": string | null,
+"created_at": string,
+"id": number,
+"kind": string,
+"last_error": string | null,
+"payload": NonNullable<Json>,
+"sent_at": string | null
+            }[]
+                          SetofOptions: {
+        from: "*"
+        to: "outbox"
+        isOneToOne: false
+        isSetofReturn: true
+      } },
+"outbox_done":
+{ Args: { "p_id": number }; Returns: undefined
+                           },
+"outbox_failed":
+{ Args: { "p_error": string,"p_id": number }; Returns: undefined
                            },
 "pause_member":
 { Args: { "p_from": string,"p_member": string,"p_reason"?: string,"p_staff": string,"p_until": string }; Returns: string

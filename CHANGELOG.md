@@ -1,5 +1,16 @@
 # Changelog
 
+## Phase 1 · Front desk and counter QR sign-up
+
+- Desk (super1.world): shared-login sign-in, **Who's on shift?** (stored in `shifts` and on the device; Change in the sidebar), check-in with an always-focused hidden scan input (USB/Bluetooth readers) and type-a-name search, allowed/declined popups (Motion #3/#4) with Web Audio bell/buzz/chime (unlocked on first tap, mute in the sidebar), counter queue and Today feed live over Supabase Realtime, offline banner with queued scans (never decides offline: "Can't check").
+- Members (D05) with search and filters, profile (D06), sell or renew (D08) with the dates card from `src/lib/membership.ts`, PT −1 with 10-minute Undo (D09), pause / end pause, archive / restore, ask Pete to merge (D10), Message Pete, attach a tag, walk-in day pass. After every sale the toast says exactly what to ring on Qashier.
+- Counter QR (`super1.app/join`): EN/ไทย/Русский, new or existing, details, coach pick (`join_options`), waiver lines + finger signature (PNG to the private `signatures` bucket by a server function), welcome (Motion #2). Turnstile (when configured) + 5 sign-ups per IP per 10 minutes.
+- Finish a sign-up (D07, `desk_complete_signup`) and link requests (`desk_complete_link`).
+- Outbox worker (cron every minute, and straight after desk actions): invite email (Invite board) in EN/TH/RU with a sign-in code, coach lead email, desk → Pete and merge-request emails. Resend in production, Mailpit locally.
+- Database `0004_desk.sql`: desk read models (`desk_feed`, `desk_members`, `desk_member_detail`, `desk_pt_clients`), `desk_check_in_member`, `desk_add_tag`, `desk_start_shift`, `desk_message_pete`, outbox claim/done/failed, `join_attempt_ok`, `mark_abandoned_signups`. `0005_join.sql`: link requests don't need a new waiver. 32 new database checks.
+- Demo data for local runs (`supabase/demo.sql`, `scripts/demo-setup.sh`; never production) and the phase 1 Playwright demo (`npm run e2e:fresh`).
+- Choices made where the boards are only a mock-up: the "Try a scan" helper became a **Day pass** button; "New member" points the customer to the counter QR (every member signs the waiver there); the "Already a member" result doesn't show the member's name or days left to an anonymous phone (anyone could type a tag number) and asks them to show the screen at the desk instead; signature files are `signatures/<random id>.png`.
+
 ## Phase 0 · Foundations
 
 - TanStack Start (React 19, Vite) on Cloudflare Workers: `wrangler.jsonc`, Worker entry `src/server.ts` with Cron Triggers (outbox every minute, nightly jobs).

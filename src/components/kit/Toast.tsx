@@ -1,8 +1,9 @@
 import { createContext, useCallback, useContext, useRef, useState, type ReactNode } from "react";
 import { Disc } from "./Disc";
 
-type ToastItem = { id: number; message: string; tone: "go" | "stop" | "warn" };
-type ToastApi = (message: string, opts?: { tone?: ToastItem["tone"]; ms?: number }) => void;
+type ToastAction = { label: string; onClick: () => void };
+type ToastItem = { id: number; message: string; tone: "go" | "stop" | "warn"; action?: ToastAction };
+type ToastApi = (message: string, opts?: { tone?: ToastItem["tone"]; ms?: number; action?: ToastAction }) => void;
 
 const ToastContext = createContext<ToastApi>(() => {});
 
@@ -12,7 +13,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   const next = useRef(1);
   const show = useCallback<ToastApi>((message, opts) => {
     const id = next.current++;
-    setItems((xs) => [...xs, { id, message, tone: opts?.tone ?? "go" }]);
+    setItems((xs) => [...xs, { id, message, tone: opts?.tone ?? "go", action: opts?.action }]);
     setTimeout(() => setItems((xs) => xs.filter((x) => x.id !== id)), opts?.ms ?? 4200);
   }, []);
   return (
@@ -31,7 +32,19 @@ export function ToastProvider({ children }: { children: ReactNode }) {
                 {t.tone === "go" ? <path d="M20 6 9 17l-5-5" /> : t.tone === "stop" ? <path d="M18 6 6 18M6 6l12 12" /> : <path d="M12 8v5M12 17h.01" />}
               </svg>
             </Disc>
-            {t.message}
+            <span>{t.message}</span>
+            {t.action && (
+              <button
+                type="button"
+                className="s1-btn s1-btn--sm s1-btn--tinted"
+                onClick={() => {
+                  t.action?.onClick();
+                  setItems((xs) => xs.filter((x) => x.id !== t.id));
+                }}
+              >
+                {t.action.label}
+              </button>
+            )}
           </div>
         ))}
       </div>

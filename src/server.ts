@@ -8,7 +8,7 @@ import startEntry from "@tanstack/react-start/server-entry";
 import { hostRedirect, isProductionHost } from "./routing/surface";
 import { runScheduled } from "./server/cron";
 
-type WorkerEnv = { APP_ORIGIN_WORLD?: string; APP_ORIGIN_APP?: string; SUPABASE_URL?: string };
+type WorkerEnv = { APP_ORIGIN_WORLD?: string; APP_ORIGIN_APP?: string; SUPABASE_URL?: string; CRON_SECRET?: string };
 type Ctx = { waitUntil(p: Promise<unknown>): void };
 
 function securityHeaders(res: Response, url: URL, env: WorkerEnv): Response {
@@ -45,6 +45,14 @@ export default {
     const url = new URL(request.url);
     const to = hostRedirect(url, { world: env.APP_ORIGIN_WORLD, app: env.APP_ORIGIN_APP });
     if (to) return Response.redirect(to, url.hostname.startsWith("www.") ? 301 : 302);
+    // Run the scheduled jobs by hand (development, or after an incident): POST with the cron secret.
+    if (url.pathname === "/api/cron" && request.method === "POST") {
+      const ok = !!env.CRON_SECRET && request.headers.get("authorization") === `Bearer ${env.CRON_SECRET}`;
+      if (!ok) return new Response("Forbidden", { status: 403 });
+      const cron = url.searchParams.get("cron") ?? "* * * * *";
+      await runScheduled(cron, new Date());
+      return Response.json({ ok: true, cron });
+    }
     const res = await (startEntry.fetch as (r: Request, ...rest: unknown[]) => Promise<Response>)(request, env, ctx);
     return securityHeaders(res, url, env);
   },

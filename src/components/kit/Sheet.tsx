@@ -1,4 +1,5 @@
 import { useEffect, useRef, type ReactNode } from "react";
+import { createPortal } from "react-dom";
 import { useMediaQuery } from "./useMediaQuery";
 
 /**
@@ -67,7 +68,8 @@ export function Sheet({
   if (!open) return null;
 
   const right = where === "right";
-  return (
+  // Portal to <body> so an animated (transformed) parent can't trap the fixed layer.
+  return createPortal(
     <div style={{ position: "fixed", inset: 0, zIndex: 30, display: "flex", justifyContent: right ? "flex-end" : "center", alignItems: right ? "stretch" : "flex-end" }}>
       <button type="button" aria-label={closeLabel} className="s1-glass" onClick={onClose} style={{ position: "absolute", inset: 0, border: 0, cursor: "default", animation: "s1-fade 200ms both" }} />
       <div
@@ -95,6 +97,7 @@ export function Sheet({
         {!right && <div className="s1-grabber" style={{ flex: "none", marginBottom: 4 }} />}
         {children}
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

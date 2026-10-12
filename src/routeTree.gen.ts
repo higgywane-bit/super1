@@ -15,11 +15,14 @@ import { Route as WRouteImport } from './routes/w'
 import { Route as AIndexRouteImport } from './routes/a/index'
 import { Route as ACoachRouteImport } from './routes/a/coach'
 import { Route as AJoinRouteImport } from './routes/a/join'
-import { Route as WIndexRouteImport } from './routes/w/index'
+import { Route as WDeskRouteImport } from './routes/w/_desk'
 import { Route as WAdminRouteImport } from './routes/w/admin'
 import { Route as WOwnerRouteImport } from './routes/w/owner'
+import { Route as WDeskIndexRouteImport } from './routes/w/_desk/index'
 import { Route as WAdminIndexRouteImport } from './routes/w/admin/index'
 import { Route as WAdminLoginsRouteImport } from './routes/w/admin/logins'
+import { Route as WDeskMembersIndexRouteImport } from './routes/w/_desk/members.index'
+import { Route as WDeskMembersMemberIdRouteImport } from './routes/w/_desk/members.$memberId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -51,9 +54,8 @@ const AJoinRoute = AJoinRouteImport.update({
   path: '/join',
   getParentRoute: () => ARoute,
 } as any)
-const WIndexRoute = WIndexRouteImport.update({
-  id: '/',
-  path: '/',
+const WDeskRoute = WDeskRouteImport.update({
+  id: '/_desk',
   getParentRoute: () => WRoute,
 } as any)
 const WAdminRoute = WAdminRouteImport.update({
@@ -66,6 +68,11 @@ const WOwnerRoute = WOwnerRouteImport.update({
   path: '/owner',
   getParentRoute: () => WRoute,
 } as any)
+const WDeskIndexRoute = WDeskIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => WDeskRoute,
+} as any)
 const WAdminIndexRoute = WAdminIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -75,6 +82,16 @@ const WAdminLoginsRoute = WAdminLoginsRouteImport.update({
   id: '/logins',
   path: '/logins',
   getParentRoute: () => WAdminRoute,
+} as any)
+const WDeskMembersIndexRoute = WDeskMembersIndexRouteImport.update({
+  id: '/members/',
+  path: '/members/',
+  getParentRoute: () => WDeskRoute,
+} as any)
+const WDeskMembersMemberIdRoute = WDeskMembersMemberIdRouteImport.update({
+  id: '/members/$memberId',
+  path: '/members/$memberId',
+  getParentRoute: () => WDeskRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -86,19 +103,23 @@ export interface FileRoutesByFullPath {
   '/w/admin': typeof WAdminRouteWithChildren
   '/w/owner': typeof WOwnerRoute
   '/a/': typeof AIndexRoute
-  '/w/': typeof WIndexRoute
   '/w/admin/logins': typeof WAdminLoginsRoute
+  '/w/': typeof WDeskIndexRoute
   '/w/admin/': typeof WAdminIndexRoute
+  '/w/members/$memberId': typeof WDeskMembersMemberIdRoute
+  '/w/members/': typeof WDeskMembersIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/w': typeof WDeskIndexRoute
   '/a/coach': typeof ACoachRoute
   '/a/join': typeof AJoinRoute
   '/w/owner': typeof WOwnerRoute
   '/a': typeof AIndexRoute
-  '/w': typeof WIndexRoute
   '/w/admin/logins': typeof WAdminLoginsRoute
   '/w/admin': typeof WAdminIndexRoute
+  '/w/members/$memberId': typeof WDeskMembersMemberIdRoute
+  '/w/members': typeof WDeskMembersIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -107,12 +128,15 @@ export interface FileRoutesById {
   '/w': typeof WRouteWithChildren
   '/a/coach': typeof ACoachRoute
   '/a/join': typeof AJoinRoute
+  '/w/_desk': typeof WDeskRouteWithChildren
   '/w/admin': typeof WAdminRouteWithChildren
   '/w/owner': typeof WOwnerRoute
   '/a/': typeof AIndexRoute
-  '/w/': typeof WIndexRoute
   '/w/admin/logins': typeof WAdminLoginsRoute
+  '/w/_desk/': typeof WDeskIndexRoute
   '/w/admin/': typeof WAdminIndexRoute
+  '/w/_desk/members/$memberId': typeof WDeskMembersMemberIdRoute
+  '/w/_desk/members/': typeof WDeskMembersIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -125,19 +149,23 @@ export interface FileRouteTypes {
     | '/w/admin'
     | '/w/owner'
     | '/a/'
-    | '/w/'
     | '/w/admin/logins'
+    | '/w/'
     | '/w/admin/'
+    | '/w/members/$memberId'
+    | '/w/members/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/w'
     | '/a/coach'
     | '/a/join'
     | '/w/owner'
     | '/a'
-    | '/w'
     | '/w/admin/logins'
     | '/w/admin'
+    | '/w/members/$memberId'
+    | '/w/members'
   id:
     | '__root__'
     | '/'
@@ -145,12 +173,15 @@ export interface FileRouteTypes {
     | '/w'
     | '/a/coach'
     | '/a/join'
+    | '/w/_desk'
     | '/w/admin'
     | '/w/owner'
     | '/a/'
-    | '/w/'
     | '/w/admin/logins'
+    | '/w/_desk/'
     | '/w/admin/'
+    | '/w/_desk/members/$memberId'
+    | '/w/_desk/members/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -203,11 +234,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AJoinRouteImport
       parentRoute: typeof ARoute
     }
-    '/w/': {
-      id: '/w/'
-      path: '/'
-      fullPath: '/w/'
-      preLoaderRoute: typeof WIndexRouteImport
+    '/w/_desk': {
+      id: '/w/_desk'
+      path: ''
+      fullPath: '/w'
+      preLoaderRoute: typeof WDeskRouteImport
       parentRoute: typeof WRoute
     }
     '/w/admin': {
@@ -224,6 +255,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WOwnerRouteImport
       parentRoute: typeof WRoute
     }
+    '/w/_desk/': {
+      id: '/w/_desk/'
+      path: '/'
+      fullPath: '/w/'
+      preLoaderRoute: typeof WDeskIndexRouteImport
+      parentRoute: typeof WDeskRoute
+    }
     '/w/admin/': {
       id: '/w/admin/'
       path: '/'
@@ -237,6 +275,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/w/admin/logins'
       preLoaderRoute: typeof WAdminLoginsRouteImport
       parentRoute: typeof WAdminRoute
+    }
+    '/w/_desk/members/': {
+      id: '/w/_desk/members/'
+      path: '/members'
+      fullPath: '/w/members/'
+      preLoaderRoute: typeof WDeskMembersIndexRouteImport
+      parentRoute: typeof WDeskRoute
+    }
+    '/w/_desk/members/$memberId': {
+      id: '/w/_desk/members/$memberId'
+      path: '/members/$memberId'
+      fullPath: '/w/members/$memberId'
+      preLoaderRoute: typeof WDeskMembersMemberIdRouteImport
+      parentRoute: typeof WDeskRoute
     }
   }
 }
@@ -255,6 +307,20 @@ const ARouteChildren: ARouteChildren = {
 
 const ARouteWithChildren = ARoute._addFileChildren(ARouteChildren)
 
+interface WDeskRouteChildren {
+  WDeskIndexRoute: typeof WDeskIndexRoute
+  WDeskMembersMemberIdRoute: typeof WDeskMembersMemberIdRoute
+  WDeskMembersIndexRoute: typeof WDeskMembersIndexRoute
+}
+
+const WDeskRouteChildren: WDeskRouteChildren = {
+  WDeskIndexRoute: WDeskIndexRoute,
+  WDeskMembersMemberIdRoute: WDeskMembersMemberIdRoute,
+  WDeskMembersIndexRoute: WDeskMembersIndexRoute,
+}
+
+const WDeskRouteWithChildren = WDeskRoute._addFileChildren(WDeskRouteChildren)
+
 interface WAdminRouteChildren {
   WAdminLoginsRoute: typeof WAdminLoginsRoute
   WAdminIndexRoute: typeof WAdminIndexRoute
@@ -269,15 +335,15 @@ const WAdminRouteWithChildren =
   WAdminRoute._addFileChildren(WAdminRouteChildren)
 
 interface WRouteChildren {
+  WDeskRoute: typeof WDeskRouteWithChildren
   WAdminRoute: typeof WAdminRouteWithChildren
   WOwnerRoute: typeof WOwnerRoute
-  WIndexRoute: typeof WIndexRoute
 }
 
 const WRouteChildren: WRouteChildren = {
+  WDeskRoute: WDeskRouteWithChildren,
   WAdminRoute: WAdminRouteWithChildren,
   WOwnerRoute: WOwnerRoute,
-  WIndexRoute: WIndexRoute,
 }
 
 const WRouteWithChildren = WRoute._addFileChildren(WRouteChildren)

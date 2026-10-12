@@ -39,7 +39,7 @@ test("a desk login can't open /admin", async ({ page }) => {
   await page.getByLabel("Email").fill("desk@superfitphuket.com");
   await page.getByLabel("Passcode").fill("246810");
   await page.getByRole("button", { name: "Sign in" }).click();
-  await expect(page.getByRole("button", { name: "Check-in" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Who's on shift?" })).toBeVisible();
   await open(page, `${WORLD}/admin`);
   await expect(page.getByRole("heading", { name: "Not for this account" })).toBeVisible();
   await expect(page.getByText("This page is for Pete")).toBeVisible();

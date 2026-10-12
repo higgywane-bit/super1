@@ -104,7 +104,8 @@ export function hostRedirect(url: URL, origins: Origins = {}): string | null {
   if ((asked === "world" || asked === "app") && !isProductionHost(url.hostname)) {
     const prefix = SURFACE_PREFIX[asked];
     const u = new URL(url);
-    u.searchParams.delete("surface");
+    const rest = [...u.searchParams].filter(([k]) => k !== "surface");
+    u.search = rest.length ? "?" + new URLSearchParams(rest).toString() : "";
     if (!startsWithSegment(u.pathname, prefix)) u.pathname = prefix + (u.pathname === "/" ? "" : u.pathname) || prefix;
     return u.toString();
   }
