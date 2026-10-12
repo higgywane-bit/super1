@@ -1,5 +1,18 @@
 # Changelog
 
+## Phase 4 · Coach portal (super1.app/coach)
+
+- Minimal by design: people first, tap to open, one action per screen. Sidebar: Clients and leads (new-lead badge), Exercise library.
+- Home: new leads as rows (tap → sheet with what they bought, WhatsApp with a hello in their language, Call, stage New / Contacted / Trial booked, Not now / Restore), then clients as rows with last workout, a yellow flag after 3 days without a check-in, and PT left in pink. New leads and client changes arrive over Realtime.
+- Client: name, PT left, WhatsApp, pink −1 (one confirm, done state, Undo for 10 minutes). Tabs:
+  - Workouts: day chips, exercise rows "4 × 8 · last 42.5 × 8 PR"; tap a row to edit sets, reps or seconds, rest and cue; library picker; Send appears only with unsent changes and creates a new version (`coach_send_program`).
+  - Food: goal, kcal computed from P/C/F, steppers for protein, carbs, fat, water, steps (`coach_set_targets`); café picks as chips, max 3 (`coach_set_picks`).
+  - Check-ins: four averages, the last 10 days (missing days marked), a nudge when they've gone quiet (one a day, `coach_nudge`), notes that show on the member's Home.
+- Library: SUPER1's exercises + the coach's own, search, group chips, add your own.
+- Counter mode (C07) left out at the owner's request; −1 lives on the client page. Admin dashboard: the PT-by-coach section removed.
+- Database `0008_coach.sql`: `coach_home`, `coach_client`, `coach_set_picks`, `coach_nudge`, a guard so coaches only change a lead's stage and note, `program_push` naming the coach; 32 new checks (Aun can't see Emma). Member emails for `program_push` and `coach_nudge`. Pure rules in `src/lib/coach.ts` with tests.
+- Phase 4 Playwright demo: Olga picks Sunman at the counter → the desk finishes it → she appears in Sunman's leads live; Sunman sends Emma "Day A · Push" (version 2) and 130 / 180 / 55 = 1,735 kcal; −1 takes Emma from 6 to 5 and the desk feed shows "PT session with Sunman".
+
 ## Phase 3 · Andy (owner) and Pete (admin)
 
 - Owner app at super1.world/owner (O01–O05), phone first and installable (`manifest-owner.webmanifest`), tab bar Today / Week / Members / Café, read-only. Today is the latest imported Qashier day (says "last import" when it isn't today) with a count-up total, gym / café / shop split, memberships sold vs the desk, how people paid and who rang it up, plus live visits from `checkins`. Days without an import say "Not imported".

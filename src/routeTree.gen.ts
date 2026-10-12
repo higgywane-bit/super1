@@ -18,6 +18,8 @@ import { Route as AJoinRouteImport } from './routes/a/join'
 import { Route as WDeskRouteImport } from './routes/w/_desk'
 import { Route as WAdminRouteImport } from './routes/w/admin'
 import { Route as WOwnerRouteImport } from './routes/w/owner'
+import { Route as ACoachIndexRouteImport } from './routes/a/coach/index'
+import { Route as ACoachLibraryRouteImport } from './routes/a/coach/library'
 import { Route as WDeskIndexRouteImport } from './routes/w/_desk/index'
 import { Route as WAdminIndexRouteImport } from './routes/w/admin/index'
 import { Route as WAdminImportRouteImport } from './routes/w/admin/import'
@@ -27,6 +29,7 @@ import { Route as WAdminPeopleRouteImport } from './routes/w/admin/people'
 import { Route as WAdminPlansRouteImport } from './routes/w/admin/plans'
 import { Route as WAdminSettingsRouteImport } from './routes/w/admin/settings'
 import { Route as WAdminPosterRouteImport } from './routes/w/admin_.poster'
+import { Route as ACoachClientsMemberIdRouteImport } from './routes/a/coach/clients.$memberId'
 import { Route as WDeskMembersIndexRouteImport } from './routes/w/_desk/members.index'
 import { Route as WDeskMembersMemberIdRouteImport } from './routes/w/_desk/members.$memberId'
 
@@ -74,6 +77,16 @@ const WOwnerRoute = WOwnerRouteImport.update({
   path: '/owner',
   getParentRoute: () => WRoute,
 } as any)
+const ACoachIndexRoute = ACoachIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ACoachRoute,
+} as any)
+const ACoachLibraryRoute = ACoachLibraryRouteImport.update({
+  id: '/library',
+  path: '/library',
+  getParentRoute: () => ACoachRoute,
+} as any)
 const WDeskIndexRoute = WDeskIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -119,6 +132,11 @@ const WAdminPosterRoute = WAdminPosterRouteImport.update({
   path: '/admin/poster',
   getParentRoute: () => WRoute,
 } as any)
+const ACoachClientsMemberIdRoute = ACoachClientsMemberIdRouteImport.update({
+  id: '/clients/$memberId',
+  path: '/clients/$memberId',
+  getParentRoute: () => ACoachRoute,
+} as any)
 const WDeskMembersIndexRoute = WDeskMembersIndexRouteImport.update({
   id: '/members/',
   path: '/members/',
@@ -134,11 +152,12 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/a': typeof ARouteWithChildren
   '/w': typeof WRouteWithChildren
-  '/a/coach': typeof ACoachRoute
+  '/a/coach': typeof ACoachRouteWithChildren
   '/a/join': typeof AJoinRoute
   '/w/admin': typeof WAdminRouteWithChildren
   '/w/owner': typeof WOwnerRoute
   '/a/': typeof AIndexRoute
+  '/a/coach/library': typeof ACoachLibraryRoute
   '/w/admin/import': typeof WAdminImportRoute
   '/w/admin/logins': typeof WAdminLoginsRoute
   '/w/admin/menu': typeof WAdminMenuRoute
@@ -146,18 +165,20 @@ export interface FileRoutesByFullPath {
   '/w/admin/plans': typeof WAdminPlansRoute
   '/w/admin/settings': typeof WAdminSettingsRoute
   '/w/admin/poster': typeof WAdminPosterRoute
+  '/a/coach/': typeof ACoachIndexRoute
   '/w/': typeof WDeskIndexRoute
   '/w/admin/': typeof WAdminIndexRoute
+  '/a/coach/clients/$memberId': typeof ACoachClientsMemberIdRoute
   '/w/members/$memberId': typeof WDeskMembersMemberIdRoute
   '/w/members/': typeof WDeskMembersIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/w': typeof WDeskIndexRoute
-  '/a/coach': typeof ACoachRoute
   '/a/join': typeof AJoinRoute
   '/w/owner': typeof WOwnerRoute
   '/a': typeof AIndexRoute
+  '/a/coach/library': typeof ACoachLibraryRoute
   '/w/admin/import': typeof WAdminImportRoute
   '/w/admin/logins': typeof WAdminLoginsRoute
   '/w/admin/menu': typeof WAdminMenuRoute
@@ -165,7 +186,9 @@ export interface FileRoutesByTo {
   '/w/admin/plans': typeof WAdminPlansRoute
   '/w/admin/settings': typeof WAdminSettingsRoute
   '/w/admin/poster': typeof WAdminPosterRoute
+  '/a/coach': typeof ACoachIndexRoute
   '/w/admin': typeof WAdminIndexRoute
+  '/a/coach/clients/$memberId': typeof ACoachClientsMemberIdRoute
   '/w/members/$memberId': typeof WDeskMembersMemberIdRoute
   '/w/members': typeof WDeskMembersIndexRoute
 }
@@ -174,12 +197,13 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/a': typeof ARouteWithChildren
   '/w': typeof WRouteWithChildren
-  '/a/coach': typeof ACoachRoute
+  '/a/coach': typeof ACoachRouteWithChildren
   '/a/join': typeof AJoinRoute
   '/w/_desk': typeof WDeskRouteWithChildren
   '/w/admin': typeof WAdminRouteWithChildren
   '/w/owner': typeof WOwnerRoute
   '/a/': typeof AIndexRoute
+  '/a/coach/library': typeof ACoachLibraryRoute
   '/w/admin/import': typeof WAdminImportRoute
   '/w/admin/logins': typeof WAdminLoginsRoute
   '/w/admin/menu': typeof WAdminMenuRoute
@@ -187,8 +211,10 @@ export interface FileRoutesById {
   '/w/admin/plans': typeof WAdminPlansRoute
   '/w/admin/settings': typeof WAdminSettingsRoute
   '/w/admin_/poster': typeof WAdminPosterRoute
+  '/a/coach/': typeof ACoachIndexRoute
   '/w/_desk/': typeof WDeskIndexRoute
   '/w/admin/': typeof WAdminIndexRoute
+  '/a/coach/clients/$memberId': typeof ACoachClientsMemberIdRoute
   '/w/_desk/members/$memberId': typeof WDeskMembersMemberIdRoute
   '/w/_desk/members/': typeof WDeskMembersIndexRoute
 }
@@ -203,6 +229,7 @@ export interface FileRouteTypes {
     | '/w/admin'
     | '/w/owner'
     | '/a/'
+    | '/a/coach/library'
     | '/w/admin/import'
     | '/w/admin/logins'
     | '/w/admin/menu'
@@ -210,18 +237,20 @@ export interface FileRouteTypes {
     | '/w/admin/plans'
     | '/w/admin/settings'
     | '/w/admin/poster'
+    | '/a/coach/'
     | '/w/'
     | '/w/admin/'
+    | '/a/coach/clients/$memberId'
     | '/w/members/$memberId'
     | '/w/members/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/w'
-    | '/a/coach'
     | '/a/join'
     | '/w/owner'
     | '/a'
+    | '/a/coach/library'
     | '/w/admin/import'
     | '/w/admin/logins'
     | '/w/admin/menu'
@@ -229,7 +258,9 @@ export interface FileRouteTypes {
     | '/w/admin/plans'
     | '/w/admin/settings'
     | '/w/admin/poster'
+    | '/a/coach'
     | '/w/admin'
+    | '/a/coach/clients/$memberId'
     | '/w/members/$memberId'
     | '/w/members'
   id:
@@ -243,6 +274,7 @@ export interface FileRouteTypes {
     | '/w/admin'
     | '/w/owner'
     | '/a/'
+    | '/a/coach/library'
     | '/w/admin/import'
     | '/w/admin/logins'
     | '/w/admin/menu'
@@ -250,8 +282,10 @@ export interface FileRouteTypes {
     | '/w/admin/plans'
     | '/w/admin/settings'
     | '/w/admin_/poster'
+    | '/a/coach/'
     | '/w/_desk/'
     | '/w/admin/'
+    | '/a/coach/clients/$memberId'
     | '/w/_desk/members/$memberId'
     | '/w/_desk/members/'
   fileRoutesById: FileRoutesById
@@ -327,6 +361,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WOwnerRouteImport
       parentRoute: typeof WRoute
     }
+    '/a/coach/': {
+      id: '/a/coach/'
+      path: '/'
+      fullPath: '/a/coach/'
+      preLoaderRoute: typeof ACoachIndexRouteImport
+      parentRoute: typeof ACoachRoute
+    }
+    '/a/coach/library': {
+      id: '/a/coach/library'
+      path: '/library'
+      fullPath: '/a/coach/library'
+      preLoaderRoute: typeof ACoachLibraryRouteImport
+      parentRoute: typeof ACoachRoute
+    }
     '/w/_desk/': {
       id: '/w/_desk/'
       path: '/'
@@ -390,6 +438,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WAdminPosterRouteImport
       parentRoute: typeof WRoute
     }
+    '/a/coach/clients/$memberId': {
+      id: '/a/coach/clients/$memberId'
+      path: '/clients/$memberId'
+      fullPath: '/a/coach/clients/$memberId'
+      preLoaderRoute: typeof ACoachClientsMemberIdRouteImport
+      parentRoute: typeof ACoachRoute
+    }
     '/w/_desk/members/': {
       id: '/w/_desk/members/'
       path: '/members'
@@ -407,14 +462,29 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface ACoachRouteChildren {
+  ACoachLibraryRoute: typeof ACoachLibraryRoute
+  ACoachIndexRoute: typeof ACoachIndexRoute
+  ACoachClientsMemberIdRoute: typeof ACoachClientsMemberIdRoute
+}
+
+const ACoachRouteChildren: ACoachRouteChildren = {
+  ACoachLibraryRoute: ACoachLibraryRoute,
+  ACoachIndexRoute: ACoachIndexRoute,
+  ACoachClientsMemberIdRoute: ACoachClientsMemberIdRoute,
+}
+
+const ACoachRouteWithChildren =
+  ACoachRoute._addFileChildren(ACoachRouteChildren)
+
 interface ARouteChildren {
-  ACoachRoute: typeof ACoachRoute
+  ACoachRoute: typeof ACoachRouteWithChildren
   AJoinRoute: typeof AJoinRoute
   AIndexRoute: typeof AIndexRoute
 }
 
 const ARouteChildren: ARouteChildren = {
-  ACoachRoute: ACoachRoute,
+  ACoachRoute: ACoachRouteWithChildren,
   AJoinRoute: AJoinRoute,
   AIndexRoute: AIndexRoute,
 }

@@ -9,7 +9,7 @@ import { localDate } from "../lib/dates";
 import type { Json } from "./db.types";
 import { sendEmail } from "./email";
 import { inviteEmail } from "./emails/invite";
-import { coachInviteEmail, leadEmail, mergeEmail, supportEmail } from "./emails/staff";
+import { coachInviteEmail, nudgeEmail, programEmail, leadEmail, mergeEmail, supportEmail } from "./emails/staff";
 import { env } from "./env";
 import { supabaseAdmin, type DB } from "./supabase";
 
@@ -119,6 +119,16 @@ async function render(db: DB, row: Row): Promise<{ to: string; subject: string; 
       const { data: link } = await db.auth.admin.generateLink({ type: "magiclink", email: p.email });
       const lang: Lang = isLang(p.lang) ? p.lang : "en";
       return [{ to: p.email, ...coachInviteEmail(lang, c.full_name || c.name, link?.properties?.email_otp ?? null, origins().app) }];
+    }
+    case "program_push":
+    case "coach_nudge": {
+      const { data: m } = await db.from("members").select("first_name, email, lang").eq("id", p.member_id).single();
+      if (!m?.email) return []; // no email yet: the app shows it when they sign in
+      const coachId = p.coach_id ?? (await db.from("programs").select("coach_id").eq("member_id", p.member_id).not("coach_id", "is", null).limit(1).maybeSingle()).data?.coach_id;
+      const { data: c } = coachId ? await db.from("coaches").select("name").eq("id", coachId).maybeSingle() : { data: null };
+      const lang: Lang = isLang(m.lang) ? m.lang : "en";
+      const make = row.kind === "program_push" ? programEmail : nudgeEmail;
+      return [{ to: m.email, ...make(lang, m.first_name, c?.name ?? "Your coach", origins().app) }];
     }
     default:
       return null; // handled by a later phase

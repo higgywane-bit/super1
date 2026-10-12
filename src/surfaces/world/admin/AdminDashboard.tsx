@@ -5,7 +5,7 @@ import { useState } from "react";
 import { admin, type MergeRequest } from "../../../client/admin";
 import { owner } from "../../../client/owner";
 import { toUiError } from "../../../client/errors";
-import { Avatar, Button, Card, Disc, Group, Icon, Row, TextArea, useToast } from "../../../components/kit";
+import { Avatar, Button, Card, Disc, Icon, TextArea, useToast } from "../../../components/kit";
 import { useI18n } from "../../../i18n";
 import { baht, dayLabel, time } from "../../../i18n/format";
 import { localDate } from "../../../lib/dates";
@@ -28,9 +28,6 @@ export function AdminDashboard() {
   const inbox = useInbox();
   const d = inbox.today;
   const week = useQuery({ queryKey: ["owner", "week", d.today], queryFn: () => owner.week(d.today) });
-  const members = useQuery({ queryKey: ["owner", "members", d.today], queryFn: () => owner.members(d.today) });
-  const packs = useQuery({ queryKey: ["admin", "packs", d.today], queryFn: () => admin.ptPacks(d.today) });
-  const coaches = useQuery({ queryKey: ["admin", "coaches"], queryFn: admin.coaches });
   const staff = useQuery({ queryKey: ["admin", "staff"], queryFn: admin.staff });
   const [review, setReview] = useState<MergeRequest | null>(null);
   const [replying, setReplying] = useState(false);
@@ -220,35 +217,6 @@ export function AdminDashboard() {
               ))}
             </div>
           </Card>
-          <h2 className="s1-section" style={{ margin: "8px 0 0 4px" }}>
-            {t("admin.ptMonth")}
-          </h2>
-          <Group>
-            {(coaches.data ?? [])
-              .filter((co) => co.portal !== "house")
-              .map((co) => {
-                const sessions = members.data?.pt_by_coach.find((x) => x.coach === co.name)?.sessions ?? 0;
-                const clients = new Set((packs.data ?? []).filter((p) => p.coach_id === co.id).map((p) => p.member_id)).size;
-                return { co, sessions, clients };
-              })
-              .sort((a, b) => b.sessions - a.sessions || b.clients - a.clients)
-              .slice(0, 6)
-              .map(({ co, sessions, clients }) => (
-                <Row
-                  key={co.id}
-                  leading={<Avatar name={co.full_name || co.name} style={{ background: "var(--s1-pink-tint)", color: "var(--s1-pink)" }} />}
-                  title={co.full_name || co.name}
-                  meta={
-                    <span style={{ display: "flex", gap: 16, alignItems: "center" }}>
-                      <span style={{ font: "500 13px/18px var(--font-sans)", color: "var(--text-secondary)" }}>{t("admin.clients", { n: clients })}</span>
-                      <span className="s1-num" style={{ font: "700 16px/20px var(--font-sans)", color: "var(--s1-pink)", width: 28, textAlign: "right" }}>
-                        {sessions}
-                      </span>
-                    </span>
-                  }
-                />
-              ))}
-          </Group>
         </section>
       </div>
       <MergeSheet req={review} onClose={() => setReview(null)} onDone={() => void qc.invalidateQueries({ queryKey: ["admin", "merges"] })} />

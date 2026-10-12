@@ -31,3 +31,17 @@ export function coachInviteEmail(lang: Lang, name: string, code: string | null, 
   const html = layout(lang, h1(t("email.coach.greet", { name })) + p(t("email.coach.body")) + button(t("email.coach.button"), `${appOrigin}/coach`) + codeBlock, FOOTER, `${appOrigin}/brand/super1-wordmark.png`);
   return { subject: t("email.coach.subject"), html, text: `${t("email.coach.greet", { name })}\n\n${t("email.coach.body")}\n\n${appOrigin}/coach${code ? `\n${t("email.invite.codeLine")}: ${code}` : ""}` };
 }
+
+/** To a member: their coach sent a new program version (outbox `program_push`). */
+export function programEmail(lang: Lang, name: string, coach: string, appOrigin: string) {
+  const t = (k: Parameters<typeof translate>[1]) => translate(lang, k, { name, coach });
+  const html = layout(lang, h1(t("email.program.subject")) + p(t("email.program.body")) + button(t("email.program.button"), `${appOrigin}/`), FOOTER, `${appOrigin}/brand/super1-wordmark.png`);
+  return { subject: t("email.program.subject"), html, text: `${t("email.program.body")}\n\n${appOrigin}/` };
+}
+
+/** To a member: their coach's nudge after days without a daily check-in (outbox `coach_nudge`). */
+export function nudgeEmail(lang: Lang, name: string, coach: string, appOrigin: string) {
+  const t = (k: Parameters<typeof translate>[1]) => translate(lang, k, { name, coach });
+  const html = layout(lang, h1(t("email.nudge.subject")) + p(t("email.nudge.body")) + button(t("email.nudge.button"), `${appOrigin}/`), FOOTER, `${appOrigin}/brand/super1-wordmark.png`);
+  return { subject: t("email.nudge.subject"), html, text: `${t("email.nudge.body")}\n\n${appOrigin}/` };
+}

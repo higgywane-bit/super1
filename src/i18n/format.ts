@@ -1,4 +1,4 @@
-import { diffDays, formatTime, type ISODate } from "../lib/dates";
+import { diffDays, formatTime, localDate, type ISODate } from "../lib/dates";
 import type { Lang } from "./index";
 import { translate } from "./index";
 
@@ -58,3 +58,20 @@ export function daysBetween(a: ISODate, b: ISODate): number {
 }
 
 export const LANG_NAMES: Record<Lang, string> = { en: "English", th: "ไทย", ru: "Русский" };
+
+/** "Today" for today's date, otherwise the day label (Fri 9 Oct). */
+export function dayOrToday(d: ISODate | null | undefined, lang: Lang, today: ISODate): string {
+  if (!d) return "—";
+  return d.slice(0, 10) === today ? translate(lang, "desk.today") : dayLabel(d, lang, today);
+}
+
+/** "today 21:10" or "Fri 9 Oct" for a moment in gym time. */
+export function whenLabel(at: string, lang: Lang, today: ISODate): string {
+  const d = localDate(new Date(at));
+  return d === today ? `${translate(lang, "desk.today").toLowerCase()} ${time(at)}` : dayLabel(d, lang, today);
+}
+
+/** The gym-time calendar date of a moment ("2026-10-12" for 21:10 Bangkok time). */
+export function localDayOf(at: string): ISODate {
+  return localDate(new Date(at));
+}

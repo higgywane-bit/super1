@@ -994,11 +994,26 @@ isOneToOne: false
 "assert_staff":
 { Args: { "p_staff": string }; Returns: undefined
                            },
+"coach_client":
+{ Args: { "p_day"?: string,"p_member": string }; Returns: Json
+                           },
+"coach_client_roots":
+{ Args: { "p_coach": string }; Returns: string[]
+                           },
+"coach_home":
+{ Args: { "p_day"?: string }; Returns: Json
+                           },
+"coach_nudge":
+{ Args: { "p_member": string }; Returns: Json
+                           },
 "coach_sees_member":
 { Args: { "p_member": string }; Returns: boolean
                            },
 "coach_send_program":
 { Args: { "p_body": Json,"p_member": string }; Returns: Json
+                           },
+"coach_set_picks":
+{ Args: { "p_items": (string)[],"p_member": string }; Returns: Json
                            },
 "coach_set_targets":
 { Args: { "p_carbs": number,"p_fat": number,"p_goal": string,"p_member": string,"p_protein": number,"p_steps": number,"p_water": number }; Returns: Json
@@ -1083,6 +1098,9 @@ isOneToOne: false
                            },
 "member_card":
 { Args: { "p_member": string,"p_today"?: string }; Returns: Json
+                           },
+"member_checkin_streak":
+{ Args: { "p_root": string,"p_today"?: string }; Returns: Json
                            },
 "member_root":
 { Args: { "p_member": string }; Returns: string

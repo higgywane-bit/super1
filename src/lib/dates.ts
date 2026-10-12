@@ -73,3 +73,8 @@ const TIME = new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digi
 export function formatTime(at: Date): string {
   return TIME.format(at);
 }
+
+/** Whole minutes between two moments (a workout's length), never negative. */
+export function minutesBetween(from: string, to: string): number {
+  return Math.max(0, Math.round((Date.parse(to) - Date.parse(from)) / 60_000));
+}
