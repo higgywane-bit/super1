@@ -9,7 +9,7 @@ import { localDate } from "../lib/dates";
 import type { Json } from "./db.types";
 import { sendEmail } from "./email";
 import { inviteEmail } from "./emails/invite";
-import { leadEmail, mergeEmail, supportEmail } from "./emails/staff";
+import { coachInviteEmail, leadEmail, mergeEmail, supportEmail } from "./emails/staff";
 import { env } from "./env";
 import { supabaseAdmin, type DB } from "./supabase";
 
@@ -112,6 +112,13 @@ async function render(db: DB, row: Row): Promise<{ to: string; subject: string; 
         origins().world,
       );
       return (await adminEmails(db)).map((to) => ({ to, ...mail }));
+    }
+    case "coach_invite": {
+      const { data: c } = await db.from("coaches").select("name, full_name").eq("id", p.coach_id).single();
+      if (!c) return [];
+      const { data: link } = await db.auth.admin.generateLink({ type: "magiclink", email: p.email });
+      const lang: Lang = isLang(p.lang) ? p.lang : "en";
+      return [{ to: p.email, ...coachInviteEmail(lang, c.full_name || c.name, link?.properties?.email_otp ?? null, origins().app) }];
     }
     default:
       return null; // handled by a later phase

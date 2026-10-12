@@ -1,6 +1,8 @@
 import { useNavigate, useRouterState } from "@tanstack/react-router";
 import { Coffee, FileUp, LayoutDashboard, Settings, Tags, UserCog, Users } from "lucide-react";
-import type { ReactNode } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { useEffect, type ReactNode } from "react";
+import { supabaseBrowser } from "../../../client/supabase";
 import { Card, Icon, NavItem } from "../../../components/kit";
 import { useT, type MessageKey } from "../../../i18n";
 import { useViewer } from "../../shared/Gate";
@@ -8,6 +10,7 @@ import { LangSwitch } from "../../shared/LangSwitch";
 import { signOut } from "../../shared/useCodeSignIn";
 import { StaffLayout, StaffSidebar } from "../StaffSidebar";
 import { useRouter } from "@tanstack/react-router";
+import { useInbox } from "./useAdminData";
 
 const NAV: { to: string; key: MessageKey; icon: typeof LayoutDashboard }[] = [
   { to: "/w/admin", key: "admin.dashboard", icon: LayoutDashboard },
@@ -20,8 +23,24 @@ const NAV: { to: string; key: MessageKey; icon: typeof LayoutDashboard }[] = [
 ];
 
 /** Pete's admin: sidebar (Dashboard … Settings, Pete card, Log out) + page (Admin board). */
-export function AdminShell({ children, badges = {} }: { children: ReactNode; badges?: Partial<Record<string, number>> }) {
+export function AdminShell({ children }: { children: ReactNode }) {
   const t = useT();
+  const inbox = useInbox();
+  const qc = useQueryClient();
+  // The inbox stays live on every admin page: merge requests and desk messages arrive by realtime.
+  useEffect(() => {
+    const sb = supabaseBrowser();
+    const ch = sb
+      .channel("admin-inbox")
+      .on("postgres_changes", { event: "*", schema: "public", table: "messages" }, () => void qc.invalidateQueries({ queryKey: ["admin", "messages"] }))
+      .on("postgres_changes", { event: "*", schema: "public", table: "merge_requests" }, () => void qc.invalidateQueries({ queryKey: ["admin", "merges"] }))
+      .subscribe();
+    return () => {
+      void sb.removeChannel(ch);
+    };
+  }, [qc]);
+
+  const badges: Partial<Record<string, number>> = { "/w/admin": inbox.count || undefined, "/w/admin/menu": inbox.drafts || undefined };
   const viewer = useViewer();
   const router = useRouter();
   const navigate = useNavigate();

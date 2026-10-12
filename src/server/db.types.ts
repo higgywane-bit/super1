@@ -976,7 +976,19 @@ isOneToOne: false
                 }
           }
           Functions: {
-            "archive_member":
+            "admin_member_brief":
+{ Args: { "p_member": string }; Returns: Json
+                           },
+"admin_merge_requests":
+{ Args: Record<PropertyKey, never>; Returns: Json
+                           },
+"admin_set_plan_price":
+{ Args: { "p_plan": string,"p_price": number }; Returns: Json
+                           },
+"admin_sign_out_devices":
+{ Args: { "p_device"?: string }; Returns: number
+                           },
+"archive_member":
 { Args: { "p_member": string,"p_reason"?: string,"p_staff": string }; Returns: undefined
                            },
 "assert_staff":
@@ -1014,6 +1026,9 @@ isOneToOne: false
                            },
 "desk_day_pass":
 { Args: { "p_method": string,"p_qty"?: number,"p_staff": string }; Returns: Json
+                           },
+"desk_device_ok":
+{ Args: { "p_device": string }; Returns: boolean
                            },
 "desk_feed":
 { Args: { "p_day"?: string,"p_limit"?: number }; Returns: Json
@@ -1113,11 +1128,23 @@ isOneToOne: false
 "outbox_failed":
 { Args: { "p_error": string,"p_id": number }; Returns: undefined
                            },
+"owner_members":
+{ Args: { "p_day"?: string }; Returns: Json
+                           },
+"owner_visits":
+{ Args: { "p_day"?: string }; Returns: Json
+                           },
+"owner_week":
+{ Args: { "p_end"?: string }; Returns: Json
+                           },
 "pause_member":
 { Args: { "p_from": string,"p_member": string,"p_reason"?: string,"p_staff": string,"p_until": string }; Returns: string
                            },
 "plan_end_date":
 { Args: { "p_days": number,"p_months": number,"p_start": string }; Returns: string
+                           },
+"qashier_import":
+{ Args: { "p_day": Json,"p_lines": Json,"p_user": string }; Returns: Json
                            },
 "reject_merge":
 { Args: { "p_note"?: string,"p_request": string }; Returns: undefined

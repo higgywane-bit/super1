@@ -56,3 +56,42 @@ a:focus-visible,
 }
 @keyframes s1-spin { to { transform: rotate(360deg); } }
 .s1-spin { animation: s1-spin 800ms linear infinite; }
+
+/* Admin tables (A01 desk vs Qashier, A02 plans, A05 logins). */
+.s1-adm-table {
+  width: 100%;
+  border-collapse: collapse;
+  font: 500 15px/20px var(--font-sans);
+}
+.s1-adm-table th {
+  text-align: left;
+  font: 600 13px/18px var(--font-sans);
+  color: var(--text-secondary);
+  padding: 12px 16px;
+}
+.s1-adm-table td {
+  padding: 13px 16px;
+  border-top: 1px solid var(--hairline);
+  vertical-align: middle;
+}
+
+/* QR stand poster: print the stand alone, full colour. */
+@media print {
+  .s1-no-print {
+    display: none !important;
+  }
+  .s1-poster-page {
+    padding: 0 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .s1-poster {
+    box-shadow: none !important;
+    break-inside: avoid;
+  }
+}
+
+/* A pill without the status dot: product chips, filter tabs, add-on options. */
+.s1-pill.s1-pill--plain::before {
+  content: none;
+}

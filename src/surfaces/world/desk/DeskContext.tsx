@@ -1,6 +1,8 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { useRouter } from "@tanstack/react-router";
 import { desk, type Signup } from "../../../client/desk";
+import { signOut } from "../../shared/useCodeSignIn";
 import { isMuted, setMuted as storeMuted, unlockAudio } from "../../../client/sound";
 
 /** Who is on shift on this device. Every desk change is recorded under this staff member. */
@@ -48,6 +50,7 @@ const Ctx = createContext<DeskApi | null>(null);
 
 export function DeskProvider({ children }: { children: ReactNode }) {
   const qc = useQueryClient();
+  const router = useRouter();
   const [shift, setShift] = useState<Shift | null>(null);
   const [ready, setReady] = useState(false);
   const [picking, setPicking] = useState(false);
@@ -92,6 +95,30 @@ export function DeskProvider({ children }: { children: ReactNode }) {
     setShift(s);
     setPicking(false);
   }, []);
+
+  // Pete can sign a desk device out (A05, or a new desk passcode): the device checks every minute and signs itself out.
+  useEffect(() => {
+    const device = shift?.deviceId;
+    if (!device) return;
+    let stop = false;
+    const check = async () => {
+      const ok = await desk.deviceOk(device).catch(() => true);
+      if (ok || stop) return;
+      try {
+        localStorage.removeItem(SHIFT_KEY);
+        localStorage.removeItem(DEVICE_KEY);
+      } catch {
+        /* no storage */
+      }
+      await signOut(router);
+    };
+    void check();
+    const id = window.setInterval(() => void check(), 60_000);
+    return () => {
+      stop = true;
+      window.clearInterval(id);
+    };
+  }, [shift?.deviceId, router]);
 
   const refresh = useCallback(() => {
     void qc.invalidateQueries({ queryKey: ["desk"] });

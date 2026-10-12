@@ -189,6 +189,7 @@ export const desk = {
     if (error) throw error;
     return data.id;
   },
+  deviceOk: (device: string) => rpc<boolean>("desk_device_ok", { p_device: device }),
   startShift: (device: string | null, staff: string) => rpc<string>("desk_start_shift", { p_device: device, p_staff: staff }),
   checkIn: (code: string, device: string | null) => rpc<CheckInResult>("desk_check_in", { p_code: code, p_device: device, p_method: "scan", p_staff: null }),
   checkInMember: (member: string, device: string | null, staff: string) => rpc<CheckInResult>("desk_check_in_member", { p_member: member, p_device: device, p_staff: staff }),

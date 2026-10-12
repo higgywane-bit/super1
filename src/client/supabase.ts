@@ -26,3 +26,10 @@ export function supabaseBrowser(): SupabaseClient<Database> {
   }
   return client;
 }
+
+/** Public URL of a storage path like "menu/strong-vibes.png" (null when there's no path). */
+export function storageUrl(path: string | null | undefined): string | null {
+  if (!path || !config) return null;
+  if (/^https?:/.test(path)) return path;
+  return `${config.supabaseUrl.replace(/\/$/, "")}/storage/v1/object/public/${path}`;
+}

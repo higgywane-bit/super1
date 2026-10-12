@@ -20,7 +20,13 @@ import { Route as WAdminRouteImport } from './routes/w/admin'
 import { Route as WOwnerRouteImport } from './routes/w/owner'
 import { Route as WDeskIndexRouteImport } from './routes/w/_desk/index'
 import { Route as WAdminIndexRouteImport } from './routes/w/admin/index'
+import { Route as WAdminImportRouteImport } from './routes/w/admin/import'
 import { Route as WAdminLoginsRouteImport } from './routes/w/admin/logins'
+import { Route as WAdminMenuRouteImport } from './routes/w/admin/menu'
+import { Route as WAdminPeopleRouteImport } from './routes/w/admin/people'
+import { Route as WAdminPlansRouteImport } from './routes/w/admin/plans'
+import { Route as WAdminSettingsRouteImport } from './routes/w/admin/settings'
+import { Route as WAdminPosterRouteImport } from './routes/w/admin_.poster'
 import { Route as WDeskMembersIndexRouteImport } from './routes/w/_desk/members.index'
 import { Route as WDeskMembersMemberIdRouteImport } from './routes/w/_desk/members.$memberId'
 
@@ -78,10 +84,40 @@ const WAdminIndexRoute = WAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => WAdminRoute,
 } as any)
+const WAdminImportRoute = WAdminImportRouteImport.update({
+  id: '/import',
+  path: '/import',
+  getParentRoute: () => WAdminRoute,
+} as any)
 const WAdminLoginsRoute = WAdminLoginsRouteImport.update({
   id: '/logins',
   path: '/logins',
   getParentRoute: () => WAdminRoute,
+} as any)
+const WAdminMenuRoute = WAdminMenuRouteImport.update({
+  id: '/menu',
+  path: '/menu',
+  getParentRoute: () => WAdminRoute,
+} as any)
+const WAdminPeopleRoute = WAdminPeopleRouteImport.update({
+  id: '/people',
+  path: '/people',
+  getParentRoute: () => WAdminRoute,
+} as any)
+const WAdminPlansRoute = WAdminPlansRouteImport.update({
+  id: '/plans',
+  path: '/plans',
+  getParentRoute: () => WAdminRoute,
+} as any)
+const WAdminSettingsRoute = WAdminSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => WAdminRoute,
+} as any)
+const WAdminPosterRoute = WAdminPosterRouteImport.update({
+  id: '/admin_/poster',
+  path: '/admin/poster',
+  getParentRoute: () => WRoute,
 } as any)
 const WDeskMembersIndexRoute = WDeskMembersIndexRouteImport.update({
   id: '/members/',
@@ -103,7 +139,13 @@ export interface FileRoutesByFullPath {
   '/w/admin': typeof WAdminRouteWithChildren
   '/w/owner': typeof WOwnerRoute
   '/a/': typeof AIndexRoute
+  '/w/admin/import': typeof WAdminImportRoute
   '/w/admin/logins': typeof WAdminLoginsRoute
+  '/w/admin/menu': typeof WAdminMenuRoute
+  '/w/admin/people': typeof WAdminPeopleRoute
+  '/w/admin/plans': typeof WAdminPlansRoute
+  '/w/admin/settings': typeof WAdminSettingsRoute
+  '/w/admin/poster': typeof WAdminPosterRoute
   '/w/': typeof WDeskIndexRoute
   '/w/admin/': typeof WAdminIndexRoute
   '/w/members/$memberId': typeof WDeskMembersMemberIdRoute
@@ -116,7 +158,13 @@ export interface FileRoutesByTo {
   '/a/join': typeof AJoinRoute
   '/w/owner': typeof WOwnerRoute
   '/a': typeof AIndexRoute
+  '/w/admin/import': typeof WAdminImportRoute
   '/w/admin/logins': typeof WAdminLoginsRoute
+  '/w/admin/menu': typeof WAdminMenuRoute
+  '/w/admin/people': typeof WAdminPeopleRoute
+  '/w/admin/plans': typeof WAdminPlansRoute
+  '/w/admin/settings': typeof WAdminSettingsRoute
+  '/w/admin/poster': typeof WAdminPosterRoute
   '/w/admin': typeof WAdminIndexRoute
   '/w/members/$memberId': typeof WDeskMembersMemberIdRoute
   '/w/members': typeof WDeskMembersIndexRoute
@@ -132,7 +180,13 @@ export interface FileRoutesById {
   '/w/admin': typeof WAdminRouteWithChildren
   '/w/owner': typeof WOwnerRoute
   '/a/': typeof AIndexRoute
+  '/w/admin/import': typeof WAdminImportRoute
   '/w/admin/logins': typeof WAdminLoginsRoute
+  '/w/admin/menu': typeof WAdminMenuRoute
+  '/w/admin/people': typeof WAdminPeopleRoute
+  '/w/admin/plans': typeof WAdminPlansRoute
+  '/w/admin/settings': typeof WAdminSettingsRoute
+  '/w/admin_/poster': typeof WAdminPosterRoute
   '/w/_desk/': typeof WDeskIndexRoute
   '/w/admin/': typeof WAdminIndexRoute
   '/w/_desk/members/$memberId': typeof WDeskMembersMemberIdRoute
@@ -149,7 +203,13 @@ export interface FileRouteTypes {
     | '/w/admin'
     | '/w/owner'
     | '/a/'
+    | '/w/admin/import'
     | '/w/admin/logins'
+    | '/w/admin/menu'
+    | '/w/admin/people'
+    | '/w/admin/plans'
+    | '/w/admin/settings'
+    | '/w/admin/poster'
     | '/w/'
     | '/w/admin/'
     | '/w/members/$memberId'
@@ -162,7 +222,13 @@ export interface FileRouteTypes {
     | '/a/join'
     | '/w/owner'
     | '/a'
+    | '/w/admin/import'
     | '/w/admin/logins'
+    | '/w/admin/menu'
+    | '/w/admin/people'
+    | '/w/admin/plans'
+    | '/w/admin/settings'
+    | '/w/admin/poster'
     | '/w/admin'
     | '/w/members/$memberId'
     | '/w/members'
@@ -177,7 +243,13 @@ export interface FileRouteTypes {
     | '/w/admin'
     | '/w/owner'
     | '/a/'
+    | '/w/admin/import'
     | '/w/admin/logins'
+    | '/w/admin/menu'
+    | '/w/admin/people'
+    | '/w/admin/plans'
+    | '/w/admin/settings'
+    | '/w/admin_/poster'
     | '/w/_desk/'
     | '/w/admin/'
     | '/w/_desk/members/$memberId'
@@ -269,12 +341,54 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WAdminIndexRouteImport
       parentRoute: typeof WAdminRoute
     }
+    '/w/admin/import': {
+      id: '/w/admin/import'
+      path: '/import'
+      fullPath: '/w/admin/import'
+      preLoaderRoute: typeof WAdminImportRouteImport
+      parentRoute: typeof WAdminRoute
+    }
     '/w/admin/logins': {
       id: '/w/admin/logins'
       path: '/logins'
       fullPath: '/w/admin/logins'
       preLoaderRoute: typeof WAdminLoginsRouteImport
       parentRoute: typeof WAdminRoute
+    }
+    '/w/admin/menu': {
+      id: '/w/admin/menu'
+      path: '/menu'
+      fullPath: '/w/admin/menu'
+      preLoaderRoute: typeof WAdminMenuRouteImport
+      parentRoute: typeof WAdminRoute
+    }
+    '/w/admin/people': {
+      id: '/w/admin/people'
+      path: '/people'
+      fullPath: '/w/admin/people'
+      preLoaderRoute: typeof WAdminPeopleRouteImport
+      parentRoute: typeof WAdminRoute
+    }
+    '/w/admin/plans': {
+      id: '/w/admin/plans'
+      path: '/plans'
+      fullPath: '/w/admin/plans'
+      preLoaderRoute: typeof WAdminPlansRouteImport
+      parentRoute: typeof WAdminRoute
+    }
+    '/w/admin/settings': {
+      id: '/w/admin/settings'
+      path: '/settings'
+      fullPath: '/w/admin/settings'
+      preLoaderRoute: typeof WAdminSettingsRouteImport
+      parentRoute: typeof WAdminRoute
+    }
+    '/w/admin_/poster': {
+      id: '/w/admin_/poster'
+      path: '/admin/poster'
+      fullPath: '/w/admin/poster'
+      preLoaderRoute: typeof WAdminPosterRouteImport
+      parentRoute: typeof WRoute
     }
     '/w/_desk/members/': {
       id: '/w/_desk/members/'
@@ -322,12 +436,22 @@ const WDeskRouteChildren: WDeskRouteChildren = {
 const WDeskRouteWithChildren = WDeskRoute._addFileChildren(WDeskRouteChildren)
 
 interface WAdminRouteChildren {
+  WAdminImportRoute: typeof WAdminImportRoute
   WAdminLoginsRoute: typeof WAdminLoginsRoute
+  WAdminMenuRoute: typeof WAdminMenuRoute
+  WAdminPeopleRoute: typeof WAdminPeopleRoute
+  WAdminPlansRoute: typeof WAdminPlansRoute
+  WAdminSettingsRoute: typeof WAdminSettingsRoute
   WAdminIndexRoute: typeof WAdminIndexRoute
 }
 
 const WAdminRouteChildren: WAdminRouteChildren = {
+  WAdminImportRoute: WAdminImportRoute,
   WAdminLoginsRoute: WAdminLoginsRoute,
+  WAdminMenuRoute: WAdminMenuRoute,
+  WAdminPeopleRoute: WAdminPeopleRoute,
+  WAdminPlansRoute: WAdminPlansRoute,
+  WAdminSettingsRoute: WAdminSettingsRoute,
   WAdminIndexRoute: WAdminIndexRoute,
 }
 
@@ -338,12 +462,14 @@ interface WRouteChildren {
   WDeskRoute: typeof WDeskRouteWithChildren
   WAdminRoute: typeof WAdminRouteWithChildren
   WOwnerRoute: typeof WOwnerRoute
+  WAdminPosterRoute: typeof WAdminPosterRoute
 }
 
 const WRouteChildren: WRouteChildren = {
   WDeskRoute: WDeskRouteWithChildren,
   WAdminRoute: WAdminRouteWithChildren,
   WOwnerRoute: WOwnerRoute,
+  WAdminPosterRoute: WAdminPosterRoute,
 }
 
 const WRouteWithChildren = WRoute._addFileChildren(WRouteChildren)

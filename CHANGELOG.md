@@ -1,5 +1,15 @@
 # Changelog
 
+## Phase 3 · Andy (owner) and Pete (admin)
+
+- Owner app at super1.world/owner (O01–O05), phone first and installable (`manifest-owner.webmanifest`), tab bar Today / Week / Members / Café, read-only. Today is the latest imported Qashier day (says "last import" when it isn't today) with a count-up total, gym / café / shop split, memberships sold vs the desk, how people paid and who rang it up, plus live visits from `checkins`. Days without an import say "Not imported".
+- Admin dashboard: KPIs, this week, PT this month, and the inbox: merge requests (review sheet → `merge_members` / `reject_merge`), desk messages with replies, Qashier alerts (failed checks, products not in the menu, unmatched Qashier logins). The inbox and its sidebar badge stay live over Realtime on every admin page.
+- A01 Qashier import: drop one or many Sales Report CSVs; the server parses them (`src/lib/qashier`), previews totals, the five checks, desk vs Qashier (`src/lib/qashier/reconcile.ts`), products not in the menu (Add as drafts), legacy categories and unmatched staff; Import writes a new `qashier_imports` version + `qashier_lines` with the service role (`qashier_import`); the same file again is "Already imported".
+- A02 plans and prices (`admin_set_plan_price` writes `plan_price_history`; desk on/off; reminder to change Qashier), A03 café menu (photos to the `menu` bucket, names and ingredients EN/TH/RU, add-on groups, macros with the "checked by weighing" switch, drafts), A04 staff and coaches (shift-picker names, Qashier login matching, coach portal invites), A05 logins and roles (every staff login with last sign-in, add a login, desk devices with sign out, change the desk passcode, the role matrix), A06 settings (waiver lines EN/TH/RU published as a new version, the counter QR and its printable stand poster, gym details).
+- Desk devices check `desk_device_ok` every minute and sign themselves out when Pete signs them out.
+- Database `0007_owner_admin.sql`: `qashier_import`, `admin_set_plan_price`, owner read models (`owner_visits`, `owner_week`, `owner_members`), `admin_merge_requests`, `admin_member_brief`, `admin_sign_out_devices`, `desk_device_ok`; 22 new database checks.
+- `scripts/demo-setup.sh` puts the design photos back into Storage after a reset. Phase 3 Playwright demo (`e2e/phase3.spec.ts`): import → ฿50,222 with all checks green → Andy's Today ฿50,222 / Gym ฿37,050 / Café ฿10,655 / Shop ฿2,517 / cash 47% → Andy has nothing to change → the desk asks, Pete merges #1188 into #0957 → tag 001877 scans her in as #0957.
+
 ## Phase 2 · Moving the data from Lovable Cloud (tooling)
 
 - `scripts/legacy-load.mjs`: loads a `pg_dump --data-only` (or one CSV per table) of the old database verbatim into a `legacy` schema (`scripts/legacy-schema.sql`: one table per old table, same columns, no-delete guards). Refuses the old project (by `LEGACY_PROJECT_REF`/`LEGACY_DB_URL`, or because the database still has the old tables), anything that isn't SUPER1, and a second load into a non-empty `legacy`.

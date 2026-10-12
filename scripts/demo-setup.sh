@@ -11,4 +11,6 @@ node scripts/invite-login.mjs desk@superfitphuket.com desk "Front desk" --passco
 node scripts/invite-login.mjs andy@superfitphuket.com owner Andy
 node scripts/invite-login.mjs sunman@superfitphuket.com coach "Sunman Fitness" --coach sunman
 psql "$DB_URL" -v ON_ERROR_STOP=1 -q -f supabase/demo.sql
+# Storage is emptied by a reset: put the design photos (menu, coaches, brand) back.
+( [ -f .dev.vars ] && set -a && . ./.dev.vars && set +a; node scripts/copy-images.mjs --design-only )
 echo "Demo ready: http://world.localhost:3000 (desk passcode ${DESK_PASSCODE:-246810}) · http://app.localhost:3000/join"
