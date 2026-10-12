@@ -8,14 +8,14 @@ export type Database = {
           Tables: {
             "activity": {
                   Row: {
-                    "actor": string,"at": string,"data": NonNullable<Json>,"id": number,"kind": string,"member_id": string | null,"message": string,"staff_id": string | null,"user_id": string | null
+                    "actor": string,"at": string,"data": NonNullable<Json>,"id": number,"kind": string,"legacy_id": string | null,"member_id": string | null,"message": string,"staff_id": string | null,"user_id": string | null
                   }
                   ComputedFields: never
                   Insert: {
-                    "actor": string,"at"?: string,"data"?: NonNullable<Json>,"id"?: never,"kind": string,"member_id"?: string | null,"message": string,"staff_id"?: string | null,"user_id"?: string | null
+                    "actor": string,"at"?: string,"data"?: NonNullable<Json>,"id"?: never,"kind": string,"legacy_id"?: string | null,"member_id"?: string | null,"message": string,"staff_id"?: string | null,"user_id"?: string | null
                   }
                   Update: {
-                    "actor"?: string,"at"?: string,"data"?: NonNullable<Json>,"id"?: never,"kind"?: string,"member_id"?: string | null,"message"?: string,"staff_id"?: string | null,"user_id"?: string | null
+                    "actor"?: string,"at"?: string,"data"?: NonNullable<Json>,"id"?: never,"kind"?: string,"legacy_id"?: string | null,"member_id"?: string | null,"message"?: string,"staff_id"?: string | null,"user_id"?: string | null
                   }
                   Relationships: [
                     {
@@ -98,14 +98,14 @@ isOneToOne: false
                   ]
                 },"coach_notes": {
                   Row: {
-                    "body": string,"coach_id": string,"created_at": string,"id": string,"member_id": string
+                    "body": string,"coach_id": string,"created_at": string,"id": string,"legacy_id": string | null,"member_id": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "body": string,"coach_id": string,"created_at"?: string,"id"?: string,"member_id": string
+                    "body": string,"coach_id": string,"created_at"?: string,"id"?: string,"legacy_id"?: string | null,"member_id": string
                   }
                   Update: {
-                    "body"?: string,"coach_id"?: string,"created_at"?: string,"id"?: string,"member_id"?: string
+                    "body"?: string,"coach_id"?: string,"created_at"?: string,"id"?: string,"legacy_id"?: string | null,"member_id"?: string
                   }
                   Relationships: [
                     {
@@ -156,14 +156,14 @@ isOneToOne: false
                   ]
                 },"coaches": {
                   Row: {
-                    "active": boolean,"archived_at": string | null,"created_at": string,"email": string | null,"full_name": string,"id": string,"name": string,"on_qr": boolean,"photo_path": string | null,"portal": string,"qashier_product": string | null,"slug": string,"user_id": string | null
+                    "active": boolean,"archived_at": string | null,"created_at": string,"email": string | null,"full_name": string,"id": string,"legacy_id": string | null,"name": string,"on_qr": boolean,"photo_path": string | null,"portal": string,"qashier_product": string | null,"slug": string,"user_id": string | null
                   }
                   ComputedFields: never
                   Insert: {
-                    "active"?: boolean,"archived_at"?: string | null,"created_at"?: string,"email"?: string | null,"full_name"?: string,"id"?: string,"name": string,"on_qr"?: boolean,"photo_path"?: string | null,"portal"?: string,"qashier_product"?: string | null,"slug": string,"user_id"?: string | null
+                    "active"?: boolean,"archived_at"?: string | null,"created_at"?: string,"email"?: string | null,"full_name"?: string,"id"?: string,"legacy_id"?: string | null,"name": string,"on_qr"?: boolean,"photo_path"?: string | null,"portal"?: string,"qashier_product"?: string | null,"slug": string,"user_id"?: string | null
                   }
                   Update: {
-                    "active"?: boolean,"archived_at"?: string | null,"created_at"?: string,"email"?: string | null,"full_name"?: string,"id"?: string,"name"?: string,"on_qr"?: boolean,"photo_path"?: string | null,"portal"?: string,"qashier_product"?: string | null,"slug"?: string,"user_id"?: string | null
+                    "active"?: boolean,"archived_at"?: string | null,"created_at"?: string,"email"?: string | null,"full_name"?: string,"id"?: string,"legacy_id"?: string | null,"name"?: string,"on_qr"?: boolean,"photo_path"?: string | null,"portal"?: string,"qashier_product"?: string | null,"slug"?: string,"user_id"?: string | null
                   }
                   Relationships: [
                     
@@ -202,14 +202,14 @@ isOneToOne: false
                   ]
                 },"daily_checkins": {
                   Row: {
-                    "created_at": string,"date": string,"digestion": number | null,"energy": number | null,"id": string,"member_id": string,"note": string | null,"sleep_h": number | null,"steps": number | null,"updated_at": string,"water_l": number | null,"weight_kg": number | null
+                    "created_at": string,"date": string,"digestion": number | null,"energy": number | null,"id": string,"legacy_id": string | null,"member_id": string,"note": string | null,"sleep_h": number | null,"steps": number | null,"updated_at": string,"water_l": number | null,"weight_kg": number | null
                   }
                   ComputedFields: never
                   Insert: {
-                    "created_at"?: string,"date": string,"digestion"?: number | null,"energy"?: number | null,"id"?: string,"member_id": string,"note"?: string | null,"sleep_h"?: number | null,"steps"?: number | null,"updated_at"?: string,"water_l"?: number | null,"weight_kg"?: number | null
+                    "created_at"?: string,"date": string,"digestion"?: number | null,"energy"?: number | null,"id"?: string,"legacy_id"?: string | null,"member_id": string,"note"?: string | null,"sleep_h"?: number | null,"steps"?: number | null,"updated_at"?: string,"water_l"?: number | null,"weight_kg"?: number | null
                   }
                   Update: {
-                    "created_at"?: string,"date"?: string,"digestion"?: number | null,"energy"?: number | null,"id"?: string,"member_id"?: string,"note"?: string | null,"sleep_h"?: number | null,"steps"?: number | null,"updated_at"?: string,"water_l"?: number | null,"weight_kg"?: number | null
+                    "created_at"?: string,"date"?: string,"digestion"?: number | null,"energy"?: number | null,"id"?: string,"legacy_id"?: string | null,"member_id"?: string,"note"?: string | null,"sleep_h"?: number | null,"steps"?: number | null,"updated_at"?: string,"water_l"?: number | null,"weight_kg"?: number | null
                   }
                   Relationships: [
                     {
@@ -236,14 +236,14 @@ isOneToOne: false
                   ]
                 },"exercises": {
                   Row: {
-                    "archived_at": string | null,"coach_id": string | null,"created_at": string,"cue": string | null,"default_minutes": number | null,"default_reps": number | null,"default_seconds": number | null,"default_sets": number,"equipment": string,"id": string,"log_type": string,"muscle": string,"muscle_group": string,"name": string,"slug": string | null,"video_url": string | null
+                    "archived_at": string | null,"coach_id": string | null,"created_at": string,"cue": string | null,"default_minutes": number | null,"default_reps": number | null,"default_seconds": number | null,"default_sets": number,"equipment": string,"id": string,"legacy_id": string | null,"log_type": string,"muscle": string,"muscle_group": string,"name": string,"slug": string | null,"video_url": string | null
                   }
                   ComputedFields: never
                   Insert: {
-                    "archived_at"?: string | null,"coach_id"?: string | null,"created_at"?: string,"cue"?: string | null,"default_minutes"?: number | null,"default_reps"?: number | null,"default_seconds"?: number | null,"default_sets"?: number,"equipment": string,"id"?: string,"log_type": string,"muscle"?: string,"muscle_group": string,"name": string,"slug"?: string | null,"video_url"?: string | null
+                    "archived_at"?: string | null,"coach_id"?: string | null,"created_at"?: string,"cue"?: string | null,"default_minutes"?: number | null,"default_reps"?: number | null,"default_seconds"?: number | null,"default_sets"?: number,"equipment": string,"id"?: string,"legacy_id"?: string | null,"log_type": string,"muscle"?: string,"muscle_group": string,"name": string,"slug"?: string | null,"video_url"?: string | null
                   }
                   Update: {
-                    "archived_at"?: string | null,"coach_id"?: string | null,"created_at"?: string,"cue"?: string | null,"default_minutes"?: number | null,"default_reps"?: number | null,"default_seconds"?: number | null,"default_sets"?: number,"equipment"?: string,"id"?: string,"log_type"?: string,"muscle"?: string,"muscle_group"?: string,"name"?: string,"slug"?: string | null,"video_url"?: string | null
+                    "archived_at"?: string | null,"coach_id"?: string | null,"created_at"?: string,"cue"?: string | null,"default_minutes"?: number | null,"default_reps"?: number | null,"default_seconds"?: number | null,"default_sets"?: number,"equipment"?: string,"id"?: string,"legacy_id"?: string | null,"log_type"?: string,"muscle"?: string,"muscle_group"?: string,"name"?: string,"slug"?: string | null,"video_url"?: string | null
                   }
                   Relationships: [
                     {
@@ -290,14 +290,14 @@ isOneToOne: false
                   ]
                 },"leads": {
                   Row: {
-                    "coach_id": string,"created_at": string,"email": string | null,"id": string,"lang": string,"member_id": string | null,"name": string,"note": string | null,"phone": string | null,"signup_id": string | null,"source": string,"stage": string,"trial_at": string | null,"updated_at": string,"won_at": string | null
+                    "coach_id": string,"created_at": string,"email": string | null,"id": string,"lang": string,"legacy_id": string | null,"member_id": string | null,"name": string,"note": string | null,"phone": string | null,"signup_id": string | null,"source": string,"stage": string,"trial_at": string | null,"updated_at": string,"won_at": string | null
                   }
                   ComputedFields: never
                   Insert: {
-                    "coach_id": string,"created_at"?: string,"email"?: string | null,"id"?: string,"lang"?: string,"member_id"?: string | null,"name": string,"note"?: string | null,"phone"?: string | null,"signup_id"?: string | null,"source": string,"stage"?: string,"trial_at"?: string | null,"updated_at"?: string,"won_at"?: string | null
+                    "coach_id": string,"created_at"?: string,"email"?: string | null,"id"?: string,"lang"?: string,"legacy_id"?: string | null,"member_id"?: string | null,"name": string,"note"?: string | null,"phone"?: string | null,"signup_id"?: string | null,"source": string,"stage"?: string,"trial_at"?: string | null,"updated_at"?: string,"won_at"?: string | null
                   }
                   Update: {
-                    "coach_id"?: string,"created_at"?: string,"email"?: string | null,"id"?: string,"lang"?: string,"member_id"?: string | null,"name"?: string,"note"?: string | null,"phone"?: string | null,"signup_id"?: string | null,"source"?: string,"stage"?: string,"trial_at"?: string | null,"updated_at"?: string,"won_at"?: string | null
+                    "coach_id"?: string,"created_at"?: string,"email"?: string | null,"id"?: string,"lang"?: string,"legacy_id"?: string | null,"member_id"?: string | null,"name"?: string,"note"?: string | null,"phone"?: string | null,"signup_id"?: string | null,"source"?: string,"stage"?: string,"trial_at"?: string | null,"updated_at"?: string,"won_at"?: string | null
                   }
                   Relationships: [
                     {
@@ -322,14 +322,14 @@ isOneToOne: false
                   ]
                 },"member_pauses": {
                   Row: {
-                    "cancelled_at": string | null,"created_at": string,"created_by_staff": string | null,"created_by_user": string | null,"ended_early_at": string | null,"from_date": string,"id": string,"member_id": string,"original_until": string,"reason": string | null,"until_date": string
+                    "cancelled_at": string | null,"created_at": string,"created_by_staff": string | null,"created_by_user": string | null,"ended_early_at": string | null,"from_date": string,"id": string,"legacy_id": string | null,"member_id": string,"original_until": string,"reason": string | null,"until_date": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "cancelled_at"?: string | null,"created_at"?: string,"created_by_staff"?: string | null,"created_by_user"?: string | null,"ended_early_at"?: string | null,"from_date": string,"id"?: string,"member_id": string,"original_until": string,"reason"?: string | null,"until_date": string
+                    "cancelled_at"?: string | null,"created_at"?: string,"created_by_staff"?: string | null,"created_by_user"?: string | null,"ended_early_at"?: string | null,"from_date": string,"id"?: string,"legacy_id"?: string | null,"member_id": string,"original_until": string,"reason"?: string | null,"until_date": string
                   }
                   Update: {
-                    "cancelled_at"?: string | null,"created_at"?: string,"created_by_staff"?: string | null,"created_by_user"?: string | null,"ended_early_at"?: string | null,"from_date"?: string,"id"?: string,"member_id"?: string,"original_until"?: string,"reason"?: string | null,"until_date"?: string
+                    "cancelled_at"?: string | null,"created_at"?: string,"created_by_staff"?: string | null,"created_by_user"?: string | null,"ended_early_at"?: string | null,"from_date"?: string,"id"?: string,"legacy_id"?: string | null,"member_id"?: string,"original_until"?: string,"reason"?: string | null,"until_date"?: string
                   }
                   Relationships: [
                     {
@@ -544,14 +544,14 @@ isOneToOne: false
                   ]
                 },"nutrition_targets": {
                   Row: {
-                    "carbs_g": number,"coach_id": string,"fat_g": number,"goal": string,"id": string,"kcal": number | null,"member_id": string,"protein_g": number,"sent_at": string,"sent_by": string | null,"steps": number | null,"water_l": number | null
+                    "carbs_g": number,"coach_id": string,"fat_g": number,"goal": string,"id": string,"kcal": number | null,"legacy_id": string | null,"member_id": string,"protein_g": number,"sent_at": string,"sent_by": string | null,"steps": number | null,"water_l": number | null
                   }
                   ComputedFields: never
                   Insert: {
-                    "carbs_g": number,"coach_id": string,"fat_g": number,"goal": string,"id"?: string,"kcal"?: never,"member_id": string,"protein_g": number,"sent_at"?: string,"sent_by"?: string | null,"steps"?: number | null,"water_l"?: number | null
+                    "carbs_g": number,"coach_id": string,"fat_g": number,"goal": string,"id"?: string,"kcal"?: never,"legacy_id"?: string | null,"member_id": string,"protein_g": number,"sent_at"?: string,"sent_by"?: string | null,"steps"?: number | null,"water_l"?: number | null
                   }
                   Update: {
-                    "carbs_g"?: number,"coach_id"?: string,"fat_g"?: number,"goal"?: string,"id"?: string,"kcal"?: never,"member_id"?: string,"protein_g"?: number,"sent_at"?: string,"sent_by"?: string | null,"steps"?: number | null,"water_l"?: number | null
+                    "carbs_g"?: number,"coach_id"?: string,"fat_g"?: number,"goal"?: string,"id"?: string,"kcal"?: never,"legacy_id"?: string | null,"member_id"?: string,"protein_g"?: number,"sent_at"?: string,"sent_by"?: string | null,"steps"?: number | null,"water_l"?: number | null
                   }
                   Relationships: [
                     {
@@ -632,14 +632,14 @@ isOneToOne: false
                   ]
                 },"program_versions": {
                   Row: {
-                    "body": NonNullable<Json>,"id": string,"program_id": string,"sent_at": string,"sent_by": string | null,"version": number
+                    "body": NonNullable<Json>,"id": string,"legacy_id": string | null,"program_id": string,"sent_at": string,"sent_by": string | null,"version": number
                   }
                   ComputedFields: never
                   Insert: {
-                    "body": NonNullable<Json>,"id"?: string,"program_id": string,"sent_at"?: string,"sent_by"?: string | null,"version": number
+                    "body": NonNullable<Json>,"id"?: string,"legacy_id"?: string | null,"program_id": string,"sent_at"?: string,"sent_by"?: string | null,"version": number
                   }
                   Update: {
-                    "body"?: NonNullable<Json>,"id"?: string,"program_id"?: string,"sent_at"?: string,"sent_by"?: string | null,"version"?: number
+                    "body"?: NonNullable<Json>,"id"?: string,"legacy_id"?: string | null,"program_id"?: string,"sent_at"?: string,"sent_by"?: string | null,"version"?: number
                   }
                   Relationships: [
                     {
@@ -652,14 +652,14 @@ isOneToOne: false
                   ]
                 },"programs": {
                   Row: {
-                    "coach_id": string | null,"created_at": string,"id": string,"member_id": string,"name": string
+                    "coach_id": string | null,"created_at": string,"id": string,"legacy_id": string | null,"member_id": string,"name": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "coach_id"?: string | null,"created_at"?: string,"id"?: string,"member_id": string,"name"?: string
+                    "coach_id"?: string | null,"created_at"?: string,"id"?: string,"legacy_id"?: string | null,"member_id": string,"name"?: string
                   }
                   Update: {
-                    "coach_id"?: string | null,"created_at"?: string,"id"?: string,"member_id"?: string,"name"?: string
+                    "coach_id"?: string | null,"created_at"?: string,"id"?: string,"legacy_id"?: string | null,"member_id"?: string,"name"?: string
                   }
                   Relationships: [
                     {
@@ -932,14 +932,14 @@ isOneToOne: false
                   ]
                 },"workout_logs": {
                   Row: {
-                    "created_at": string,"day_name": string,"finished_at": string | null,"id": string,"member_id": string,"note": string | null,"program_version_id": string | null,"sets_done": number,"started_at": string,"volume_kg": number
+                    "created_at": string,"day_name": string,"finished_at": string | null,"id": string,"legacy_id": string | null,"member_id": string,"note": string | null,"program_version_id": string | null,"sets_done": number,"started_at": string,"volume_kg": number
                   }
                   ComputedFields: never
                   Insert: {
-                    "created_at"?: string,"day_name": string,"finished_at"?: string | null,"id"?: string,"member_id": string,"note"?: string | null,"program_version_id"?: string | null,"sets_done"?: number,"started_at": string,"volume_kg"?: number
+                    "created_at"?: string,"day_name": string,"finished_at"?: string | null,"id"?: string,"legacy_id"?: string | null,"member_id": string,"note"?: string | null,"program_version_id"?: string | null,"sets_done"?: number,"started_at": string,"volume_kg"?: number
                   }
                   Update: {
-                    "created_at"?: string,"day_name"?: string,"finished_at"?: string | null,"id"?: string,"member_id"?: string,"note"?: string | null,"program_version_id"?: string | null,"sets_done"?: number,"started_at"?: string,"volume_kg"?: number
+                    "created_at"?: string,"day_name"?: string,"finished_at"?: string | null,"id"?: string,"legacy_id"?: string | null,"member_id"?: string,"note"?: string | null,"program_version_id"?: string | null,"sets_done"?: number,"started_at"?: string,"volume_kg"?: number
                   }
                   Relationships: [
                     {

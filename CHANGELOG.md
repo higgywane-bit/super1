@@ -1,5 +1,15 @@
 # Changelog
 
+## Phase 2 · Moving the data from Lovable Cloud (tooling)
+
+- `scripts/legacy-load.mjs`: loads a `pg_dump --data-only` (or one CSV per table) of the old database verbatim into a `legacy` schema (`scripts/legacy-schema.sql`: one table per old table, same columns, no-delete guards). Refuses the old project (by `LEGACY_PROJECT_REF`/`LEGACY_DB_URL`, or because the database still has the old tables), anything that isn't SUPER1, and a second load into a non-empty `legacy`.
+- `scripts/migrate-legacy.sql`: idempotent transform per the mapping table in docs/08: same member ids and numbers (identity continues after the highest), codes, dates, prices; one import `sales` row per membership; freezes → member pauses (dates not shifted again); unknown/custom plans → archived `legacy-…` plans; PT clients → won leads; workout plans → programs + versions (old doc kept under `body.legacy`); diet plans → targets or a coach note; coaches' exercises; workout logs → set logs; daily feedback → daily check-ins; verified café recipes → menu macros. Anything that can't go across as it is lands in `legacy._issues` with what was done. Migration `0006_legacy_ids.sql` adds `legacy_id` where it was missing.
+- `scripts/verify-migration.ts`: counts per table, every member's standing today (the old `memberStanding`, copied verbatim into `scripts/legacy-rules/`, vs `member_card`), every active code (old `evaluateAccess` vs `desk_check_in` in a rolled-back transaction), money totals → `migration-report.md`; deliberate rule changes are marked explained (10 Visits as a pack, member-level pauses, archived tags declined); exits 1 on anything unexplained.
+- `scripts/rehearse-migration.sh` (+ CI): the whole pipeline on a throwaway Postgres, transform run twice to prove idempotency, against `fixtures/legacy/export.sql`, a synthetic export covering every mapping case. Two rehearsals give identical reports with zero unexplained differences.
+- `scripts/copy-images.mjs`: old app images (menu, coaches, brand) and `design/photos` to Storage, same names, never overwriting.
+- `docs/CUTOVER.md` and `scripts/cutover-check.sh`: the night's checklist and a read-only preflight.
+- Still to do with Pete: run the rehearsals on copies with **real** exports (the old database isn't reachable from here), then the cutover and the 10-member spot check.
+
 ## Phase 1 · Front desk and counter QR sign-up
 
 - Desk (super1.world): shared-login sign-in, **Who's on shift?** (stored in `shifts` and on the device; Change in the sidebar), check-in with an always-focused hidden scan input (USB/Bluetooth readers) and type-a-name search, allowed/declined popups (Motion #3/#4) with Web Audio bell/buzz/chime (unlocked on first tap, mute in the sidebar), counter queue and Today feed live over Supabase Realtime, offline banner with queued scans (never decides offline: "Can't check").

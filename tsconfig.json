@@ -22,7 +22,8 @@
       ]
     },
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "allowImportingTsExtensions": true
   },
   "include": [
     "src",
